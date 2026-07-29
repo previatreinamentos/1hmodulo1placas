@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PREVIA - Módulo 1: Placas, Cores e Caminhos</title>
     <!-- Tailwind CSS para estilização moderna e responsiva -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -73,18 +73,33 @@
             line-height: 1.6;
         }
         .scaled-text-h2 {
-            font-size: calc(1.875rem * var(--font-scale)) !important;
-            line-height: 1.2;
+            font-size: calc(1.5rem * var(--font-scale)) !important;
+            line-height: 1.25;
+        }
+        @media (min-width: 768px) {
+            .scaled-text-h2 {
+                font-size: calc(1.875rem * var(--font-scale)) !important;
+            }
         }
         .scaled-text-h3 {
-            font-size: calc(1.25rem * var(--font-scale)) !important;
+            font-size: calc(1.125rem * var(--font-scale)) !important;
+        }
+        @media (min-width: 768px) {
+            .scaled-text-h3 {
+                font-size: calc(1.25rem * var(--font-scale)) !important;
+            }
         }
         .scaled-text-xs {
             font-size: calc(0.75rem * var(--font-scale)) !important;
         }
 
         .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
+        }
+        @media (min-width: 768px) {
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 6px;
+            }
         }
         .custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.05);
@@ -95,46 +110,46 @@
         }
     </style>
 </head>
-<body class="w-screen h-screen overflow-hidden m-0 p-0 flex flex-col justify-between">
+<body class="w-full h-screen overflow-hidden m-0 p-0 flex flex-col justify-between">
 
 <div id="presentation-wrapper" class="w-full h-full bg-previa-navy flex flex-col justify-between relative overflow-hidden transition-all duration-300">
     
     <!-- CABEÇALHO DA INTERFACE -->
-    <header class="h-[75px] bg-white text-previa-navy px-6 flex items-center justify-between border-b-2 border-previa-border shrink-0 z-20">
-        <div class="flex items-center gap-3">
-            <div class="bg-previa-teal text-white font-title font-extrabold text-lg px-4 py-1.5 rounded-lg tracking-wider">PREVIA</div>
-            <div class="flex flex-col">
-                <span class="text-xs font-bold text-previa-teal tracking-wide uppercase">Curso Teórico de Primeira Habilitação</span>
-                <span class="text-[10px] md:text-xs text-slate-500 font-medium">Módulo 1: Placas, Cores e Caminhos</span>
+    <header class="min-h-[60px] md:h-[75px] bg-white text-previa-navy px-3 md:px-6 py-2 flex items-center justify-between border-b-2 border-previa-border shrink-0 z-20 gap-2">
+        <div class="flex items-center gap-2 md:gap-3 shrink-0">
+            <div class="bg-previa-teal text-white font-title font-extrabold text-sm md:text-lg px-2.5 md:px-4 py-1 md:py-1.5 rounded-lg tracking-wider">PREVIA</div>
+            <div class="flex flex-col max-w-[150px] sm:max-w-none">
+                <span class="text-[10px] md:text-xs font-bold text-previa-teal tracking-wide uppercase truncate">Curso Teórico</span>
+                <span class="text-[9px] md:text-xs text-slate-500 font-medium truncate">Módulo 1: Placas, Cores e Caminhos</span>
             </div>
         </div>
         
-        <div class="flex items-center gap-2 md:gap-4">
+        <div class="flex items-center gap-1.5 md:gap-4 shrink-0">
             <!-- Dropdown indicador do topo -->
-            <select id="slide-dropdown-select" onchange="jumpToSlide(this.value)" class="bg-slate-100 border border-slate-200 text-slate-700 text-xs font-semibold px-2 md:px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-previa-teal cursor-pointer">
+            <select id="slide-dropdown-select" onchange="jumpToSlide(this.value)" class="max-w-[100px] sm:max-w-[180px] md:max-w-none bg-slate-100 border border-slate-200 text-slate-700 text-[11px] md:text-xs font-semibold px-1.5 md:px-3 py-1 md:py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-previa-teal cursor-pointer truncate">
                 <!-- Injetado via JS -->
             </select>
 
             <!-- Botões de Acessibilidade: Tamanho de Fonte -->
-            <div class="flex bg-slate-100 border border-slate-200 rounded-lg overflow-hidden">
-                <button onclick="changeFontSize(-0.1)" class="px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-previa-teal hover:text-white transition-all duration-200" title="Diminuir Fonte">A-</button>
-                <button onclick="changeFontSize(0.1)" class="px-3 py-1.5 text-xs font-bold text-slate-700 border-l border-slate-200 hover:bg-previa-teal hover:text-white transition-all duration-200" title="Aumentar Fonte">A+</button>
+            <div class="flex bg-slate-100 border border-slate-200 rounded-lg overflow-hidden shrink-0">
+                <button onclick="changeFontSize(-0.1)" class="px-2 md:px-3 py-1 md:py-1.5 text-[11px] md:text-xs font-bold text-slate-700 hover:bg-previa-teal hover:text-white transition-all duration-200" title="Diminuir Fonte">A-</button>
+                <button onclick="changeFontSize(0.1)" class="px-2 md:px-3 py-1 md:py-1.5 text-[11px] md:text-xs font-bold text-slate-700 border-l border-slate-200 hover:bg-previa-teal hover:text-white transition-all duration-200" title="Aumentar Fonte">A+</button>
             </div>
 
             <!-- Botão Modo Claro/Escuro -->
-            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300 text-slate-700" title="Alternar Modo Claro/Escuro">
-                <i class="fa-solid fa-circle-half-stroke text-sm"></i>
+            <button onclick="toggleTheme()" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300 text-slate-700 shrink-0" title="Alternar Modo Claro/Escuro">
+                <i class="fa-solid fa-circle-half-stroke text-xs md:text-sm"></i>
             </button>
 
-            <!-- Botão de Expandir Tela Cheia -->
-            <button onclick="toggleFullScreen()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300" title="Expandir Tela">
-                <i class="fa-solid fa-expand text-sm" id="fullscreen-icon"></i>
+            <!-- Botão de Expandir Tela Cheia (Escondido em telas muito pequenas para dar espaço) -->
+            <button onclick="toggleFullScreen()" class="hidden sm:flex w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 items-center justify-center cursor-pointer transition-all duration-300 shrink-0" title="Expandir Tela">
+                <i class="fa-solid fa-expand text-xs md:text-sm" id="fullscreen-icon"></i>
             </button>
         </div>
     </header>
 
     <!-- BARRA DE PROGRESSO SEGMENTADA -->
-    <div class="bg-white px-6 pb-3 flex gap-1 z-10 shrink-0" id="progress-bar-container">
+    <div class="bg-white px-3 md:px-6 pb-2 md:pb-3 flex gap-0.5 md:gap-1 z-10 shrink-0" id="progress-bar-container">
         <!-- Gerado dinamicamente via JS -->
     </div>
 
@@ -142,612 +157,646 @@
     <div id="slides-viewport" class="flex-1 relative overflow-hidden bg-gradient-to-br from-[#1e252b] via-[#161c20] to-[#0f1316] transition-all duration-300">
         
         <!-- SLIDE 1: CAPA PRINCIPAL -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-1">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center h-full">
-                <div class="space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-previa-orange/10 border border-previa-orange/20 text-previa-orange text-xs font-semibold uppercase tracking-wider">
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-1">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
+                <div class="space-y-3 md:space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-previa-orange/10 border border-previa-orange/20 text-previa-orange text-[10px] md:text-xs font-semibold uppercase tracking-wider">
                         <i class="fa-solid fa-graduation-cap"></i> CNH do Brasil
                     </div>
-                    <h1 class="text-4xl md:text-5xl font-title font-extrabold text-[var(--text-primary)] leading-tight">
+                    <h1 class="text-2xl sm:text-3xl md:text-5xl font-title font-extrabold text-[var(--text-primary)] leading-tight">
                         Placas, Cores e<br><span class="text-previa-tealLight">Caminhos</span>
                     </h1>
-                    <p class="text-[var(--text-secondary)] scaled-text-p max-w-md">
+                    <p class="text-[var(--text-secondary)] scaled-text-p max-w-md mx-auto lg:mx-0">
                         Bem-vindo ao seu primeiro contato real com a linguagem das vias de trânsito brasileiras. Vamos decifrar os símbolos, as cores e as regras de segurança do Código de Trânsito Brasileiro.
                     </p>
                 </div>
-                <div class="hidden lg:flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/10">
+                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/10 max-w-xs sm:max-w-sm md:max-w-md mx-auto w-full">
                     <!-- INSERIR IMAGEM AQUI: Capa Ilustrativa do Módulo 1 (Trânsito e Placas) -->
-                    <img src="https://placehold.co/400x300/12181c/00a9b4?text=Imagem+da+Capa+Modulo+1" alt="Imagem da Capa Módulo 1 - Trânsito e Placas" class="w-full max-w-md h-auto rounded-xl shadow-md border border-white/10 object-cover">
-                    <span class="text-[11px] text-slate-400 mt-2">Imagem: Linguagem Visual das Vias</span>
+                    <img src="https://placehold.co/400x300/12181c/00a9b4?text=Imagem+da+Capa+Modulo+1" alt="Imagem da Capa Módulo 1 - Trânsito e Placas" class="w-full h-auto rounded-xl shadow-md border border-white/10 object-cover max-h-[160px] sm:max-h-[220px] md:max-h-none">
+                    <span class="text-[10px] md:text-[11px] text-slate-400 mt-2">Imagem: Linguagem Visual das Vias</span>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 2: O TRÂNSITO TEM SUA PRÓPRIA LINGUAGEM -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-2">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-4">O Trânsito Tem Sua Própria <span class="text-previa-tealLight">Linguagem</span></h2>
-            <p class="text-[var(--text-secondary)] scaled-text-p max-w-3xl mb-6">
-                Você já parou para pensar em quantas mensagens recebe enquanto dirige? Placas coloridas, linhas pintadas no asfalto, semáforos piscando. Todo esse sistema foi planejado para ser universal, simples e previsível.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-xl">
-                    <div class="w-10 h-10 rounded-lg bg-previa-teal/20 text-previa-tealLight flex items-center justify-center text-lg mb-3">
-                        <i class="fa-solid fa-earth-americas"></i>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-2">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-4">O Trânsito Tem Sua Própria <span class="text-previa-tealLight">Linguagem</span></h2>
+                <p class="text-[var(--text-secondary)] scaled-text-p max-w-3xl mb-4 md:mb-6">
+                    Você já parou para pensar em quantas mensagens recebe enquanto dirige? Placas coloridas, linhas pintadas no asfalto, semáforos piscando. Todo esse sistema foi planejado para ser universal, simples e previsível.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-xl">
+                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-previa-teal/20 text-previa-tealLight flex items-center justify-center text-base md:text-lg mb-2 md:mb-3">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">Universalidade Nacional</h3>
+                        <p class="text-slate-400 scaled-text-xs">As mesmas regras de formatos e cores funcionam em todo o território brasileiro.</p>
                     </div>
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2">Universalidade Nacional</h3>
-                    <p class="text-slate-400 scaled-text-xs">As mesmas regras de formatos e cores funcionam em todo o território brasileiro.</p>
-                </div>
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-xl">
-                    <div class="w-10 h-10 rounded-lg bg-previa-orange/20 text-previa-orange flex items-center justify-center text-lg mb-3">
-                        <i class="fa-solid fa-bolt"></i>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-xl">
+                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-previa-orange/20 text-previa-orange flex items-center justify-center text-base md:text-lg mb-2 md:mb-3">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">Leitura Instantânea</h3>
+                        <p class="text-slate-400 scaled-text-xs">Cores e formas icônicas são captadas rapidamente pelo nosso cérebro.</p>
                     </div>
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2">Leitura Instantânea</h3>
-                    <p class="text-slate-400 scaled-text-xs">Cores e formas icônicas são captadas rapidamente pelo nosso cérebro.</p>
-                </div>
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-xl">
-                    <div class="w-10 h-10 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center text-lg mb-3">
-                        <i class="fa-solid fa-shield-heart"></i>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-xl">
+                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center text-base md:text-lg mb-2 md:mb-3">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">Prevenção de Sinistros</h3>
+                        <p class="text-slate-400 scaled-text-xs">Cada placa sinaliza um perigo invisível à frente, ajudando a salvar vidas.</p>
                     </div>
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2">Prevenção de Sinistros</h3>
-                    <p class="text-slate-400 scaled-text-xs">Cada placa sinaliza um perigo invisível à frente, ajudando a salvar vidas.</p>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 3: CATEGORIAS DE SINALIZAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-3">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3">A Grande Família da <span class="text-previa-tealLight">Sinalização</span></h2>
-            <p class="text-[var(--text-secondary)] scaled-text-p max-w-2xl mb-6">Explore as 6 categorias fundamentais de sinalização que organizam o fluxo de tráfego:</p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-previa-tealLight text-xl inline-block mb-2"><i class="fa-solid fa-map-pin"></i></span>
-                    <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Vertical (Placas)</h4>
-                    <p class="text-slate-400 text-[11px] mt-1">Sinais fixados em postes: regulamentação, advertência e indicação.</p>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-previa-tealLight text-xl inline-block mb-2"><i class="fa-solid fa-road"></i></span>
-                    <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Horizontal (Solo)</h4>
-                    <p class="text-slate-400 text-[11px] mt-1">Pinturas, faixas de pedestre, linhas de bordo e marcas no asfalto.</p>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-previa-tealLight text-xl inline-block mb-2"><i class="fa-solid fa-traffic-light"></i></span>
-                    <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Semafórica</h4>
-                    <p class="text-slate-400 text-[11px] mt-1">Sinais luminosos para controle de fluxo veicular e de pedestres.</p>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-previa-tealLight text-xl inline-block mb-2"><i class="fa-solid fa-bicycle"></i></span>
-                    <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Cicloviária</h4>
-                    <p class="text-slate-400 text-[11px] mt-1">Marcações específicas de vias exclusivas para ciclistas.</p>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-previa-tealLight text-xl inline-block mb-2"><i class="fa-solid fa-triangle-exclamation"></i></span>
-                    <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Dispositivos Auxiliares</h4>
-                    <p class="text-slate-400 text-[11px] mt-1">Cones, tachas refletivas, balizadores e defensas metálicas.</p>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-previa-tealLight text-xl inline-block mb-2"><i class="fa-solid fa-person-digging"></i></span>
-                    <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Temporária</h4>
-                    <p class="text-slate-400 text-[11px] mt-1">Avisos de cor laranja para obras e desvios operacionais.</p>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-3">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-3">A Grande Família da <span class="text-previa-tealLight">Sinalização</span></h2>
+                <p class="text-[var(--text-secondary)] scaled-text-p max-w-2xl mb-4 md:mb-6">Explore as 6 categorias fundamentais de sinalização que organizam o fluxo de tráfego:</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 md:gap-4 max-h-[320px] md:max-h-[380px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-map-pin"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Vertical (Placas)</h4>
+                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Sinais fixados em postes: regulamentação, advertência e indicação.</p>
+                    </div>
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-road"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Horizontal (Solo)</h4>
+                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Pinturas, faixas de pedestre, linhas de bordo e marcas no asfalto.</p>
+                    </div>
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-traffic-light"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Semafórica</h4>
+                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Sinais luminosos para controle de fluxo veicular e de pedestres.</p>
+                    </div>
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-bicycle"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Cicloviária</h4>
+                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Marcações específicas de vias exclusivas para ciclistas.</p>
+                    </div>
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Dispositivos Auxiliares</h4>
+                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Cones, tachas refletivas, balizadores e defensas metálicas.</p>
+                    </div>
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-person-digging"></i></span>
+                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Temporária</h4>
+                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Avisos de cor laranja para obras e desvios operacionais.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 4: AS TRÊS FAMÍLIAS DE PLACAS -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-4">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">As Famílias de <span class="text-previa-tealLight">Placas</span></h2>
-            <p class="text-[var(--text-secondary)] scaled-text-p mb-6">Associe cada tipo com uma cor e uma finalidade principal:</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-red-500/10 border border-red-500/20 p-5 rounded-2xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa de Regulamentação (Ex: Placa PARE R-1) -->
-                    <img src="https://placehold.co/120x120/ef4444/ffffff?text=Placa+R-1+PARE" alt="Imagem da placa de Regulamentação PARE R-1" class="w-24 h-24 rounded-lg object-contain mb-3 shadow">
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Regulamentação</h3>
-                    <p class="text-slate-400 scaled-text-xs mt-2 leading-relaxed">Impõem obrigações, restrições e proibições.</p>
-                    <span class="mt-4 px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-[11px] font-semibold uppercase">Vermelho = Obedeça</span>
-                </div>
-                <div class="bg-yellow-500/10 border border-yellow-500/20 p-5 rounded-2xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa de Advertência (Ex: Placa Lombada A-18) -->
-                    <img src="https://placehold.co/120x120/eab308/000000?text=Placa+A-18+Lombada" alt="Imagem da placa de Advertência Lombada A-18" class="w-24 h-24 rounded-lg object-contain mb-3 shadow">
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Advertência</h3>
-                    <p class="text-slate-400 scaled-text-xs mt-2 leading-relaxed">Alertam sobre condições potencialmente perigosas na via.</p>
-                    <span class="mt-4 px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-[11px] font-semibold uppercase">Amarelo = Atenção</span>
-                </div>
-                <div class="bg-previa-teal/10 border border-previa-teal/20 p-5 rounded-2xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa de Indicação (Ex: Placa de Orientação de Destino) -->
-                    <img src="https://placehold.co/120x120/00848c/ffffff?text=Placa+Indicacao" alt="Imagem da placa de Indicação" class="w-24 h-24 rounded-lg object-contain mb-3 shadow">
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Indicação</h3>
-                    <p class="text-slate-400 scaled-text-xs mt-2 leading-relaxed">Orientam caminhos, rotas, serviços e pontos turísticos.</p>
-                    <span class="mt-4 px-3 py-1 bg-previa-teal/20 text-previa-tealLight rounded-full text-[11px] font-semibold uppercase">Azul/Verde = Guia</span>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-4">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">As Famílias de <span class="text-previa-tealLight">Placas</span></h2>
+                <p class="text-[var(--text-secondary)] scaled-text-p mb-4 md:mb-6">Associe cada tipo com uma cor e uma finalidade principal:</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+                    <div class="bg-red-500/10 border border-red-500/20 p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa de Regulamentação (Ex: Placa PARE R-1) -->
+                        <img src="https://placehold.co/120x120/ef4444/ffffff?text=Placa+R-1+PARE" alt="Imagem da placa de Regulamentação PARE R-1" class="w-16 h-16 md:w-24 md:h-24 rounded-lg object-contain mb-2 md:mb-3 shadow">
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Regulamentação</h3>
+                        <p class="text-slate-400 scaled-text-xs mt-1 md:mt-2 leading-relaxed">Impõem obrigações, restrições e proibições.</p>
+                        <span class="mt-2 md:mt-4 px-2.5 md:px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-[10px] md:text-[11px] font-semibold uppercase">Vermelho = Obedeça</span>
+                    </div>
+                    <div class="bg-yellow-500/10 border border-yellow-500/20 p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa de Advertência (Ex: Placa Lombada A-18) -->
+                        <img src="https://placehold.co/120x120/eab308/000000?text=Placa+A-18+Lombada" alt="Imagem da placa de Advertência Lombada A-18" class="w-16 h-16 md:w-24 md:h-24 rounded-lg object-contain mb-2 md:mb-3 shadow">
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Advertência</h3>
+                        <p class="text-slate-400 scaled-text-xs mt-1 md:mt-2 leading-relaxed">Alertam sobre condições potencialmente perigosas na via.</p>
+                        <span class="mt-2 md:mt-4 px-2.5 md:px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-[10px] md:text-[11px] font-semibold uppercase">Amarelo = Atenção</span>
+                    </div>
+                    <div class="bg-previa-teal/10 border border-previa-teal/20 p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa de Indicação (Ex: Placa de Orientação de Destino) -->
+                        <img src="https://placehold.co/120x120/00848c/ffffff?text=Placa+Indicacao" alt="Imagem da placa de Indicação" class="w-16 h-16 md:w-24 md:h-24 rounded-lg object-contain mb-2 md:mb-3 shadow">
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Indicação</h3>
+                        <p class="text-slate-400 scaled-text-xs mt-1 md:mt-2 leading-relaxed">Orientam caminhos, rotas, serviços e pontos turísticos.</p>
+                        <span class="mt-2 md:mt-4 px-2.5 md:px-3 py-1 bg-previa-teal/20 text-previa-tealLight rounded-full text-[10px] md:text-[11px] font-semibold uppercase">Azul/Verde = Guia</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 5: PLACAS DE REGULAMENTAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-5">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="space-y-4">
-                    <span class="text-red-500 font-bold uppercase text-xs tracking-wider">Família de Comando</span>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-5">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
+                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
+                    <span class="text-red-500 font-bold uppercase text-[10px] md:text-xs tracking-wider">Família de Comando</span>
                     <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Placas de Regulamentação</h2>
                     <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
                         Representam obrigações, restrições e proibições imediatas. Seu descumprimento constitui infração de trânsito regulamentada pelo CTB.
                     </p>
                 </div>
-                <div class="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-wrap justify-around items-center gap-6">
+                <div class="bg-black/20 p-4 md:p-6 rounded-2xl border border-white/5 flex flex-row sm:flex-row justify-around items-center gap-3 md:gap-6">
                     <div class="flex flex-col items-center">
                         <!-- INSERIR IMAGEM AQUI: Placa R-1 (Parada Obrigatória) -->
-                        <img src="https://placehold.co/140x140/ef4444/ffffff?text=Placa+R-1+PARE" alt="Imagem da placa R-1 Parada Obrigatória" class="w-28 h-28 object-contain rounded-lg border border-white/10 shadow-lg">
-                        <span class="text-xs text-slate-300 mt-2 font-bold">Placa R-1: Parada Obrigatória</span>
+                        <img src="https://placehold.co/140x140/ef4444/ffffff?text=Placa+R-1+PARE" alt="Imagem da placa R-1 Parada Obrigatória" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain rounded-lg border border-white/10 shadow-lg">
+                        <span class="text-[10px] md:text-xs text-slate-300 mt-2 font-bold text-center">Placa R-1: Parada Obrigatória</span>
                     </div>
                     <div class="flex flex-col items-center">
                         <!-- INSERIR IMAGEM AQUI: Placa R-2 (Dê a Preferência) -->
-                        <img src="https://placehold.co/140x140/ffffff/ef4444?text=Placa+R-2+De+a+Preferência" alt="Imagem da placa R-2 Dê a Preferência" class="w-28 h-28 object-contain rounded-lg border border-white/10 shadow-lg">
-                        <span class="text-xs text-slate-300 mt-2 font-bold">Placa R-2: Dê a Preferência</span>
+                        <img src="https://placehold.co/140x140/ffffff/ef4444?text=Placa+R-2+De+a+Preferência" alt="Imagem da placa R-2 Dê a Preferência" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain rounded-lg border border-white/10 shadow-lg">
+                        <span class="text-[10px] md:text-xs text-slate-300 mt-2 font-bold text-center">Placa R-2: Dê a Preferência</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 6: ATIVIDADE FATO OU FAKE (Sem bloqueios de avanço) -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-6">
-            <div class="text-center mb-4">
-                <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Atividade Prática Opcional</span>
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-2">Desafio: Fato ou Fake?</h2>
-                <p class="text-slate-400 text-xs mt-1">Teste seus conhecimentos ou avance livremente para o próximo slide.</p>
-            </div>
-            <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 relative">
-                <div id="game-fact-container" class="space-y-4">
-                    <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                        <span class="text-xs font-bold text-previa-tealLight" id="fact-card-counter">Questão 1 de 3</span>
-                        <span class="text-xs text-slate-400" id="fact-score">Pontos: 0</span>
-                    </div>
-                    <p class="text-sm md:text-base font-semibold text-center text-[var(--text-primary)] py-4 h-20 flex items-center justify-center" id="fact-text">
-                        "Desobedecer à placa de STOP no cruzamento é permitido se não houver tráfego visível à esquerda ou direita."
-                    </p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <button onclick="answerFact(true)" class="py-3 rounded-xl bg-green-500/20 border border-green-500/40 text-green-300 font-bold hover:bg-green-500/30 transition-all cursor-pointer">FATO</button>
-                        <button onclick="answerFact(false)" class="py-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 transition-all cursor-pointer">FAKE</button>
-                    </div>
+        <!-- SLIDE 6: ATIVIDADE FATO OU FAKE -->
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-6">
+            <div class="my-auto">
+                <div class="text-center mb-3 md:mb-4">
+                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Atividade Prática Opcional</span>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1 md:mt-2">Desafio: Fato ou Fake?</h2>
+                    <p class="text-slate-400 text-[11px] md:text-xs mt-0.5">Teste seus conhecimentos ou avance livremente para o próximo slide.</p>
                 </div>
-                <div id="game-fact-feedback" class="hidden absolute inset-0 bg-previa-navy/95 rounded-2xl flex flex-col items-center justify-center p-6 text-center z-10">
-                    <span id="fact-feedback-icon" class="text-4xl mb-2"></span>
-                    <h3 id="fact-feedback-title" class="text-lg font-title font-bold text-white">Feedback</h3>
-                    <p id="fact-feedback-desc" class="text-xs text-slate-300 mt-2 max-w-sm"></p>
-                    <button onclick="nextFact()" id="fact-next-btn" class="mt-4 px-6 py-2 bg-previa-teal hover:bg-previa-tealLight text-white rounded-lg text-xs font-bold transition-all">Continuar</button>
+                <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6 relative">
+                    <div id="game-fact-container" class="space-y-3 md:space-y-4">
+                        <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                            <span class="text-[11px] md:text-xs font-bold text-previa-tealLight" id="fact-card-counter">Questão 1 de 3</span>
+                            <span class="text-[11px] md:text-xs text-slate-400" id="fact-score">Pontos: 0</span>
+                        </div>
+                        <p class="text-xs sm:text-sm md:text-base font-semibold text-center text-[var(--text-primary)] py-2 md:py-4 min-h-[60px] md:h-20 flex items-center justify-center" id="fact-text">
+                            "Desobedecer à placa de STOP no cruzamento é permitido se não houver tráfego visível à esquerda ou direita."
+                        </p>
+                        <div class="grid grid-cols-2 gap-3 md:gap-4">
+                            <button onclick="answerFact(true)" class="py-2.5 md:py-3 rounded-xl bg-green-500/20 border border-green-500/40 text-green-300 font-bold hover:bg-green-500/30 text-xs md:text-sm transition-all cursor-pointer">FATO</button>
+                            <button onclick="answerFact(false)" class="py-2.5 md:py-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 text-xs md:text-sm transition-all cursor-pointer">FAKE</button>
+                        </div>
+                    </div>
+                    <div id="game-fact-feedback" class="hidden absolute inset-0 bg-previa-navy/95 rounded-2xl flex flex-col items-center justify-center p-4 md:p-6 text-center z-10">
+                        <span id="fact-feedback-icon" class="text-3xl md:text-4xl mb-1 md:mb-2"></span>
+                        <h3 id="fact-feedback-title" class="text-base md:text-lg font-title font-bold text-white">Feedback</h3>
+                        <p id="fact-feedback-desc" class="text-[11px] md:text-xs text-slate-300 mt-1 md:mt-2 max-w-sm"></p>
+                        <button onclick="nextFact()" id="fact-next-btn" class="mt-3 md:mt-4 px-5 md:px-6 py-2 bg-previa-teal hover:bg-previa-tealLight text-white rounded-lg text-xs font-bold transition-all">Continuar</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 7: PLACAS DE REGULAMENTAÇÃO COMUNS -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-7">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Sinais de Regulamentação Mais Comuns</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
-                
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa R-6a (Proibido Estacionar) -->
-                    <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-6a" alt="Imagem da placa R-6a Proibido Estacionar" class="w-20 h-20 object-contain rounded-full border border-red-500 mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">R-6a: Proibido Estacionar</h4>
-                </div>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-7">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Sinais de Regulamentação Mais Comuns</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-h-[350px] md:max-h-[380px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+                    
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa R-6a (Proibido Estacionar) -->
+                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-6a" alt="Imagem da placa R-6a Proibido Estacionar" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-6a: Proibido Estacionar</h4>
+                    </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa R-6c (Proibido Parar e Estacionar) -->
-                    <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-6c" alt="Imagem da placa R-6c Proibido Parar e Estacionar" class="w-20 h-20 object-contain rounded-full border border-red-500 mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">R-6c: Proibido Parar e Estacionar</h4>
-                </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa R-6c (Proibido Parar e Estacionar) -->
+                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-6c" alt="Imagem da placa R-6c Proibido Parar e Estacionar" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-6c: Proibido Parar e Estacionar</h4>
+                    </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa R-19 (Velocidade Máxima Permitida 80 km/h) -->
-                    <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-19+80km" alt="Imagem da placa R-19 Velocidade Máxima Permitida" class="w-20 h-20 object-contain rounded-full border border-red-500 mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">R-19: Vel. Máxima Permitida</h4>
-                </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa R-19 (Velocidade Máxima Permitida 80 km/h) -->
+                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-19+80km" alt="Imagem da placa R-19 Velocidade Máxima Permitida" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-19: Vel. Máxima Permitida</h4>
+                    </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa R-3 (Sentido Proibido) -->
-                    <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-3" alt="Imagem da placa R-3 Sentido Proibido" class="w-20 h-20 object-contain rounded-full border border-red-500 mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">R-3: Sentido Proibido</h4>
-                </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa R-3 (Sentido Proibido) -->
+                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-3" alt="Imagem da placa R-3 Sentido Proibido" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-3: Sentido Proibido</h4>
+                    </div>
 
+                </div>
             </div>
         </div>
 
         <!-- SLIDE 8: PLACAS DE ADVERTÊNCIA -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="space-y-4">
-                    <span class="text-yellow-400 font-bold uppercase text-xs tracking-wider">Alertas Preventivos</span>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
+                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
+                    <span class="text-yellow-400 font-bold uppercase text-[10px] md:text-xs tracking-wider">Alertas Preventivos</span>
                     <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Placas de Advertência</h2>
                     <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">Alertam sobre condições de risco, como curvas acentuadas, lombadas e cruzamentos perigosos à frente.</p>
                 </div>
                 <div class="flex justify-center">
-                    <div class="bg-black/20 p-6 rounded-2xl border border-white/5 flex flex-col items-center">
+                    <div class="bg-black/20 p-4 md:p-6 rounded-2xl border border-white/5 flex flex-col items-center">
                         <!-- INSERIR IMAGEM AQUI: Placa A-18 (Saliência ou Lombada) -->
-                        <img src="https://placehold.co/180x180/eab308/000000?text=Placa+A-18+Lombada" alt="Imagem da placa A-18 Saliência ou Lombada" class="w-40 h-40 object-contain rounded-lg border border-white/10 shadow-lg">
-                        <span class="text-xs text-slate-300 font-bold mt-4">Placa A-18: Saliência ou Lombada</span>
+                        <img src="https://placehold.co/180x180/eab308/000000?text=Placa+A-18+Lombada" alt="Imagem da placa A-18 Saliência ou Lombada" class="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain rounded-lg border border-white/10 shadow-lg">
+                        <span class="text-[11px] md:text-xs text-slate-300 font-bold mt-2 md:mt-4 text-center">Placa A-18: Saliência ou Lombada</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 9: PLACAS DE ADVERTÊNCIA COMUNS -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-9">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Advertência: Situações de Alerta</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar">
-                
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-2a (Curva à Esquerda) -->
-                    <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-2a" alt="Imagem da placa A-2a Curva à Esquerda" class="w-20 h-20 object-contain rounded-lg mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">A-2a: Curva à Esquerda</h4>
-                </div>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-9">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Advertência: Situações de Alerta</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-h-[350px] md:max-h-[380px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+                    
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-2a (Curva à Esquerda) -->
+                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-2a" alt="Imagem da placa A-2a Curva à Esquerda" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-2a: Curva à Esquerda</h4>
+                    </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-14 (Semáforo à Frente) -->
-                    <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-14" alt="Imagem da placa A-14 Semáforo à Frente" class="w-20 h-20 object-contain rounded-lg mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">A-14: Semáforo à Frente</h4>
-                </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-14 (Semáforo à Frente) -->
+                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-14" alt="Imagem da placa A-14 Semáforo à Frente" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-14: Semáforo à Frente</h4>
+                    </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-33b (Passagem de Escolares) -->
-                    <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-33b" alt="Imagem da placa A-33b Escolares" class="w-20 h-20 object-contain rounded-lg mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">A-33b: Escolares</h4>
-                </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-33b (Passagem de Escolares) -->
+                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-33b" alt="Imagem da placa A-33b Escolares" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-33b: Escolares</h4>
+                    </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-45 (Rua Sem Saída) -->
-                    <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-45" alt="Imagem da placa A-45 Rua Sem Saída" class="w-20 h-20 object-contain rounded-lg mb-3 shadow">
-                    <h4 class="text-xs font-bold text-[var(--text-primary)] mb-1">A-45: Rua Sem Saída</h4>
-                </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-45 (Rua Sem Saída) -->
+                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-45" alt="Imagem da placa A-45 Rua Sem Saída" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
+                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-45: Rua Sem Saída</h4>
+                    </div>
 
+                </div>
             </div>
         </div>
 
-        <!-- SLIDE 10: GUIA DE FIXAÇÃO DE PLACAS E SINAIS (Sem Jogo da Memória) -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-10">
-            <div class="mb-4">
-                <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Fixação Prática</span>
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Galeria Ilustrativa de Placas e Significados</h2>
-                <p class="text-slate-400 text-xs mt-1">Conheça o catálogo das principais placas do Código de Trânsito Brasileiro:</p>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto max-h-[350px] pr-2 custom-scrollbar">
-                
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 rounded-xl flex items-center gap-3">
-                    <!-- INSERIR IMAGEM AQUI: Placa R-1 (Parada Obrigatória) -->
-                    <img src="https://placehold.co/80x80/ef4444/ffffff?text=R-1" alt="Imagem da placa R-1 Parada Obrigatória" class="w-14 h-14 object-contain rounded-md shrink-0">
-                    <div>
-                        <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa R-1</h4>
-                        <p class="text-[11px] text-slate-400">Parada Obrigatória</p>
-                    </div>
+        <!-- SLIDE 10: GUIA DE FIXAÇÃO DE PLACAS E SINAIS -->
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-10">
+            <div class="my-auto">
+                <div class="mb-3 md:mb-4">
+                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Fixação Prática</span>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Galeria Ilustrativa de Placas e Significados</h2>
+                    <p class="text-slate-400 text-[11px] md:text-xs mt-0.5">Conheça o catálogo das principais placas do Código de Trânsito Brasileiro:</p>
                 </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 rounded-xl flex items-center gap-3">
-                    <!-- INSERIR IMAGEM AQUI: Placa R-19 (Velocidade Máxima Permitida) -->
-                    <img src="https://placehold.co/80x80/ffffff/ef4444?text=R-19" alt="Imagem da placa R-19 Velocidade Máxima" class="w-14 h-14 object-contain rounded-md shrink-0">
-                    <div>
-                        <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa R-19</h4>
-                        <p class="text-[11px] text-slate-400">Velocidade Máxima Permitida</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[300px] md:max-h-[350px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
+                    
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
+                        <!-- INSERIR IMAGEM AQUI: Placa R-1 (Parada Obrigatória) -->
+                        <img src="https://placehold.co/80x80/ef4444/ffffff?text=R-1" alt="Imagem da placa R-1 Parada Obrigatória" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
+                        <div>
+                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa R-1</h4>
+                            <p class="text-[10px] md:text-[11px] text-slate-400">Parada Obrigatória</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 rounded-xl flex items-center gap-3">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-18 (Saliência ou Lombada) -->
-                    <img src="https://placehold.co/80x80/eab308/000000?text=A-18" alt="Imagem da placa A-18 Lombada" class="w-14 h-14 object-contain rounded-md shrink-0">
-                    <div>
-                        <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-18</h4>
-                        <p class="text-[11px] text-slate-400">Saliência ou Lombada</p>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
+                        <!-- INSERIR IMAGEM AQUI: Placa R-19 (Velocidade Máxima Permitida) -->
+                        <img src="https://placehold.co/80x80/ffffff/ef4444?text=R-19" alt="Imagem da placa R-19 Velocidade Máxima" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
+                        <div>
+                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa R-19</h4>
+                            <p class="text-[10px] md:text-[11px] text-slate-400">Velocidade Máxima Permitida</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 rounded-xl flex items-center gap-3">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-2a (Curva à Esquerda) -->
-                    <img src="https://placehold.co/80x80/eab308/000000?text=A-2a" alt="Imagem da placa A-2a Curva à Esquerda" class="w-14 h-14 object-contain rounded-md shrink-0">
-                    <div>
-                        <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-2a</h4>
-                        <p class="text-[11px] text-slate-400">Curva à Esquerda</p>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-18 (Saliência ou Lombada) -->
+                        <img src="https://placehold.co/80x80/eab308/000000?text=A-18" alt="Imagem da placa A-18 Lombada" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
+                        <div>
+                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-18</h4>
+                            <p class="text-[10px] md:text-[11px] text-slate-400">Saliência ou Lombada</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 rounded-xl flex items-center gap-3">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-14 (Semáforo à Frente) -->
-                    <img src="https://placehold.co/80x80/eab308/000000?text=A-14" alt="Imagem da placa A-14 Semáforo à Frente" class="w-14 h-14 object-contain rounded-md shrink-0">
-                    <div>
-                        <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-14</h4>
-                        <p class="text-[11px] text-slate-400">Sinal Semafórico à Frente</p>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-2a (Curva à Esquerda) -->
+                        <img src="https://placehold.co/80x80/eab308/000000?text=A-2a" alt="Imagem da placa A-2a Curva à Esquerda" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
+                        <div>
+                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-2a</h4>
+                            <p class="text-[10px] md:text-[11px] text-slate-400">Curva à Esquerda</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 rounded-xl flex items-center gap-3">
-                    <!-- INSERIR IMAGEM AQUI: Placa A-30a (Trânsito de Ciclistas) -->
-                    <img src="https://placehold.co/80x80/eab308/000000?text=A-30a" alt="Imagem da placa A-30a Trânsito de Ciclistas" class="w-14 h-14 object-contain rounded-md shrink-0">
-                    <div>
-                        <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-30a</h4>
-                        <p class="text-[11px] text-slate-400">Trânsito de Ciclistas</p>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-14 (Semáforo à Frente) -->
+                        <img src="https://placehold.co/80x80/eab308/000000?text=A-14" alt="Imagem da placa A-14 Semáforo à Frente" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
+                        <div>
+                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-14</h4>
+                            <p class="text-[10px] md:text-[11px] text-slate-400">Sinal Semafórico à Frente</p>
+                        </div>
                     </div>
-                </div>
 
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
+                        <!-- INSERIR IMAGEM AQUI: Placa A-30a (Trânsito de Ciclistas) -->
+                        <img src="https://placehold.co/80x80/eab308/000000?text=A-30a" alt="Imagem da placa A-30a Trânsito de Ciclistas" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
+                        <div>
+                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-30a</h4>
+                            <p class="text-[10px] md:text-[11px] text-slate-400">Trânsito de Ciclistas</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
         <!-- SLIDE 11: PLACAS DE INDICAÇÃO - AZUL E VERDE -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-11">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="space-y-4">
-                    <span class="text-previa-tealLight font-bold uppercase text-xs tracking-wider">Sinalização de Apoio e Guia</span>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-11">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
+                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
+                    <span class="text-previa-tealLight font-bold uppercase text-[10px] md:text-xs tracking-wider">Sinalização de Apoio e Guia</span>
                     <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Placas de Indicação</h2>
                     <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">Forncecem coordenadas de rotas, orientações de serviços, municípios e distâncias.</p>
                 </div>
-                <div class="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5">
+                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
                     <!-- INSERIR IMAGEM AQUI: Placa de Indicação (Serviços Auxiliares / Rodovias Azul e Verde) -->
-                    <img src="https://placehold.co/320x180/00848c/ffffff?text=Placa+de+Indicacao+Servicos" alt="Imagem da placa de Indicação e Serviços Auxiliares" class="w-full max-w-xs h-auto rounded-lg border border-white/10 shadow-lg object-contain">
-                    <span class="text-xs text-slate-300 font-bold mt-3">Placas de Orientação e Serviços Auxiliares</span>
+                    <img src="https://placehold.co/320x180/00848c/ffffff?text=Placa+de+Indicacao+Servicos" alt="Imagem da placa de Indicação e Serviços Auxiliares" class="w-full max-w-[220px] sm:max-w-xs h-auto rounded-lg border border-white/10 shadow-lg object-contain">
+                    <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 md:mt-3 text-center">Placas de Orientação e Serviços Auxiliares</span>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 12: PLACAS DE INDICAÇÃO - BRANCA E MARROM -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-12">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Educativas e Atrativos Turísticos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl flex flex-col items-center text-center">
-                    <span class="px-2 py-0.5 bg-slate-500 text-white rounded text-[10px] font-bold uppercase mb-2">Educativas</span>
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-3">Placas Brancas</h3>
-                    <!-- INSERIR IMAGEM AQUI: Placa Educativa Branca (Ex: NÃO FECHE O CRUZAMENTO) -->
-                    <img src="https://placehold.co/240x120/ffffff/000000?text=Placa+Educativa+Branca" alt="Imagem da placa educativa branca" class="w-full max-w-xs h-auto rounded-lg border border-slate-300 shadow">
-                </div>
-                <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-5 rounded-2xl flex flex-col items-center text-center">
-                    <span class="px-2 py-0.5 bg-[#7c2d12] text-white rounded text-[10px] font-bold uppercase mb-2">Turísticas</span>
-                    <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-3">Placas Marrons</h3>
-                    <!-- INSERIR IMAGEM AQUI: Placa de Atrativo Turístico Marrom -->
-                    <img src="https://placehold.co/240x120/7c2d12/ffffff?text=Placa+Turistica+Marrom" alt="Imagem da placa de atrativo turístico marrom" class="w-full max-w-xs h-auto rounded-lg border border-amber-900 shadow">
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-12">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-4">Educativas e Atrativos Turísticos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
+                        <span class="px-2 py-0.5 bg-slate-500 text-white rounded text-[9px] md:text-[10px] font-bold uppercase mb-2">Educativas</span>
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-3">Placas Brancas</h3>
+                        <!-- INSERIR IMAGEM AQUI: Placa Educativa Branca (Ex: NÃO FECHE O CRUZAMENTO) -->
+                        <img src="https://placehold.co/240x120/ffffff/000000?text=Placa+Educativa+Branca" alt="Imagem da placa educativa branca" class="w-full max-w-[200px] sm:max-w-xs h-auto rounded-lg border border-slate-300 shadow">
+                    </div>
+                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
+                        <span class="px-2 py-0.5 bg-[#7c2d12] text-white rounded text-[9px] md:text-[10px] font-bold uppercase mb-2">Turísticas</span>
+                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-3">Placas Marrons</h3>
+                        <!-- INSERIR IMAGEM AQUI: Placa de Atrativo Turístico Marrom -->
+                        <img src="https://placehold.co/240x120/7c2d12/ffffff?text=Placa+Turistica+Marrom" alt="Imagem da placa de atrativo turístico marrom" class="w-full max-w-[200px] sm:max-w-xs h-auto rounded-lg border border-amber-900 shadow">
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 13: JOGO CLASSIFICADOR (Livre para avançar) -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-13">
-            <div class="text-center mb-4">
-                <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Atividade Opcional</span>
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Organizador de Famílias de Placas</h2>
-            </div>
-            <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 flex flex-col items-center">
-                <div class="h-32 flex items-center justify-center mb-6" id="classifier-sign-area"><!-- Gerado via JS --></div>
-                <div class="grid grid-cols-3 gap-3 w-full">
-                    <button onclick="classifySign('regulamentacao')" class="py-3 px-2 bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 text-xs rounded-xl transition-all cursor-pointer">Regulamentação</button>
-                    <button onclick="classifySign('advertencia')" class="py-3 px-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 font-bold hover:bg-yellow-500/30 text-xs rounded-xl transition-all cursor-pointer">Advertência</button>
-                    <button onclick="classifySign('indicacao')" class="py-3 px-2 bg-blue-500/20 border border-blue-500/40 text-blue-300 font-bold hover:bg-blue-500/30 text-xs rounded-xl transition-all cursor-pointer">Indicação</button>
+        <!-- SLIDE 13: JOGO CLASSIFICADOR -->
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-13">
+            <div class="my-auto">
+                <div class="text-center mb-3 md:mb-4">
+                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Atividade Opcional</span>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Organizador de Famílias de Placas</h2>
                 </div>
-                <div class="mt-4 text-xs font-bold" id="classifier-score">Acertos: 0 / 5</div>
+                <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6 flex flex-col items-center">
+                    <div class="h-28 md:h-32 flex items-center justify-center mb-4 md:mb-6" id="classifier-sign-area"><!-- Gerado via JS --></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 md:gap-3 w-full">
+                        <button onclick="classifySign('regulamentacao')" class="py-2.5 md:py-3 px-2 bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 text-xs rounded-xl transition-all cursor-pointer">Regulamentação</button>
+                        <button onclick="classifySign('advertencia')" class="py-2.5 md:py-3 px-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 font-bold hover:bg-yellow-500/30 text-xs rounded-xl transition-all cursor-pointer">Advertência</button>
+                        <button onclick="classifySign('indicacao')" class="py-2.5 md:py-3 px-2 bg-blue-500/20 border border-blue-500/40 text-blue-300 font-bold hover:bg-blue-500/30 text-xs rounded-xl transition-all cursor-pointer">Indicação</button>
+                    </div>
+                    <div class="mt-3 md:mt-4 text-xs font-bold text-slate-300" id="classifier-score">Acertos: 0 / 5</div>
+                </div>
             </div>
         </div>
 
         <!-- SLIDE 14: SINALIZAÇÃO HORIZONTAL -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-14">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Sinalização Horizontal: <span class="text-previa-tealLight">Linhas no Asfalto</span></h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                <div class="space-y-4">
-                    <div class="flex gap-4 items-start bg-black/20 p-3 rounded-xl border border-white/5">
-                        <span class="w-3 h-12 bg-white rounded shrink-0 block"></span>
-                        <div>
-                            <h4 class="font-title font-bold text-[var(--text-primary)] text-sm">Linhas Brancas</h4>
-                            <p class="text-slate-400 text-xs">Separam faixas de fluxo no mesmo sentido de circulação.</p>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-14">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Sinalização Horizontal: <span class="text-previa-tealLight">Linhas no Asfalto</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center">
+                    <div class="space-y-2 md:space-y-4">
+                        <div class="flex gap-3 md:gap-4 items-start bg-black/20 p-3 rounded-xl border border-white/5">
+                            <span class="w-2.5 md:w-3 h-10 md:h-12 bg-white rounded shrink-0 block"></span>
+                            <div>
+                                <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Linhas Brancas</h4>
+                                <p class="text-slate-400 text-[11px] md:text-xs">Separam faixas de fluxo no mesmo sentido de circulação.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 md:gap-4 items-start bg-black/20 p-3 rounded-xl border border-white/5">
+                            <span class="w-2.5 md:w-3 h-10 md:h-12 bg-yellow-400 rounded shrink-0 block"></span>
+                            <div>
+                                <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Linhas Amarelas</h4>
+                                <p class="text-slate-400 text-[11px] md:text-xs">Separam fluxos de sentidos opostos (pista simples com duplo sentido).</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex gap-4 items-start bg-black/20 p-3 rounded-xl border border-white/5">
-                        <span class="w-3 h-12 bg-yellow-400 rounded shrink-0 block"></span>
-                        <div>
-                            <h4 class="font-title font-bold text-[var(--text-primary)] text-sm">Linhas Amarelas</h4>
-                            <p class="text-slate-400 text-xs">Separam fluxos de sentidos opostos (pista simples com duplo sentido).</p>
-                        </div>
+                    <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
+                        <!-- INSERIR IMAGEM AQUI: Sinalização de Faixa Contínua e Faixa Seccionada no Asfalto -->
+                        <img src="https://placehold.co/320x180/12181c/ffffff?text=Imagem+da+Faixa+Continua+e+Seccionada" alt="Imagem da faixa contínua e seccionada" class="w-full max-w-[220px] sm:max-w-xs h-auto rounded-lg border border-white/10 shadow">
+                        <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Diferença: Faixa Contínua vs. Seccionada</span>
                     </div>
-                </div>
-                <div class="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5">
-                    <!-- INSERIR IMAGEM AQUI: Sinalização de Faixa Contínua e Faixa Seccionada no Asfalto -->
-                    <img src="https://placehold.co/320x180/12181c/ffffff?text=Imagem+da+Faixa+Continua+e+Seccionada" alt="Imagem da faixa contínua e seccionada" class="w-full max-w-xs h-auto rounded-lg border border-white/10 shadow">
-                    <span class="text-xs text-slate-300 font-bold mt-2">Diferença: Faixa Contínua vs. Seccionada</span>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 15: MARCAS RODOVIÁRIAS ESPECIAIS -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-15">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Marcas Rodoviárias Especiais</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                
-                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Faixa de Pedestres -->
-                    <img src="https://placehold.co/200x120/12181c/ffffff?text=Faixa+de+Pedestres" alt="Imagem da Faixa de Pedestres" class="w-full h-24 object-cover rounded-lg mb-2 border border-white/10">
-                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm">Faixa de Pedestres</h4>
-                </div>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-15">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Marcas Rodoviárias Especiais</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+                    
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Faixa de Pedestres -->
+                        <img src="https://placehold.co/200x120/12181c/ffffff?text=Faixa+de+Pedestres" alt="Imagem da Faixa de Pedestres" class="w-full h-20 md:h-24 object-cover rounded-lg mb-2 border border-white/10">
+                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Faixa de Pedestres</h4>
+                    </div>
 
-                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Marcas de Canalização -->
-                    <img src="https://placehold.co/200x120/12181c/eab308?text=Marcas+de+Canalizacao" alt="Imagem das Marcas de Canalização" class="w-full h-24 object-cover rounded-lg mb-2 border border-white/10">
-                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm">Marcas de Canalização</h4>
-                </div>
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Marcas de Canalização -->
+                        <img src="https://placehold.co/200x120/12181c/eab308?text=Marcas+de+Canalizacao" alt="Imagem das Marcas de Canalização" class="w-full h-20 md:h-24 object-cover rounded-lg mb-2 border border-white/10">
+                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Marcas de Canalização</h4>
+                    </div>
 
-                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Setas Direcionais -->
-                    <img src="https://placehold.co/200x120/12181c/00a9b4?text=Setas+Direcionais" alt="Imagem das Setas Direcionais no Solo" class="w-full h-24 object-cover rounded-lg mb-2 border border-white/10">
-                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm">Setas Direcionais</h4>
-                </div>
+                    <div class="p-3 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Setas Direcionais -->
+                        <img src="https://placehold.co/200x120/12181c/00a9b4?text=Setas+Direcionais" alt="Imagem das Setas Direcionais no Solo" class="w-full h-20 md:h-24 object-cover rounded-lg mb-2 border border-white/10">
+                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Setas Direcionais</h4>
+                    </div>
 
+                </div>
             </div>
         </div>
 
         <!-- SLIDE 16: SINALIZAÇÃO SEMAFÓRICA -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-16">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="space-y-4">
-                    <span class="text-previa-orange font-bold uppercase text-xs tracking-wider">Regência do Fluxo</span>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
+                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
+                    <span class="text-previa-orange font-bold uppercase text-[10px] md:text-xs tracking-wider">Regência do Fluxo</span>
                     <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Sinalização Semafórica</h2>
                     <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
                         Controlam a ordem de passagem de veículos e pedestres nos cruzamentos e vias urbanas.
                     </p>
                 </div>
-                <div class="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5">
+                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
                     <!-- INSERIR IMAGEM AQUI: Semáforo de Trânsito Veicular e Pedestres -->
-                    <img src="https://placehold.co/180x240/12181c/ef4444?text=Imagem+do+Semaforo" alt="Imagem do semáforo" class="w-36 h-48 object-contain rounded-lg border border-white/10 shadow">
-                    <span class="text-xs text-slate-300 font-bold mt-2">Semáforo de Controle Veicular</span>
+                    <img src="https://placehold.co/180x240/12181c/ef4444?text=Imagem+do+Semaforo" alt="Imagem do semáforo" class="w-24 h-32 sm:w-36 sm:h-48 object-contain rounded-lg border border-white/10 shadow">
+                    <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Semáforo de Controle Veicular</span>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 17: CICLOVIAS E AUXILIARES -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-17">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Ciclovias e Dispositivos Auxiliares</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-4 bg-red-600/10 border border-red-600/20 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Sinalização Cicloviária -->
-                    <img src="https://placehold.co/240x120/7f1d1d/ffffff?text=Sinalizacao+Cicloviaria" alt="Imagem da sinalização cicloviária" class="w-full max-w-xs h-28 object-cover rounded-lg mb-3 border border-red-500/30">
-                    <h3 class="font-title font-bold text-[var(--text-primary)] text-base">Sinalização Cicloviária</h3>
-                </div>
-                <div class="p-4 bg-previa-teal/10 border border-previa-teal/20 rounded-xl flex flex-col items-center text-center">
-                    <!-- INSERIR IMAGEM AQUI: Dispositivos Auxiliares (Cones, Balizadores, Tachões) -->
-                    <img src="https://placehold.co/240x120/00848c/ffffff?text=Dispositivos+Auxiliares" alt="Imagem dos dispositivos auxiliares de trânsito" class="w-full max-w-xs h-28 object-cover rounded-lg mb-3 border border-previa-teal/30">
-                    <h3 class="font-title font-bold text-[var(--text-primary)] text-base">Dispositivos Auxiliares</h3>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-17">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Ciclovias e Dispositivos Auxiliares</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div class="p-3 md:p-4 bg-red-600/10 border border-red-600/20 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Sinalização Cicloviária -->
+                        <img src="https://placehold.co/240x120/7f1d1d/ffffff?text=Sinalizacao+Cicloviaria" alt="Imagem da sinalização cicloviária" class="w-full max-w-xs h-24 md:h-28 object-cover rounded-lg mb-2 md:mb-3 border border-red-500/30">
+                        <h3 class="font-title font-bold text-[var(--text-primary)] text-sm md:text-base">Sinalização Cicloviária</h3>
+                    </div>
+                    <div class="p-3 md:p-4 bg-previa-teal/10 border border-previa-teal/20 rounded-xl flex flex-col items-center text-center">
+                        <!-- INSERIR IMAGEM AQUI: Dispositivos Auxiliares (Cones, Balizadores, Tachões) -->
+                        <img src="https://placehold.co/240x120/00848c/ffffff?text=Dispositivos+Auxiliares" alt="Imagem dos dispositivos auxiliares de trânsito" class="w-full max-w-xs h-24 md:h-28 object-cover rounded-lg mb-2 md:mb-3 border border-previa-teal/30">
+                        <h3 class="font-title font-bold text-[var(--text-primary)] text-sm md:text-base">Dispositivos Auxiliares</h3>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 18: SINALIZAÇÃO TEMPORÁRIA -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-18">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <div class="space-y-4">
-                    <span class="text-orange-500 font-bold uppercase text-xs tracking-wider">Atenção Redobrada</span>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-18">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
+                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
+                    <span class="text-orange-500 font-bold uppercase text-[10px] md:text-xs tracking-wider">Atenção Redobrada</span>
                     <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Sinalização Temporária</h2>
                     <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
                         Indica obras, manutenção ou situações provisórias nas pistas. Caracteriza-se pelo uso de fundo laranja de alta visibilidade.
                     </p>
                 </div>
-                <div class="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5">
+                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
                     <!-- INSERIR IMAGEM AQUI: Placa Temporária de Obras (Obras a 500m / Homens Trabalhando) -->
-                    <img src="https://placehold.co/240x180/ff823a/000000?text=Placa+Temporaria+de+Obras" alt="Imagem da placa temporária de obras" class="w-56 h-40 object-contain rounded-lg border border-orange-500 shadow">
-                    <span class="text-xs text-slate-300 font-bold mt-2">Placa Temporária de Obras na Pista</span>
+                    <img src="https://placehold.co/240x180/ff823a/000000?text=Placa+Temporaria+de+Obras" alt="Imagem da placa temporária de obras" class="w-44 h-32 sm:w-56 sm:h-40 object-contain rounded-lg border border-orange-500 shadow">
+                    <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Placa Temporária de Obras na Pista</span>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 19: SIMULAÇÃO DE DECISÃO (Livre para avançar) -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-19">
-            <div class="text-center mb-4">
-                <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Cenário Prático Opcional</span>
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Cenário: Decisões no Volante</h2>
-            </div>
-            <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6">
-                <p class="text-sm font-semibold text-center mb-6 text-slate-300" id="decision-scenario-text">
-                    "Você está trafegando em pista úmida e avista uma placa amarela de curva acentuada à frente. Como você procede?"
-                </p>
-                <div class="flex flex-col gap-3">
-                    <button onclick="submitDecision(0)" class="p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-xs transition-all cursor-pointer">A) Mantenho a velocidade e freno bruscamente no meio da curva para ajustar o carro.</button>
-                    <button onclick="submitDecision(1)" class="p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-xs transition-all cursor-pointer">B) Reduzo a velocidade com antecedência na reta, antes de iniciar a curva.</button>
-                    <button onclick="submitDecision(2)" class="p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-xs transition-all cursor-pointer">C) Acelero para ganhar mais aderência e estabilidade com a força centrípeta.</button>
+        <!-- SLIDE 19: SIMULAÇÃO DE DECISÃO -->
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-19">
+            <div class="my-auto">
+                <div class="text-center mb-3 md:mb-4">
+                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Cenário Prático Opcional</span>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Cenário: Decisões no Volante</h2>
                 </div>
-                <div class="mt-4 text-xs font-bold text-center text-previa-tealLight h-6" id="decision-feedback"></div>
+                <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6">
+                    <p class="text-xs sm:text-sm font-semibold text-center mb-4 md:mb-6 text-slate-300" id="decision-scenario-text">
+                        "Você está trafegando em pista úmida e avista uma placa amarela de curva acentuada à frente. Como você procede?"
+                    </p>
+                    <div class="flex flex-col gap-2.5 md:gap-3">
+                        <button onclick="submitDecision(0)" class="p-2.5 md:p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-[11px] md:text-xs transition-all cursor-pointer">A) Mantenho a velocidade e freno bruscamente no meio da curva para ajustar o carro.</button>
+                        <button onclick="submitDecision(1)" class="p-2.5 md:p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-[11px] md:text-xs transition-all cursor-pointer">B) Reduzo a velocidade com antecedência na reta, antes de iniciar a curva.</button>
+                        <button onclick="submitDecision(2)" class="p-2.5 md:p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-[11px] md:text-xs transition-all cursor-pointer">C) Acelero para ganhar mais aderência e estabilidade com a força centrípeta.</button>
+                    </div>
+                    <div class="mt-3 md:mt-4 text-[11px] md:text-xs font-bold text-center text-previa-tealLight min-h-[24px]" id="decision-feedback"></div>
+                </div>
             </div>
         </div>
 
         <!-- SLIDE 20: HIERARQUIA DA SINALIZAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-20">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Hierarquia da Sinalização</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div class="space-y-3">
-                    <div class="flex items-center gap-3 p-3 bg-previa-orange/15 border border-previa-orange/20 rounded-lg">
-                        <span class="w-8 h-8 rounded-full bg-previa-orange text-white flex items-center justify-center font-bold text-sm">1º</span>
-                        <p class="text-xs text-slate-300 font-bold">Ordens dos Agentes de Trânsito prevalecem sobre todos.</p>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-20">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Hierarquia da Sinalização</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
+                    <div class="space-y-2.5 md:space-y-3">
+                        <div class="flex items-center gap-3 p-2.5 md:p-3 bg-previa-orange/15 border border-previa-orange/20 rounded-lg">
+                            <span class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-previa-orange text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">1º</span>
+                            <p class="text-[11px] md:text-xs text-slate-300 font-bold">Ordens dos Agentes de Trânsito prevalecem sobre todos.</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 md:p-3 bg-white/5 border border-white/10 rounded-lg">
+                            <span class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-previa-teal text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">2º</span>
+                            <p class="text-[11px] md:text-xs text-slate-300 font-bold">Indicações do Semáforo sobre os demais sinais.</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-2.5 md:p-3 bg-white/5 border border-white/10 rounded-lg">
+                            <span class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-slate-600 text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">3º</span>
+                            <p class="text-[11px] md:text-xs text-slate-300 font-bold">Demais indicações dos sinais de trânsito e normas de circulação.</p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg">
-                        <span class="w-8 h-8 rounded-full bg-previa-teal text-white flex items-center justify-center font-bold text-sm">2º</span>
-                        <p class="text-xs text-slate-300 font-bold">Indicações do Semáforo sobre os demais sinais.</p>
+                    <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
+                        <!-- INSERIR IMAGEM AQUI: Agente de Trânsito direcionando o fluxo -->
+                        <img src="https://placehold.co/240x180/12181c/ff823a?text=Imagem+do+Agente+de+Transito" alt="Imagem de Agente de Trânsito orientando o tráfego" class="w-44 h-32 sm:w-56 sm:h-40 object-contain rounded-lg border border-white/10 shadow">
+                        <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Agente de Trânsito: Prioridade Absoluta</span>
                     </div>
-                    <div class="flex items-center gap-3 p-3 bg-white/5 border border-white/10 rounded-lg">
-                        <span class="w-8 h-8 rounded-full bg-slate-600 text-white flex items-center justify-center font-bold text-sm">3º</span>
-                        <p class="text-xs text-slate-300 font-bold">Demais indicações dos sinais de trânsito e normas de circulação.</p>
-                    </div>
-                </div>
-                <div class="flex flex-col items-center justify-center p-4 bg-black/20 rounded-2xl border border-white/5">
-                    <!-- INSERIR IMAGEM AQUI: Agente de Trânsito direcionando o fluxo -->
-                    <img src="https://placehold.co/240x180/12181c/ff823a?text=Imagem+do+Agente+de+Transito" alt="Imagem de Agente de Trânsito orientando o tráfego" class="w-56 h-40 object-contain rounded-lg border border-white/10 shadow">
-                    <span class="text-xs text-slate-300 font-bold mt-2">Agente de Trânsito: Prioridade Absoluta</span>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 21: DESAFIO HIERARQUIA (Livre para avançar) -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-21">
-            <div class="text-center mb-4">
-                <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-xs font-bold rounded-full uppercase tracking-wider">Atividade Opcional</span>
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Desafio: Quem Manda Mais?</h2>
-            </div>
-            <div class="max-w-xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6">
-                <div class="space-y-4">
-                    <div class="flex flex-col gap-2">
-                        <button onclick="submitHierarchy(0)" class="p-3 bg-white/5 border border-white/10 text-slate-300 rounded-xl hover:border-previa-teal text-left text-xs transition-all cursor-pointer">A) Semáforo > Placa > Chão > Agente de Trânsito.</button>
-                        <button onclick="submitHierarchy(1)" class="p-3 bg-white/5 border border-white/10 text-slate-300 rounded-xl hover:border-previa-teal text-left text-xs transition-all cursor-pointer">B) Agente de Trânsito > Semáforo > Placa > Chão.</button>
+        <!-- SLIDE 21: DESAFIO HIERARQUIA -->
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-21">
+            <div class="my-auto">
+                <div class="text-center mb-3 md:mb-4">
+                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Atividade Opcional</span>
+                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Desafio: Quem Manda Mais?</h2>
+                </div>
+                <div class="max-w-xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6">
+                    <div class="space-y-3 md:space-y-4">
+                        <div class="flex flex-col gap-2.5">
+                            <button onclick="submitHierarchy(0)" class="p-2.5 md:p-3 bg-white/5 border border-white/10 text-slate-300 rounded-xl hover:border-previa-teal text-left text-[11px] md:text-xs transition-all cursor-pointer">A) Semáforo > Placa > Chão > Agente de Trânsito.</button>
+                            <button onclick="submitHierarchy(1)" class="p-2.5 md:p-3 bg-white/5 border border-white/10 text-slate-300 rounded-xl hover:border-previa-teal text-left text-[11px] md:text-xs transition-all cursor-pointer">B) Agente de Trânsito > Semáforo > Placa > Chão.</button>
+                        </div>
+                        <div class="text-[11px] md:text-xs font-bold text-center mt-2 md:mt-3 text-previa-tealLight min-h-[24px]" id="hierarchy-feedback"></div>
                     </div>
-                    <div class="text-xs font-bold text-center mt-3 text-previa-tealLight h-6" id="hierarchy-feedback"></div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 22: POR QUE DOMINAR A SINALIZAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-22">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Por que Dominar a Sinalização?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex gap-3">
-                    <span class="text-previa-orange text-xl"><i class="fa-solid fa-heart-pulse"></i></span>
-                    <div>
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mb-1">Segurança Multiplicada</h4>
-                        <p class="text-slate-400 text-xs">Entender os sinais permite prever o comportamento das pistas e dos outros condutores.</p>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-22">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Por que Dominar a Sinalização?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex gap-3">
+                        <span class="text-previa-orange text-lg md:text-xl shrink-0 mt-0.5"><i class="fa-solid fa-heart-pulse"></i></span>
+                        <div>
+                            <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mb-1">Segurança Multiplicada</h4>
+                            <p class="text-slate-400 text-[11px] md:text-xs">Entender os sinais permite prever o comportamento das pistas e dos outros condutores.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex gap-3">
-                    <span class="text-previa-tealLight text-xl"><i class="fa-solid fa-shield-check"></i></span>
-                    <div>
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mb-1">Direção Defensiva Integrada</h4>
-                        <p class="text-slate-400 text-xs">Reduz riscos de acidentes e evita multas por infrações do CTB.</p>
+                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex gap-3">
+                        <span class="text-previa-tealLight text-lg md:text-xl shrink-0 mt-0.5"><i class="fa-solid fa-shield-check"></i></span>
+                        <div>
+                            <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mb-1">Direção Defensiva Integrada</h4>
+                            <p class="text-slate-400 text-[11px] md:text-xs">Reduz riscos de acidentes e evita multas por infrações do CTB.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 23: REVISÃO RÁPIDA -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-23">
-            <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Revisão Express</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-xs font-bold text-red-400 uppercase">Regulamentação</span>
-                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mt-1">Borda Vermelha</h4>
-                    <p class="text-slate-400 text-xs mt-1">Obrigações e Proibições.</p>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-xs font-bold text-yellow-400 uppercase">Advertência</span>
-                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mt-1">Amarelo Cúbico</h4>
-                    <p class="text-slate-400 text-xs mt-1">Perigos e Alertas na pista.</p>
-                </div>
-                <div class="p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                    <span class="text-xs font-bold text-previa-tealLight uppercase">Indicação</span>
-                    <h4 class="font-title font-bold text-[var(--text-primary)] text-sm mt-1">Azul / Verde / Marrom</h4>
-                    <p class="text-slate-400 text-xs mt-1">Orientação, Rotas e Turismo.</p>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-23">
+            <div class="my-auto">
+                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Revisão Express</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-[10px] md:text-xs font-bold text-red-400 uppercase">Regulamentação</span>
+                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mt-0.5 md:mt-1">Borda Vermelha</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-0.5 md:mt-1">Obrigações e Proibições.</p>
+                    </div>
+                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-[10px] md:text-xs font-bold text-yellow-400 uppercase">Advertência</span>
+                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mt-0.5 md:mt-1">Amarelo Cúbico</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-0.5 md:mt-1">Perigos e Alertas na pista.</p>
+                    </div>
+                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
+                        <span class="text-[10px] md:text-xs font-bold text-previa-tealLight uppercase">Indicação</span>
+                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mt-0.5 md:mt-1">Azul / Verde / Marrom</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-0.5 md:mt-1">Orientação, Rotas e Turismo.</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 24: CONCLUSÃO -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-24">
-            <div class="text-center max-w-2xl mx-auto space-y-6">
-                <div class="w-20 h-20 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center text-4xl mx-auto shadow-lg">
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-24">
+            <div class="text-center max-w-2xl mx-auto space-y-4 md:space-y-6 my-auto">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center text-3xl md:text-4xl mx-auto shadow-lg">
                     <i class="fa-solid fa-trophy"></i>
                 </div>
-                <h2 class="text-3xl font-title font-extrabold text-[var(--text-primary)]">Módulo 1 Concluído!</h2>
-                <p class="text-slate-300 text-sm">Você completou o Módulo 1 sobre Placas, Cores e Caminhos da Legislação de Trânsito do Brasil.</p>
+                <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-[var(--text-primary)]">Módulo 1 Concluído!</h2>
+                <p class="text-slate-300 text-xs sm:text-sm">Você completou o Módulo 1 sobre Placas, Cores e Caminhos da Legislação de Trânsito do Brasil.</p>
             </div>
         </div>
 
         <!-- SLIDE 25: ENCERRAMENTO -->
-        <div class="slide-layout absolute inset-0 p-8 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12" id="slide-25">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full">
-                <div class="lg:col-span-12 space-y-4 text-center">
-                    <h2 class="text-2xl md:text-4xl font-title font-extrabold text-[var(--text-primary)] leading-tight">PREVIA - Educação para o Trânsito</h2>
-                    <p class="text-slate-300 text-sm max-w-xl mx-auto">Parabéns por dominar os fundamentos da sinalização viária brasileira.</p>
+        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-25">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 items-center my-auto">
+                <div class="lg:col-span-12 space-y-3 md:space-y-4 text-center">
+                    <h2 class="text-xl sm:text-2xl md:text-4xl font-title font-extrabold text-[var(--text-primary)] leading-tight">PREVIA - Educação para o Trânsito</h2>
+                    <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto">Parabéns por dominar os fundamentos da sinalização viária brasileira.</p>
                 </div>
             </div>
         </div>
@@ -755,41 +804,41 @@
     </div>
 
     <!-- CONTROLE DE AUDIO-LEITURA FIXO (Google Português do Brasil Feminino) -->
-    <div class="h-[65px] bg-white border-t border-previa-border px-6 flex items-center justify-between shrink-0 z-20">
-        <div class="flex items-center gap-3">
-            <button onclick="toggleAudio()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300 text-slate-700">
-                <i class="fa-solid fa-play text-sm" id="player-play-icon"></i>
+    <div class="h-[55px] md:h-[65px] bg-white border-t border-previa-border px-3 md:px-6 flex items-center justify-between shrink-0 z-20 gap-2">
+        <div class="flex items-center gap-2 md:gap-3 shrink-0">
+            <button onclick="toggleAudio()" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300 text-slate-700 shrink-0">
+                <i class="fa-solid fa-play text-xs md:text-sm" id="player-play-icon"></i>
             </button>
             <div class="flex flex-col">
-                <span class="text-xs font-bold text-slate-700">Narração Assistida</span>
-                <span class="text-[10px] font-medium text-previa-teal">Voz: Google Português do Brasil (Feminino)</span>
+                <span class="text-[11px] md:text-xs font-bold text-slate-700">Narração</span>
+                <span class="text-[9px] md:text-[10px] font-medium text-previa-teal truncate max-w-[120px] sm:max-w-none">Google PT-BR Feminino</span>
             </div>
         </div>
 
         <!-- Barra de Progressão do Áudio -->
-        <div class="flex-1 max-w-sm md:max-w-xl mx-4 relative">
-            <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+        <div class="flex-1 max-w-xs sm:max-w-sm md:max-w-xl mx-2 md:mx-4 relative">
+            <div class="w-full bg-slate-200 h-1.5 md:h-2 rounded-full overflow-hidden">
                 <div id="player-progress-bar" class="bg-previa-teal h-full w-0 transition-all duration-300"></div>
             </div>
         </div>
     </div>
 
     <!-- RODAPÉ DE NAVEGAÇÃO DA INTERFACE -->
-    <footer class="h-[85px] bg-previa-grayLight px-6 border-t border-previa-border flex items-center justify-between shrink-0 z-20">
-        <div class="flex items-center gap-3">
-            <button onclick="goToPrevSlide()" id="btn-prev" class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class="fa-solid fa-arrow-left"></i> Anterior
+    <footer class="h-[65px] md:h-[85px] bg-previa-grayLight px-3 md:px-6 border-t border-previa-border flex items-center justify-between shrink-0 z-20 gap-2">
+        <div class="flex items-center gap-2 md:gap-3">
+            <button onclick="goToPrevSlide()" id="btn-prev" class="px-3 md:px-5 py-2 md:py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-[11px] md:text-xs font-bold flex items-center gap-1.5 md:gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Anterior</span>
             </button>
-            <button onclick="goToNextSlide()" id="btn-next" class="px-5 py-2.5 bg-previa-teal hover:bg-previa-tealLight text-white rounded-lg text-xs font-bold flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                Próximo <i class="fa-solid fa-arrow-right"></i>
+            <button onclick="goToNextSlide()" id="btn-next" class="px-3 md:px-5 py-2 md:py-2.5 bg-previa-teal hover:bg-previa-tealLight text-white rounded-lg text-[11px] md:text-xs font-bold flex items-center gap-1.5 md:gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="hidden sm:inline">Próximo</span> <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
 
-        <div class="flex items-center gap-4">
-            <div class="text-xs font-bold text-slate-600 flex items-center gap-2" id="slide-indicator-container">
+        <div class="flex items-center gap-2 md:gap-4">
+            <div class="text-[11px] md:text-xs font-bold text-slate-600 flex items-center gap-2" id="slide-indicator-container">
                 <span id="slide-indicator-text">1 / 25</span>
             </div>
-            <a href="https://api.whatsapp.com/send?text=Olá,%20gostaria%20de%20esclarecer%20uma%20dúvida%20sobre%20o%20Módulo%201%20de%20Trânsito!" target="_blank" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-previa-teal text-white hover:bg-[#25d366] text-xs font-bold rounded-full transition-all">
+            <a href="https://api.whatsapp.com/send?text=Olá,%20gostaria%20de%20esclarecer%20uma%20dúvida%20sobre%20o%20Módulo%201%20de%20Trânsito!" target="_blank" class="hidden sm:flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-previa-teal text-white hover:bg-[#25d366] text-xs font-bold rounded-full transition-all">
                 <i class="fa-brands fa-whatsapp text-sm"></i> Consultor
             </a>
         </div>
@@ -895,10 +944,10 @@
         const icon = document.getElementById('fullscreen-icon');
         if (!document.fullscreenElement) {
             wrapper.requestFullscreen().catch(err => {});
-            icon.className = "fa-solid fa-compress text-sm";
+            if(icon) icon.className = "fa-solid fa-compress text-xs md:text-sm";
         } else {
             document.exitFullscreen();
-            icon.className = "fa-solid fa-expand text-sm";
+            if(icon) icon.className = "fa-solid fa-expand text-xs md:text-sm";
         }
     }
 
@@ -962,7 +1011,7 @@
         sentences = [];
         sentenceIndex = 0;
         document.getElementById('player-progress-bar').style.width = "0%";
-        document.getElementById('player-play-icon').className = "fa-solid fa-play text-sm";
+        document.getElementById('player-play-icon').className = "fa-solid fa-play text-xs md:text-sm";
         isPlaying = false;
     }
 
@@ -976,7 +1025,7 @@
 
     function playReading() {
         isPlaying = true;
-        document.getElementById('player-play-icon').className = "fa-solid fa-pause text-sm";
+        document.getElementById('player-play-icon').className = "fa-solid fa-pause text-xs md:text-sm";
 
         if (sentences.length === 0) {
             prepareSentences();
@@ -987,7 +1036,7 @@
 
     function pauseReading() {
         isPlaying = false;
-        document.getElementById('player-play-icon').className = "fa-solid fa-play text-sm";
+        document.getElementById('player-play-icon').className = "fa-solid fa-play text-xs md:text-sm";
         window.speechSynthesis.pause();
         stopKeepAlive();
     }
@@ -1098,11 +1147,11 @@
             factScore++;
             feedIcon.innerHTML = "✅";
             feedTitle.innerText = "Correto!";
-            feedTitle.className = "text-lg font-bold text-green-400";
+            feedTitle.className = "text-base md:text-lg font-bold text-green-400";
         } else {
             feedIcon.innerHTML = "❌";
             feedTitle.innerText = "Incorreto!";
-            feedTitle.className = "text-lg font-bold text-red-500";
+            feedTitle.className = "text-base md:text-lg font-bold text-red-500";
         }
         feedDesc.innerText = currentFact.explain;
         document.getElementById('fact-score').innerText = `Pontos: ${factScore}`;
@@ -1117,8 +1166,8 @@
         } else {
             document.getElementById('fact-text').innerText = `Atividade Concluída! Você pontuou ${factScore} de 3.`;
             document.getElementById('game-fact-container').innerHTML = `
-                <div class="text-center p-6 space-y-2">
-                    <p class="text-lg font-bold text-previa-tealLight">Atividade Concluída com Sucesso!</p>
+                <div class="text-center p-4 md:p-6 space-y-2">
+                    <p class="text-base md:text-lg font-bold text-previa-tealLight">Atividade Concluída com Sucesso!</p>
                 </div>
             `;
         }
@@ -1138,11 +1187,11 @@
         const signArea = document.getElementById('classifier-sign-area');
         if (currentClassifierIndex < classifierSigns.length) {
             const currentSign = classifierSigns[currentClassifierIndex];
-            let bgClass = "bg-white text-slate-800 border-4 border-red-500 rounded-full w-24 h-24";
+            let bgClass = "bg-white text-slate-800 border-4 border-red-500 rounded-full w-20 h-20 md:w-24 md:h-24";
             if (currentSign.type === "advertencia") {
-                bgClass = "bg-yellow-400 text-slate-900 rotate-45 border-2 border-slate-950 w-20 h-20";
+                bgClass = "bg-yellow-400 text-slate-900 rotate-45 border-2 border-slate-950 w-16 h-16 md:w-20 md:h-20";
             } else if (currentSign.type === "indicacao") {
-                bgClass = "bg-blue-600 text-white rounded-md w-24 h-16 border border-white/20";
+                bgClass = "bg-blue-600 text-white rounded-md w-20 h-14 md:w-24 md:h-16 border border-white/20";
             }
 
             signArea.innerHTML = `
@@ -1172,10 +1221,10 @@
         const feedback = document.getElementById('decision-feedback');
         if (choiceIndex === 1) {
             feedback.innerText = "Correto! Reduzir preventivamente na reta é a decisão correta.";
-            feedback.className = "mt-4 text-xs font-bold text-center text-green-400 h-6";
+            feedback.className = "mt-3 md:mt-4 text-[11px] md:text-xs font-bold text-center text-green-400 min-h-[24px]";
         } else {
             feedback.innerText = "Incorreto! Ações abruptas na curva provocam derrapagens graves.";
-            feedback.className = "mt-4 text-xs font-bold text-center text-red-400 h-6";
+            feedback.className = "mt-3 md:mt-4 text-[11px] md:text-xs font-bold text-center text-red-400 min-h-[24px]";
         }
     }
 
@@ -1183,10 +1232,10 @@
         const feedback = document.getElementById('hierarchy-feedback');
         if (choiceIndex === 1) {
             feedback.innerText = "Excelente! Agente de Trânsito lidera a hierarquia.";
-            feedback.className = "text-xs font-bold text-center mt-3 text-green-400 h-6";
+            feedback.className = "text-[11px] md:text-xs font-bold text-center mt-2 md:mt-3 text-green-400 min-h-[24px]";
         } else {
             feedback.innerText = "Incorreto! O Agente de Trânsito sempre prevalece sobre os demais.";
-            feedback.className = "text-xs font-bold text-center mt-3 text-red-400 h-6";
+            feedback.className = "text-[11px] md:text-xs font-bold text-center mt-2 md:mt-3 text-red-400 min-h-[24px]";
         }
     }
 
