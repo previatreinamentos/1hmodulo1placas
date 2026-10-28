@@ -1,1254 +1,1296 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PREVIA - Módulo 1: Placas, Cores e Caminhos</title>
-    <!-- Tailwind CSS para estilização moderna e responsiva -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts para tipografia premium -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome para ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CNH do Brasil — Módulo 1: Placas, Cores e Caminhos</title>
+  <style>
+    :root {
+      --primary: #00968a;
+      --primary-dark: #007b71;
+      --accent: #f47920;
+      --on-primary: #ffffff;
+      --slide-bg: #081c1a;
+      --slide-gradient: radial-gradient(1250px 650px at 80% -14%, rgba(0, 150, 138, 0.3), transparent 64%), radial-gradient(950px 540px at -8% 110%, rgba(244, 121, 32, 0.16), transparent 66%);
+      --slide-surface: rgba(0, 150, 138, 0.12);
+      --slide-border: rgba(0, 150, 138, 0.32);
+      --slide-text: #eaf6f4;
+      --slide-heading: #ffffff;
+      --slide-muted: rgba(234, 246, 244, 0.76);
+      --success: #22c55e;
+      --error: #ef4444;
+      --bg: #ffffff;
+      --bg-muted: #f3f4f6;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        previa: {
-                            navy: '#1e252b',        /* Azul Escuro Principal */
-                            navyDark: '#12181c',    /* Fundo geral escuro */
-                            teal: '#00848c',        /* Azul Turquesa / Teal */
-                            tealLight: '#00a9b4',  /* Teal Ativo */
-                            orange: '#ff823a',      /* Laranja de Destaque */
-                            white: '#ffffff',
-                            slate: '#334155',
-                            grayLight: '#f8fafc',
-                            border: '#e2e8f0'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        title: ['Poppins', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <style>
-        :root {
-            --font-scale: 1.0;
-            --bg-gradient-start: #1e252b;
-            --bg-gradient-via: #161c20;
-            --bg-gradient-end: #0f1316;
-            --text-primary: #ffffff;
-            --text-secondary: #cbd5e1;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-        .light-theme {
-            --bg-gradient-start: #f8fafc;
-            --bg-gradient-via: #f1f5f9;
-            --bg-gradient-end: #e2e8f0;
-            --text-primary: #1e252b;
-            --text-secondary: #475569;
-            --card-bg: #ffffff;
-            --card-border: #cbd5e1;
-        }
+    .view-container { display: none; }
+    .view-container.active { display: block; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-gradient-end);
-            user-select: none;
-            transition: background-color 0.3s ease;
-        }
+    .course-container, .module-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
 
-        .scaled-text-p {
-            font-size: calc(0.875rem * var(--font-scale)) !important;
-            line-height: 1.6;
-        }
-        .scaled-text-h2 {
-            font-size: calc(1.5rem * var(--font-scale)) !important;
-            line-height: 1.25;
-        }
-        @media (min-width: 768px) {
-            .scaled-text-h2 {
-                font-size: calc(1.875rem * var(--font-scale)) !important;
-            }
-        }
-        .scaled-text-h3 {
-            font-size: calc(1.125rem * var(--font-scale)) !important;
-        }
-        @media (min-width: 768px) {
-            .scaled-text-h3 {
-                font-size: calc(1.25rem * var(--font-scale)) !important;
-            }
-        }
-        .scaled-text-xs {
-            font-size: calc(0.75rem * var(--font-scale)) !important;
-        }
+    .course-header, .module-header {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        @media (min-width: 768px) {
-            .custom-scrollbar::-webkit-scrollbar {
-                width: 6px;
-            }
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #00848c;
-            border-radius: 3px;
-        }
-    </style>
+    .course-header h1, .module-header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .course-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      color: var(--text-muted);
+    }
+
+    .module-header {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .module-number {
+      width: 48px;
+      height: 48px;
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .objectives {
+      background: var(--bg-muted);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .objectives h2 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .objectives ul { padding-left: 1.5rem; }
+    .objectives li { margin-bottom: 0.5rem; }
+
+    .modules-list { margin-top: 2rem; }
+
+    .module-link {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .module-link:hover {
+      border-color: var(--primary);
+      background: rgba(0, 150, 138, 0.05);
+    }
+
+    .module-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .module-info p { font-size: 0.875rem; color: var(--text-muted); }
+
+    .screens-container { position: relative; }
+    .screen {
+      background: var(--slide-bg);
+      background-image: var(--slide-gradient);
+      border: 1px solid var(--slide-border);
+      border-radius: 24px;
+      padding: 2.5rem 2.75rem 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--slide-text);
+      box-shadow: 0 24px 60px rgba(8, 12, 14, 0.28);
+    }
+
+    .screen h3 {
+      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--slide-heading);
+      margin: 0.25rem 0 1.25rem;
+    }
+
+    .slide-kicker {
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700; margin: 0;
+    }
+    .slide-kicker::before { content: "●"; margin-right: 0.6rem; font-size: 0.6rem; }
+
+    .screen-text {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      column-gap: 2rem;
+      align-items: start;
+    }
+
+    .screen-text > .slide-kicker { grid-column: 1 / -1; grid-row: 1; }
+    .screen-text > h3 { grid-column: 1 / -1; grid-row: 2; }
+    .screen-text > .screen-body { grid-column: 1; grid-row: 3 / span 2; }
+    .screen-text > .screen-figure { grid-column: 2; grid-row: 3; }
+    .screen-text > .slide-keypoints { grid-column: 2; grid-row: 4; }
+    .screen-text > .slide-takeaway,
+    .screen-text > .screen-audio { grid-column: 1 / -1; }
+    .screen-text:not(:has(.screen-figure)):not(:has(.slide-keypoints)) { grid-template-columns: 1fr; }
+
+    .screen-body { color: var(--slide-muted); font-size: 1.02rem; line-height: 1.7; }
+    .screen-body p { margin: 0 0 0.85rem; }
+    .screen-body strong { color: var(--slide-heading); font-weight: 700; }
+    .screen-body ul, .screen-body ol { margin: 0 0 0.9rem 1.15rem; }
+    .screen-body li { margin-bottom: 0.4rem; }
+    .screen-body li::marker { color: var(--accent); }
+
+    .slide-keypoints {
+      background: var(--slide-surface); border: 1px solid var(--slide-border);
+      border-radius: 14px; padding: 1.1rem 1.25rem;
+    }
+    .slide-keypoints h4 { font-size: 0.95rem; color: var(--slide-heading); margin: 0 0 0.6rem; }
+    .slide-keypoints ul { margin: 0; padding-left: 1.05rem; }
+    .slide-keypoints li { color: var(--slide-muted); font-size: 0.9rem; margin-bottom: 0.45rem; }
+    .slide-keypoints li::marker { color: var(--accent); }
+
+    .slide-takeaway {
+      margin: 1.4rem 0 0; padding-left: 0.9rem; border-left: 3px solid var(--accent);
+      color: var(--slide-heading); font-weight: 600;
+    }
+
+    .screen .screen-figure { margin: 0 0 1.25rem; }
+    .screen .screen-figure .screen-image {
+      border-radius: 14px; border: 1px solid var(--slide-border); max-height: none; width: 100%;
+    }
+
+    .screen .screen-audio {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-top: 1.75rem; padding: 0.7rem 0.85rem;
+      background: var(--slide-surface); border: 1px solid var(--slide-border);
+      border-radius: 12px;
+    }
+    .screen .screen-audio-label {
+      flex: none; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--slide-muted);
+    }
+    .screen .screen-audio-guide { width: 100%; max-width: none; height: 34px; }
+
+    .activities-container {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .activities-container > h2 { color: var(--text); margin-bottom: 1.5rem; }
+
+    .activity {
+      display: flex;
+      flex-direction: column;
+      background: var(--slide-bg);
+      background-image: var(--slide-gradient);
+      border: 1px solid var(--slide-border);
+      border-radius: 20px;
+      padding: 1.75rem 2rem;
+      color: var(--slide-text);
+      box-shadow: 0 20px 50px rgba(8, 12, 14, 0.24);
+      margin-bottom: 1.5rem;
+    }
+
+    .activity-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem; }
+    .activity-kicker {
+      font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--slide-muted); font-weight: 600;
+    }
+    .activity-xp {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+      padding: 0.2rem 0.6rem; border-radius: 999px;
+      background: var(--slide-surface); border: 1px solid var(--slide-border);
+      color: var(--accent);
+    }
+
+    .activity h4 {
+      font-size: 1.2rem; line-height: 1.35; color: var(--slide-heading);
+      margin-bottom: 1.1rem;
+    }
+
+    .activity .options { counter-reset: opcao; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
+    .activity .option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: var(--slide-surface);
+      border: 1px solid var(--slide-border);
+      border-radius: 12px;
+      color: var(--slide-text);
+      cursor: pointer;
+      transition: border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .activity .option:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .activity .option input { position: absolute; opacity: 0; pointer-events: none; }
+    .activity .option::before {
+      counter-increment: opcao;
+      content: counter(opcao, upper-alpha);
+      flex: none;
+      width: 2rem; height: 2rem; border-radius: 999px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700; color: var(--accent);
+      background: var(--slide-bg); border: 1px solid var(--slide-border);
+    }
+    .activity .option:has(input:checked) { border-color: var(--accent); }
+
+    .activity .option-correct {
+      border-color: #34d399 !important; background: rgba(16, 185, 129, 0.16) !important; color: #ecfdf5 !important;
+    }
+    .activity .option-correct::before { color: #34d399; border-color: #34d399; }
+    .activity .option-incorrect {
+      border-color: #fb7185 !important; background: rgba(244, 63, 94, 0.16) !important; color: #fff1f2 !important;
+    }
+    .activity .option-incorrect::before { color: #fb7185; border-color: #fb7185; }
+
+    .activity .options.answered .option { cursor: default; }
+    .activity .options.answered .option:hover { transform: none; }
+
+    .feedback {
+      display: none;
+      margin-top: 1.1rem; padding: 0.9rem 1.1rem; border-radius: 12px;
+      border: 1px solid transparent; font-weight: 500;
+    }
+    .feedback.show { display: block; }
+    .feedback-correct {
+      background: rgba(16, 185, 129, 0.14); border-color: rgba(52, 211, 153, 0.45); color: #d1fae5;
+    }
+    .feedback-incorrect {
+      background: rgba(244, 63, 94, 0.14); border-color: rgba(251, 113, 133, 0.45); color: #ffe4e6;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.35rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-check {
+      background: var(--primary);
+      color: var(--on-primary);
+      align-self: flex-start;
+    }
+    .btn-check:hover { background: var(--primary-dark); }
+    .btn-check[disabled] { opacity: 0.55; cursor: default; }
+
+    .btn-prev, .btn-next, .btn-home {
+      background: var(--bg-muted);
+      color: var(--text);
+    }
+    .btn-prev:hover, .btn-next:hover, .btn-home:hover { background: var(--border); }
+
+    .module-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 780px) {
+      .screen-text { grid-template-columns: 1fr; }
+      .screen-text > .screen-body,
+      .screen-text > .screen-figure,
+      .screen-text > .slide-keypoints { grid-column: 1; }
+      .screen { padding: 1.5rem 1.25rem 1rem; }
+      .course-container, .module-container { padding: 1rem; }
+      .module-header { flex-direction: column; text-align: center; }
+      .module-number { margin: 0 auto; }
+      .activity { padding: 1.25rem 1.1rem; }
+    }
+  </style>
 </head>
-<body class="w-full h-screen overflow-hidden m-0 p-0 flex flex-col justify-between">
+<body>
 
-<div id="presentation-wrapper" class="w-full h-full bg-previa-navy flex flex-col justify-between relative overflow-hidden transition-all duration-300">
-    
-    <!-- CABEÇALHO DA INTERFACE -->
-    <header class="min-h-[60px] md:h-[75px] bg-white text-previa-navy px-3 md:px-6 py-2 flex items-center justify-between border-b-2 border-previa-border shrink-0 z-20 gap-2">
-        <div class="flex items-center gap-2 md:gap-3 shrink-0">
-            <div class="bg-previa-teal text-white font-title font-extrabold text-sm md:text-lg px-2.5 md:px-4 py-1 md:py-1.5 rounded-lg tracking-wider">PREVIA</div>
-            <div class="flex flex-col max-w-[150px] sm:max-w-none">
-                <span class="text-[10px] md:text-xs font-bold text-previa-teal tracking-wide uppercase truncate">Curso Teórico</span>
-                <span class="text-[9px] md:text-xs text-slate-500 font-medium truncate">Módulo 1: Placas, Cores e Caminhos</span>
-            </div>
+  <!-- VIEW: ÍNDICE DO CURSO -->
+  <div id="view-index" class="view-container active">
+    <div class="course-container">
+      <header class="course-header">
+        <h1>CNH do Brasil — Módulo 1: Placas, Cores e Caminhos</h1>
+        <p>Primeiro módulo teórico da jornada rumo à primeira habilitação: a linguagem da sinalização viária. As famílias de placas (regulamentação, advertência e indicação), a sinalização horizontal, os semáforos, os espaços cicloviários, os dispositivos auxiliares, a sinalização temporária e a hierarquia da sinalização — com áudio-guia em todas as telas e verificação de aprendizagem em cada módulo. Aprovação com aproveitamento mínimo de 70%.</p>
+        <div class="course-meta">
+          <span>5 módulos</span>
+          <span>240 minutos</span>
+          <span>400 XP</span>
         </div>
-        
-        <div class="flex items-center gap-1.5 md:gap-4 shrink-0">
-            <!-- Dropdown indicador do topo -->
-            <select id="slide-dropdown-select" onchange="jumpToSlide(this.value)" class="max-w-[100px] sm:max-w-[180px] md:max-w-none bg-slate-100 border border-slate-200 text-slate-700 text-[11px] md:text-xs font-semibold px-1.5 md:px-3 py-1 md:py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-previa-teal cursor-pointer truncate">
-                <!-- Injetado via JS -->
-            </select>
+      </header>
 
-            <!-- Botões de Acessibilidade: Tamanho de Fonte -->
-            <div class="flex bg-slate-100 border border-slate-200 rounded-lg overflow-hidden shrink-0">
-                <button onclick="changeFontSize(-0.1)" class="px-2 md:px-3 py-1 md:py-1.5 text-[11px] md:text-xs font-bold text-slate-700 hover:bg-previa-teal hover:text-white transition-all duration-200" title="Diminuir Fonte">A-</button>
-                <button onclick="changeFontSize(0.1)" class="px-2 md:px-3 py-1 md:py-1.5 text-[11px] md:text-xs font-bold text-slate-700 border-l border-slate-200 hover:bg-previa-teal hover:text-white transition-all duration-200" title="Aumentar Fonte">A+</button>
-            </div>
+      <section class="objectives">
+        <h2>Objetivos de Aprendizagem</h2>
+        <ul>
+          <li>Reconhecer os seis tipos de sinalização viária e a função de cada um</li>
+          <li>Distinguir as três famílias de placas pela cor e pelo formato</li>
+          <li>Associar cor e formato ao tipo de mensagem antes de ler o símbolo</li>
+          <li>Reconhecer o formato, as cores e a missão das placas de regulamentação</li>
+          <li>Diferenciar PARE de DÊ A PREFERÊNCIA e aplicar cada ordem corretamente</li>
+          <li>Distinguir proibido estacionar de proibido parar e estacionar</li>
+          <li>Reconhecer o losango amarelo e o papel preventivo das placas de advertência</li>
+          <li>Reagir corretamente aos avisos de curvas, relevo de pista e encontros de vias</li>
+          <li>Redobrar a atenção nos avisos de presença de pessoas: escolares, pedestres e ciclistas</li>
+          <li>Reconhecer o papel informativo das placas de indicação e seu formato retangular</li>
+        </ul>
+      </section>
 
-            <!-- Botão Modo Claro/Escuro -->
-            <button onclick="toggleTheme()" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300 text-slate-700 shrink-0" title="Alternar Modo Claro/Escuro">
-                <i class="fa-solid fa-circle-half-stroke text-xs md:text-sm"></i>
-            </button>
-
-            <!-- Botão de Expandir Tela Cheia (Escondido em telas muito pequenas para dar espaço) -->
-            <button onclick="toggleFullScreen()" class="hidden sm:flex w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 items-center justify-center cursor-pointer transition-all duration-300 shrink-0" title="Expandir Tela">
-                <i class="fa-solid fa-expand text-xs md:text-sm" id="fullscreen-icon"></i>
-            </button>
+      <section class="modules-list">
+        <h2>Módulos</h2>
+        <div onclick="navigateTo('module_1')" class="module-link">
+          <div class="module-number">1</div>
+          <div class="module-info">
+            <h3>A Linguagem do Trânsito</h3>
+            <p>8 telas • 5 atividades • 45 min</p>
+          </div>
         </div>
-    </header>
-
-    <!-- BARRA DE PROGRESSO SEGMENTADA -->
-    <div class="bg-white px-3 md:px-6 pb-2 md:pb-3 flex gap-0.5 md:gap-1 z-10 shrink-0" id="progress-bar-container">
-        <!-- Gerado dinamicamente via JS -->
+        <div onclick="navigateTo('module_2')" class="module-link">
+          <div class="module-number">2</div>
+          <div class="module-info">
+            <h3>Placas de Regulamentação: Quando o Trânsito Dá Ordens</h3>
+            <p>8 telas • 5 atividades • 45 min</p>
+          </div>
+        </div>
+        <div onclick="navigateTo('module_3')" class="module-link">
+          <div class="module-number">3</div>
+          <div class="module-info">
+            <h3>Placas de Advertência: Seus Anjos da Guarda no Asfalto</h3>
+            <p>8 telas • 5 atividades • 45 min</p>
+          </div>
+        </div>
+        <div onclick="navigateTo('module_4')" class="module-link">
+          <div class="module-number">4</div>
+          <div class="module-info">
+            <h3>Placas de Indicação: Suas Guias Amigáveis</h3>
+            <p>8 telas • 5 atividades • 40 min</p>
+          </div>
+        </div>
+        <div onclick="navigateTo('module_5')" class="module-link">
+          <div class="module-number">5</div>
+          <div class="module-info">
+            <h3>O Chão, as Luzes e os Guardiões da Via</h3>
+            <p>8 telas • 5 atividades • 50 min</p>
+          </div>
+        </div>
+      </section>
     </div>
+  </div>
 
-    <!-- VIEWPORT DE SLIDES -->
-    <div id="slides-viewport" class="flex-1 relative overflow-hidden bg-gradient-to-br from-[#1e252b] via-[#161c20] to-[#0f1316] transition-all duration-300">
-        
-        <!-- SLIDE 1: CAPA PRINCIPAL -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-1">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
-                <div class="space-y-3 md:space-y-6 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-previa-orange/10 border border-previa-orange/20 text-previa-orange text-[10px] md:text-xs font-semibold uppercase tracking-wider">
-                        <i class="fa-solid fa-graduation-cap"></i> CNH do Brasil
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl md:text-5xl font-title font-extrabold text-[var(--text-primary)] leading-tight">
-                        Placas, Cores e<br><span class="text-previa-tealLight">Caminhos</span>
-                    </h1>
-                    <p class="text-[var(--text-secondary)] scaled-text-p max-w-md mx-auto lg:mx-0">
-                        Bem-vindo ao seu primeiro contato real com a linguagem das vias de trânsito brasileiras. Vamos decifrar os símbolos, as cores e as regras de segurança do Código de Trânsito Brasileiro.
-                    </p>
-                </div>
-                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/10 max-w-xs sm:max-w-sm md:max-w-md mx-auto w-full">
-                    <!-- INSERIR IMAGEM AQUI: Capa Ilustrativa do Módulo 1 (Trânsito e Placas) -->
-                    <img src="https://placehold.co/400x300/12181c/00a9b4?text=Imagem+da+Capa+Modulo+1" alt="Imagem da Capa Módulo 1 - Trânsito e Placas" class="w-full h-auto rounded-xl shadow-md border border-white/10 object-cover max-h-[160px] sm:max-h-[220px] md:max-h-none">
-                    <span class="text-[10px] md:text-[11px] text-slate-400 mt-2">Imagem: Linguagem Visual das Vias</span>
-                </div>
-            </div>
+  <!-- VIEW: MÓDULO 1 -->
+  <div id="view-module_1" class="view-container">
+    <div class="module-container">
+      <header class="module-header">
+        <div class="module-number">1</div>
+        <div>
+          <h1>A Linguagem do Trânsito</h1>
+          <p>Reconhecer os seis tipos de sinalização viária e a função de cada um · Distinguir as três famílias de placas pela cor e pelo formato · Associar cor e formato ao tipo de mensagem antes de ler o símbolo</p>
         </div>
+      </header>
 
-        <!-- SLIDE 2: O TRÂNSITO TEM SUA PRÓPRIA LINGUAGEM -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-2">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-4">O Trânsito Tem Sua Própria <span class="text-previa-tealLight">Linguagem</span></h2>
-                <p class="text-[var(--text-secondary)] scaled-text-p max-w-3xl mb-4 md:mb-6">
-                    Você já parou para pensar em quantas mensagens recebe enquanto dirige? Placas coloridas, linhas pintadas no asfalto, semáforos piscando. Todo esse sistema foi planejado para ser universal, simples e previsível.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-xl">
-                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-previa-teal/20 text-previa-tealLight flex items-center justify-center text-base md:text-lg mb-2 md:mb-3">
-                            <i class="fa-solid fa-earth-americas"></i>
-                        </div>
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">Universalidade Nacional</h3>
-                        <p class="text-slate-400 scaled-text-xs">As mesmas regras de formatos e cores funcionam em todo o território brasileiro.</p>
-                    </div>
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-xl">
-                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-previa-orange/20 text-previa-orange flex items-center justify-center text-base md:text-lg mb-2 md:mb-3">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">Leitura Instantânea</h3>
-                        <p class="text-slate-400 scaled-text-xs">Cores e formas icônicas são captadas rapidamente pelo nosso cérebro.</p>
-                    </div>
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-xl">
-                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center text-base md:text-lg mb-2 md:mb-3">
-                            <i class="fa-solid fa-shield-heart"></i>
-                        </div>
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">Prevenção de Sinistros</h3>
-                        <p class="text-slate-400 scaled-text-xs">Cada placa sinaliza um perigo invisível à frente, ajudando a salvar vidas.</p>
-                    </div>
-                </div>
-            </div>
+      <section class="objectives">
+        <h2>Objetivos</h2>
+        <ul>
+          <li>Reconhecer os seis tipos de sinalização viária e a função de cada um</li>
+          <li>Distinguir as três famílias de placas pela cor e pelo formato</li>
+          <li>Associar cor e formato ao tipo de mensagem antes de ler o símbolo</li>
+        </ul>
+      </section>
+
+      <div class="screens-container">
+        <div class="screen screen-text">
+          <p class="slide-kicker">MÓDULO 1</p>
+          <h3>A Linguagem do Trânsito</h3>
+          <div class="screen-body"><p>Neste módulo: o trânsito como sistema de comunicação; os seis tipos de sinalização; as placas como mensageiras; as três famílias de placas; o código de cores e formatos que você lê em fração de segundo.</p></div>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s0.mp3"></audio></div>
         </div>
-
-        <!-- SLIDE 3: CATEGORIAS DE SINALIZAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-3">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-3">A Grande Família da <span class="text-previa-tealLight">Sinalização</span></h2>
-                <p class="text-[var(--text-secondary)] scaled-text-p max-w-2xl mb-4 md:mb-6">Explore as 6 categorias fundamentais de sinalização que organizam o fluxo de tráfego:</p>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 md:gap-4 max-h-[320px] md:max-h-[380px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-map-pin"></i></span>
-                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Vertical (Placas)</h4>
-                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Sinais fixados em postes: regulamentação, advertência e indicação.</p>
-                    </div>
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-road"></i></span>
-                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Horizontal (Solo)</h4>
-                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Pinturas, faixas de pedestre, linhas de bordo e marcas no asfalto.</p>
-                    </div>
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-traffic-light"></i></span>
-                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Semafórica</h4>
-                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Sinais luminosos para controle de fluxo veicular e de pedestres.</p>
-                    </div>
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-bicycle"></i></span>
-                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Cicloviária</h4>
-                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Marcações específicas de vias exclusivas para ciclistas.</p>
-                    </div>
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-triangle-exclamation"></i></span>
-                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Dispositivos Auxiliares</h4>
-                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Cones, tachas refletivas, balizadores e defensas metálicas.</p>
-                    </div>
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-previa-tealLight text-lg md:text-xl inline-block mb-1 md:mb-2"><i class="fa-solid fa-person-digging"></i></span>
-                        <h4 class="font-title font-bold text-xs md:text-sm text-[var(--text-primary)]">Sinalização Temporária</h4>
-                        <p class="text-slate-400 text-[10px] md:text-[11px] mt-0.5 md:mt-1">Avisos de cor laranja para obras e desvios operacionais.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m1-s1.jpg" alt="O trânsito fala com você" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 1.1</p>
+          <h3>O trânsito fala com você</h3>
+          <div class="screen-body"><p>Você já parou para pensar em quantas mensagens recebe enquanto dirige? Placas coloridas, linhas no chão, semáforos piscando, símbolos que aparecem e desaparecem. Tudo isso forma um <strong>sistema de comunicação sofisticado</strong>, mas incrivelmente simples quando você aprende a "ler" essa linguagem.</p><p>A sinalização de trânsito não foi criada para complicar sua vida — muito pelo contrário. Ela existe para tornar o trânsito <strong>mais seguro, organizado e previsível</strong>. É como se cada placa, cada faixa no chão e cada semáforo fosse um amigo te dando dicas sobre o que vem pela frente.</p><p><strong>E o melhor de tudo?</strong> Essa linguagem é universal em todo o Brasil. Uma placa "PARE" em Manaus significa exatamente a mesma coisa que uma placa "PARE" em Porto Alegre. Isso garante que você possa dirigir com confiança em qualquer lugar do país, sabendo que as regras são as mesmas para todos.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>A sinalização é um sistema de comunicação — e você vai aprender a lê-lo</li><li>Ela existe para dar segurança, organização e previsibilidade</li><li>A linguagem é a mesma em todo o Brasil</li></ul></aside>
+          <p class="slide-takeaway">A sinalização é uma linguagem universal: igual em todo o Brasil</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s1.mp3"></audio></div>
         </div>
-
-        <!-- SLIDE 4: AS TRÊS FAMÍLIAS DE PLACAS -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-4">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-1 md:mb-2">As Famílias de <span class="text-previa-tealLight">Placas</span></h2>
-                <p class="text-[var(--text-secondary)] scaled-text-p mb-4 md:mb-6">Associe cada tipo com uma cor e uma finalidade principal:</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
-                    <div class="bg-red-500/10 border border-red-500/20 p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa de Regulamentação (Ex: Placa PARE R-1) -->
-                        <img src="https://placehold.co/120x120/ef4444/ffffff?text=Placa+R-1+PARE" alt="Imagem da placa de Regulamentação PARE R-1" class="w-16 h-16 md:w-24 md:h-24 rounded-lg object-contain mb-2 md:mb-3 shadow">
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Regulamentação</h3>
-                        <p class="text-slate-400 scaled-text-xs mt-1 md:mt-2 leading-relaxed">Impõem obrigações, restrições e proibições.</p>
-                        <span class="mt-2 md:mt-4 px-2.5 md:px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-[10px] md:text-[11px] font-semibold uppercase">Vermelho = Obedeça</span>
-                    </div>
-                    <div class="bg-yellow-500/10 border border-yellow-500/20 p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa de Advertência (Ex: Placa Lombada A-18) -->
-                        <img src="https://placehold.co/120x120/eab308/000000?text=Placa+A-18+Lombada" alt="Imagem da placa de Advertência Lombada A-18" class="w-16 h-16 md:w-24 md:h-24 rounded-lg object-contain mb-2 md:mb-3 shadow">
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Advertência</h3>
-                        <p class="text-slate-400 scaled-text-xs mt-1 md:mt-2 leading-relaxed">Alertam sobre condições potencialmente perigosas na via.</p>
-                        <span class="mt-2 md:mt-4 px-2.5 md:px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-[10px] md:text-[11px] font-semibold uppercase">Amarelo = Atenção</span>
-                    </div>
-                    <div class="bg-previa-teal/10 border border-previa-teal/20 p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa de Indicação (Ex: Placa de Orientação de Destino) -->
-                        <img src="https://placehold.co/120x120/00848c/ffffff?text=Placa+Indicacao" alt="Imagem da placa de Indicação" class="w-16 h-16 md:w-24 md:h-24 rounded-lg object-contain mb-2 md:mb-3 shadow">
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)]">Indicação</h3>
-                        <p class="text-slate-400 scaled-text-xs mt-1 md:mt-2 leading-relaxed">Orientam caminhos, rotas, serviços e pontos turísticos.</p>
-                        <span class="mt-2 md:mt-4 px-2.5 md:px-3 py-1 bg-previa-teal/20 text-previa-tealLight rounded-full text-[10px] md:text-[11px] font-semibold uppercase">Azul/Verde = Guia</span>
-                    </div>
-                </div>
-            </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m1-s2.jpg" alt="As seis famílias da sinalização" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 1.2</p>
+          <h3>As seis famílias da sinalização</h3>
+          <div class="screen-body"><p>Cada tipo de sinalização tem personalidade e função específica, trabalhando junto para criar um sistema completo de comunicação no trânsito:</p><ul><li><strong>Sinalização Vertical (placas)</strong> — as famosas placas fixadas em postes. Cartazes estrategicamente posicionados para transmitir mensagens importantes rapidamente.</li><li><strong>Sinalização Horizontal (pintura no chão)</strong> — linhas, faixas, setas e símbolos pintados no asfalto. O mapa visual que guia seu caminho pela pista.</li><li><strong>Sinalização Semafórica</strong> — os semáforos que controlam o fluxo através de luzes coloridas. Os maestros que regem o ritmo do trânsito.</li><li><strong>Sinalização Cicloviária</strong> — marcações especiais que indicam onde os ciclistas devem circular, garantindo segurança para todos.</li><li><strong>Dispositivos Auxiliares</strong> — os ajudantes físicos: cones, tachas refletivas, balizadores. Complementam e reforçam as outras sinalizações.</li><li><strong>Sinalização Temporária</strong> — indicações provisórias, geralmente em obras. Placas na cor laranja, cones e cavaletes que aparecem e desaparecem conforme a necessidade.</li></ul></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Vertical = placas · Horizontal = chão · Semafórica = luzes</li><li>Cicloviária protege ciclistas; auxiliares reforçam; temporária = obras (laranja)</li><li>As seis famílias trabalham juntas como um único sistema</li></ul></aside>
+          <p class="slide-takeaway">Seis tipos de sinalização, um único sistema de comunicação</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s2.mp3"></audio></div>
         </div>
-
-        <!-- SLIDE 5: PLACAS DE REGULAMENTAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-5">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
-                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
-                    <span class="text-red-500 font-bold uppercase text-[10px] md:text-xs tracking-wider">Família de Comando</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Placas de Regulamentação</h2>
-                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
-                        Representam obrigações, restrições e proibições imediatas. Seu descumprimento constitui infração de trânsito regulamentada pelo CTB.
-                    </p>
-                </div>
-                <div class="bg-black/20 p-4 md:p-6 rounded-2xl border border-white/5 flex flex-row sm:flex-row justify-around items-center gap-3 md:gap-6">
-                    <div class="flex flex-col items-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-1 (Parada Obrigatória) -->
-                        <img src="https://placehold.co/140x140/ef4444/ffffff?text=Placa+R-1+PARE" alt="Imagem da placa R-1 Parada Obrigatória" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain rounded-lg border border-white/10 shadow-lg">
-                        <span class="text-[10px] md:text-xs text-slate-300 mt-2 font-bold text-center">Placa R-1: Parada Obrigatória</span>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-2 (Dê a Preferência) -->
-                        <img src="https://placehold.co/140x140/ffffff/ef4444?text=Placa+R-2+De+a+Preferência" alt="Imagem da placa R-2 Dê a Preferência" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain rounded-lg border border-white/10 shadow-lg">
-                        <span class="text-[10px] md:text-xs text-slate-300 mt-2 font-bold text-center">Placa R-2: Dê a Preferência</span>
-                    </div>
-                </div>
-            </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m1-s3.jpg" alt="Placas: mensageiras que nunca tiram folga" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 1.3</p>
+          <h3>Placas: mensageiras que nunca tiram folga</h3>
+          <div class="screen-body"><p>Quantas placas você acha que vê em um dia normal de direção? Provavelmente <strong>centenas</strong>! Elas estão por toda parte: nas esquinas, nas entradas de bairros, nas rodovias, nos estacionamentos. E cada uma delas está ali por um motivo muito específico: <strong>conversar com você</strong>.</p><p>Pense nas placas como mensageiras silenciosas que nunca tiram folga. Trabalham 24 horas por dia, 7 dias por semana:</p><ul><li>Algumas <strong>alertam sobre perigos invisíveis</strong> mais à frente;</li><li>Outras <strong>dizem claramente o que você pode ou não fazer</strong>;</li><li>E há aquelas que simplesmente <strong>te guiam</strong> para onde você quer chegar.</li></ul><p>A genialidade das placas está na simplicidade. Elas usam <strong>símbolos universais, cores estratégicas e formas distintas</strong> que podem ser compreendidas em frações de segundo — mesmo dirigindo a 80 km/h ou sob estresse. Não é preciso ler textos longos: uma olhada rápida e você já sabe o que fazer.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Placas trabalham 24/7: alertam, ordenam ou guiam</li><li>Símbolo + cor + formato = mensagem em fração de segundo</li><li>Não é preciso ler texto longo — a forma já comunica</li></ul></aside>
+          <p class="slide-takeaway">Símbolo, cor e formato comunicam em fração de segundo</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s3.mp3"></audio></div>
         </div>
-
-        <!-- SLIDE 6: ATIVIDADE FATO OU FAKE -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-6">
-            <div class="my-auto">
-                <div class="text-center mb-3 md:mb-4">
-                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Atividade Prática Opcional</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1 md:mt-2">Desafio: Fato ou Fake?</h2>
-                    <p class="text-slate-400 text-[11px] md:text-xs mt-0.5">Teste seus conhecimentos ou avance livremente para o próximo slide.</p>
-                </div>
-                <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6 relative">
-                    <div id="game-fact-container" class="space-y-3 md:space-y-4">
-                        <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                            <span class="text-[11px] md:text-xs font-bold text-previa-tealLight" id="fact-card-counter">Questão 1 de 3</span>
-                            <span class="text-[11px] md:text-xs text-slate-400" id="fact-score">Pontos: 0</span>
-                        </div>
-                        <p class="text-xs sm:text-sm md:text-base font-semibold text-center text-[var(--text-primary)] py-2 md:py-4 min-h-[60px] md:h-20 flex items-center justify-center" id="fact-text">
-                            "Desobedecer à placa de STOP no cruzamento é permitido se não houver tráfego visível à esquerda ou direita."
-                        </p>
-                        <div class="grid grid-cols-2 gap-3 md:gap-4">
-                            <button onclick="answerFact(true)" class="py-2.5 md:py-3 rounded-xl bg-green-500/20 border border-green-500/40 text-green-300 font-bold hover:bg-green-500/30 text-xs md:text-sm transition-all cursor-pointer">FATO</button>
-                            <button onclick="answerFact(false)" class="py-2.5 md:py-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 text-xs md:text-sm transition-all cursor-pointer">FAKE</button>
-                        </div>
-                    </div>
-                    <div id="game-fact-feedback" class="hidden absolute inset-0 bg-previa-navy/95 rounded-2xl flex flex-col items-center justify-center p-4 md:p-6 text-center z-10">
-                        <span id="fact-feedback-icon" class="text-3xl md:text-4xl mb-1 md:mb-2"></span>
-                        <h3 id="fact-feedback-title" class="text-base md:text-lg font-title font-bold text-white">Feedback</h3>
-                        <p id="fact-feedback-desc" class="text-[11px] md:text-xs text-slate-300 mt-1 md:mt-2 max-w-sm"></p>
-                        <button onclick="nextFact()" id="fact-next-btn" class="mt-3 md:mt-4 px-5 md:px-6 py-2 bg-previa-teal hover:bg-previa-tealLight text-white rounded-lg text-xs font-bold transition-all">Continuar</button>
-                    </div>
-                </div>
-            </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m1-s4.jpg" alt="As três famílias de placas" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 1.4</p>
+          <h3>As três famílias de placas</h3>
+          <div class="screen-body"><p>Assim como as famílias têm características próprias, cada grupo de placas tem sua <strong>cor marcante, formato especial e missão específica</strong>:</p><p><strong>Placas de Regulamentação — as chefes do trânsito</strong> Mandam, proíbem e estabelecem regras que você deve seguir <strong>obrigatoriamente</strong>. São vermelho e branco, cores que gritam "atenção, isso é sério!". Desobedecer é infração.</p><p><strong>Placas de Advertência — as vigilantes protetoras</strong> Avisam <strong>com antecedência</strong> sobre perigos e situações especiais que estão por vir. São amarelas brilhantes para que você as veja de longe e tenha tempo de reagir.</p><p><strong>Placas de Indicação — as prestativas e amigas</strong> Orientam com <strong>informações úteis</strong> sobre direções, serviços e pontos de interesse. São azuis, verdes, marrons ou brancas, dependendo do tipo de informação.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Regulamentação (vermelho/branco) = ordem obrigatória</li><li>Advertência (amarelo) = perigo à frente, prepare-se</li><li>Indicação (azul/verde/marrom/branco) = informação útil</li></ul></aside>
+          <p class="slide-takeaway">Três famílias: quem manda, quem avisa e quem ajuda</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s4.mp3"></audio></div>
         </div>
-
-        <!-- SLIDE 7: PLACAS DE REGULAMENTAÇÃO COMUNS -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-7">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Sinais de Regulamentação Mais Comuns</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-h-[350px] md:max-h-[380px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
-                    
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-6a (Proibido Estacionar) -->
-                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-6a" alt="Imagem da placa R-6a Proibido Estacionar" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-6a: Proibido Estacionar</h4>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-6c (Proibido Parar e Estacionar) -->
-                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-6c" alt="Imagem da placa R-6c Proibido Parar e Estacionar" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-6c: Proibido Parar e Estacionar</h4>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-19 (Velocidade Máxima Permitida 80 km/h) -->
-                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-19+80km" alt="Imagem da placa R-19 Velocidade Máxima Permitida" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-19: Vel. Máxima Permitida</h4>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-3 (Sentido Proibido) -->
-                        <img src="https://placehold.co/100x100/ffffff/ef4444?text=Placa+R-3" alt="Imagem da placa R-3 Sentido Proibido" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-full border border-red-500 mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">R-3: Sentido Proibido</h4>
-                    </div>
-
-                </div>
-            </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m1-s5.jpg" alt="Cor é emoção: o código instintivo" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">DICA DE OURO</p>
+          <h3>Cor é emoção: o código instintivo</h3>
+          <div class="screen-body"><p><strong>Associe a cor com a emoção!</strong> Essa associação mental vai te ajudar a reagir instintivamente:</p><ul><li><strong>Vermelho = pare e obedeça.</strong> É a cor da ordem, da regra inegociável.</li><li><strong>Amarelo = cuidado e atenção.</strong> Algo à frente exige que você se prepare.</li><li><strong>Azul/Verde = relaxe, é só uma ajuda.</strong> Informação útil, sem cobrança.</li></ul><p>É assim que motoristas experientes leem o trânsito: <strong>primeiro a cor, depois o formato e só então o símbolo</strong>.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Vermelho = pare e obedeça</li><li>Amarelo = cuidado e atenção</li><li>Azul/Verde = relaxe, é só uma ajuda</li></ul></aside>
+          <p class="slide-takeaway">Vermelho obedeça · Amarelo atenção · Azul/verde ajuda</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s5.mp3"></audio></div>
         </div>
-
-        <!-- SLIDE 8: PLACAS DE ADVERTÊNCIA -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
-                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
-                    <span class="text-yellow-400 font-bold uppercase text-[10px] md:text-xs tracking-wider">Alertas Preventivos</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Placas de Advertência</h2>
-                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">Alertam sobre condições de risco, como curvas acentuadas, lombadas e cruzamentos perigosos à frente.</p>
-                </div>
-                <div class="flex justify-center">
-                    <div class="bg-black/20 p-4 md:p-6 rounded-2xl border border-white/5 flex flex-col items-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-18 (Saliência ou Lombada) -->
-                        <img src="https://placehold.co/180x180/eab308/000000?text=Placa+A-18+Lombada" alt="Imagem da placa A-18 Saliência ou Lombada" class="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain rounded-lg border border-white/10 shadow-lg">
-                        <span class="text-[11px] md:text-xs text-slate-300 font-bold mt-2 md:mt-4 text-center">Placa A-18: Saliência ou Lombada</span>
-                    </div>
-                </div>
-            </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m1-s6.jpg" alt="Formato também fala" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 1.5</p>
+          <h3>Formato também fala</h3>
+          <div class="screen-body"><p>Além da cor, o <strong>formato</strong> da placa é mensagem pura — pensado para ser reconhecido mesmo quando a visibilidade é ruim:</p><ul><li><strong>Octógono (8 lados)</strong> — exclusivo da placa <strong>PARE</strong>. Você a reconhece até de costas ou parcialmente coberta.</li><li><strong>Triângulo invertido</strong> — exclusivo do <strong>DÊ A PREFERÊNCIA</strong>. Inconfundível mesmo à distância.</li><li><strong>Círculo</strong> — o padrão das placas de <strong>regulamentação</strong>: ordens e proibições.</li><li><strong>Losango</strong> — o padrão das placas de <strong>advertência</strong>: perigo à frente.</li><li><strong>Retângulo</strong> — o padrão das placas de <strong>indicação</strong>: informação e orientação.</li></ul></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Octógono = PARE (única com 8 lados)</li><li>Triângulo invertido = DÊ A PREFERÊNCIA (único)</li><li>Círculo = ordem · Losango = perigo · Retângulo = informação</li></ul></aside>
+          <p class="slide-takeaway">PARE e DÊ A PREFERÊNCIA têm formatos exclusivos de propósito</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s6.mp3"></audio></div>
         </div>
-
-        <!-- SLIDE 9: PLACAS DE ADVERTÊNCIA COMUNS -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-9">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2">Advertência: Situações de Alerta</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-h-[350px] md:max-h-[380px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
-                    
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-2a (Curva à Esquerda) -->
-                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-2a" alt="Imagem da placa A-2a Curva à Esquerda" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-2a: Curva à Esquerda</h4>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-14 (Semáforo à Frente) -->
-                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-14" alt="Imagem da placa A-14 Semáforo à Frente" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-14: Semáforo à Frente</h4>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-33b (Passagem de Escolares) -->
-                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-33b" alt="Imagem da placa A-33b Escolares" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-33b: Escolares</h4>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-4 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-45 (Rua Sem Saída) -->
-                        <img src="https://placehold.co/100x100/eab308/000000?text=Placa+A-45" alt="Imagem da placa A-45 Rua Sem Saída" class="w-16 h-16 md:w-20 md:h-20 object-contain rounded-lg mb-2 md:mb-3 shadow">
-                        <h4 class="text-[11px] md:text-xs font-bold text-[var(--text-primary)] mb-1">A-45: Rua Sem Saída</h4>
-                    </div>
-
-                </div>
-            </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m1-s7.jpg" alt="Seu mapa desta jornada" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">RECAPITULANDO</p>
+          <h3>Seu mapa desta jornada</h3>
+          <div class="screen-body"><p>Você acabou de aprender o <strong>alfabeto do trânsito</strong>. A partir daqui, cada módulo aprofunda uma parte da linguagem.</p><ol><li>Os seis tipos de sinalização e a função de cada um;</li><li>As três famílias de placas e suas cores;</li><li>O código instintivo: vermelho obedeça, amarelo atenção, azul/verde ajuda;</li><li>Os formatos que falam: octógono, triângulo invertido, círculo, losango e retângulo.</li></ol></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Seis tipos de sinalização · três famílias de placas</li><li>Cor = emoção; formato = mensagem</li><li>Próxima parada: as ordens das placas de regulamentação</li></ul></aside>
+          <p class="slide-takeaway">Você aprendeu o alfabeto — agora vamos às palavras</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m1-s7.mp3"></audio></div>
         </div>
+      </div>
 
-        <!-- SLIDE 10: GUIA DE FIXAÇÃO DE PLACAS E SINAIS -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-10">
-            <div class="my-auto">
-                <div class="mb-3 md:mb-4">
-                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Fixação Prática</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Galeria Ilustrativa de Placas e Significados</h2>
-                    <p class="text-slate-400 text-[11px] md:text-xs mt-0.5">Conheça o catálogo das principais placas do Código de Trânsito Brasileiro:</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 max-h-[300px] md:max-h-[350px] overflow-y-auto pr-1 md:pr-2 custom-scrollbar">
-                    
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-1 (Parada Obrigatória) -->
-                        <img src="https://placehold.co/80x80/ef4444/ffffff?text=R-1" alt="Imagem da placa R-1 Parada Obrigatória" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
-                        <div>
-                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa R-1</h4>
-                            <p class="text-[10px] md:text-[11px] text-slate-400">Parada Obrigatória</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
-                        <!-- INSERIR IMAGEM AQUI: Placa R-19 (Velocidade Máxima Permitida) -->
-                        <img src="https://placehold.co/80x80/ffffff/ef4444?text=R-19" alt="Imagem da placa R-19 Velocidade Máxima" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
-                        <div>
-                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa R-19</h4>
-                            <p class="text-[10px] md:text-[11px] text-slate-400">Velocidade Máxima Permitida</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-18 (Saliência ou Lombada) -->
-                        <img src="https://placehold.co/80x80/eab308/000000?text=A-18" alt="Imagem da placa A-18 Lombada" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
-                        <div>
-                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-18</h4>
-                            <p class="text-[10px] md:text-[11px] text-slate-400">Saliência ou Lombada</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-2a (Curva à Esquerda) -->
-                        <img src="https://placehold.co/80x80/eab308/000000?text=A-2a" alt="Imagem da placa A-2a Curva à Esquerda" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
-                        <div>
-                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-2a</h4>
-                            <p class="text-[10px] md:text-[11px] text-slate-400">Curva à Esquerda</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-14 (Semáforo à Frente) -->
-                        <img src="https://placehold.co/80x80/eab308/000000?text=A-14" alt="Imagem da placa A-14 Semáforo à Frente" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
-                        <div>
-                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-14</h4>
-                            <p class="text-[10px] md:text-[11px] text-slate-400">Sinal Semafórico à Frente</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-2.5 md:p-3 rounded-xl flex items-center gap-3">
-                        <!-- INSERIR IMAGEM AQUI: Placa A-30a (Trânsito de Ciclistas) -->
-                        <img src="https://placehold.co/80x80/eab308/000000?text=A-30a" alt="Imagem da placa A-30a Trânsito de Ciclistas" class="w-12 h-12 md:w-14 md:h-14 object-contain rounded-md shrink-0">
-                        <div>
-                            <h4 class="font-bold text-xs text-[var(--text-primary)]">Placa A-30a</h4>
-                            <p class="text-[10px] md:text-[11px] text-slate-400">Trânsito de Ciclistas</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+      <div class="activities-container">
+        <h2>Atividades</h2>
+        <div class="activity" data-activity="m1_0" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Uma placa "PARE" em Manaus e uma placa "PARE" em Porto Alegre têm significados…</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m1_act_0" value="a"><span>Diferentes, pois cada estado define suas próprias regras de sinalização</span></label>
+            <label class="option"><input type="radio" name="m1_act_0" value="b"><span>Exatamente iguais — a sinalização é universal em todo o Brasil</span></label>
+            <label class="option"><input type="radio" name="m1_act_0" value="c"><span>Parecidos, mas a obrigação de parar só vale nas capitais</span></label>
+            <label class="option"><input type="radio" name="m1_act_0" value="d"><span>Iguais apenas em rodovias federais</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m1_0')">Verificar</button>
+          <div class="feedback feedback-correct">Isso! A linguagem da sinalização é universal no país: as mesmas placas têm o mesmo significado em qualquer cidade ou estado. É isso que permite dirigir com confiança em todo o Brasil.</div>
+          <div class="feedback feedback-incorrect">Não é essa. A sinalização brasileira é universal: uma placa PARE significa exatamente a mesma coisa em qualquer lugar do país — é isso que torna o trânsito previsível para todos.</div>
         </div>
-
-        <!-- SLIDE 11: PLACAS DE INDICAÇÃO - AZUL E VERDE -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-11">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
-                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
-                    <span class="text-previa-tealLight font-bold uppercase text-[10px] md:text-xs tracking-wider">Sinalização de Apoio e Guia</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Placas de Indicação</h2>
-                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">Forncecem coordenadas de rotas, orientações de serviços, municípios e distâncias.</p>
-                </div>
-                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
-                    <!-- INSERIR IMAGEM AQUI: Placa de Indicação (Serviços Auxiliares / Rodovias Azul e Verde) -->
-                    <img src="https://placehold.co/320x180/00848c/ffffff?text=Placa+de+Indicacao+Servicos" alt="Imagem da placa de Indicação e Serviços Auxiliares" class="w-full max-w-[220px] sm:max-w-xs h-auto rounded-lg border border-white/10 shadow-lg object-contain">
-                    <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 md:mt-3 text-center">Placas de Orientação e Serviços Auxiliares</span>
-                </div>
-            </div>
+        <div class="activity" data-activity="m1_1" data-correct="c">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Linhas, faixas, setas e símbolos pintados no asfalto pertencem a qual tipo de sinalização?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m1_act_1" value="a"><span>Sinalização vertical</span></label>
+            <label class="option"><input type="radio" name="m1_act_1" value="b"><span>Dispositivos auxiliares</span></label>
+            <label class="option"><input type="radio" name="m1_act_1" value="c"><span>Sinalização horizontal</span></label>
+            <label class="option"><input type="radio" name="m1_act_1" value="d"><span>Sinalização temporária</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m1_1')">Verificar</button>
+          <div class="feedback feedback-correct">Perfeito! Tudo o que está pintado no chão é sinalização horizontal — o mapa visual que guia seu caminho pela pista.</div>
+          <div class="feedback feedback-incorrect">Ainda não. Tudo o que está pintado no chão — linhas, faixas, setas, símbolos — é sinalização HORIZONTAL. Vertical são as placas em postes.</div>
         </div>
-
-        <!-- SLIDE 12: PLACAS DE INDICAÇÃO - BRANCA E MARROM -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-12">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-4">Educativas e Atrativos Turísticos</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
-                        <span class="px-2 py-0.5 bg-slate-500 text-white rounded text-[9px] md:text-[10px] font-bold uppercase mb-2">Educativas</span>
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-3">Placas Brancas</h3>
-                        <!-- INSERIR IMAGEM AQUI: Placa Educativa Branca (Ex: NÃO FECHE O CRUZAMENTO) -->
-                        <img src="https://placehold.co/240x120/ffffff/000000?text=Placa+Educativa+Branca" alt="Imagem da placa educativa branca" class="w-full max-w-[200px] sm:max-w-xs h-auto rounded-lg border border-slate-300 shadow">
-                    </div>
-                    <div class="bg-[var(--card-bg)] border border-[var(--card-border)] p-3 md:p-5 rounded-2xl flex flex-col items-center text-center">
-                        <span class="px-2 py-0.5 bg-[#7c2d12] text-white rounded text-[9px] md:text-[10px] font-bold uppercase mb-2">Turísticas</span>
-                        <h3 class="scaled-text-h3 font-title font-bold text-[var(--text-primary)] mb-2 md:mb-3">Placas Marrons</h3>
-                        <!-- INSERIR IMAGEM AQUI: Placa de Atrativo Turístico Marrom -->
-                        <img src="https://placehold.co/240x120/7c2d12/ffffff?text=Placa+Turistica+Marrom" alt="Imagem da placa de atrativo turístico marrom" class="w-full max-w-[200px] sm:max-w-xs h-auto rounded-lg border border-amber-900 shadow">
-                    </div>
-                </div>
-            </div>
+        <div class="activity" data-activity="m1_2" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Pela dica de ouro "cor é emoção", qual é a associação CORRETA?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m1_act_2" value="a"><span>Vermelho = relaxe; amarelo = obedeça; verde = atenção</span></label>
+            <label class="option"><input type="radio" name="m1_act_2" value="b"><span>Vermelho = pare e obedeça; amarelo = cuidado e atenção; azul/verde = é só uma ajuda</span></label>
+            <label class="option"><input type="radio" name="m1_act_2" value="c"><span>Amarelo = proibição; vermelho = aviso de perigo; azul = ordem</span></label>
+            <label class="option"><input type="radio" name="m1_act_2" value="d"><span>Todas as cores têm o mesmo peso — o que importa é o símbolo</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m1_2')">Verificar</button>
+          <div class="feedback feedback-correct">Exato! Vermelho manda, amarelo avisa, azul/verde ajuda. Essa associação instintiva acelera sua reação no trânsito real e na prova.</div>
+          <div class="feedback feedback-incorrect">Reveja a dica de ouro: VERMELHO = pare e obedeça; AMARELO = cuidado e atenção; AZUL/VERDE = relaxe, é informação útil.</div>
         </div>
-
-        <!-- SLIDE 13: JOGO CLASSIFICADOR -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-13">
-            <div class="my-auto">
-                <div class="text-center mb-3 md:mb-4">
-                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Atividade Opcional</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Organizador de Famílias de Placas</h2>
-                </div>
-                <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6 flex flex-col items-center">
-                    <div class="h-28 md:h-32 flex items-center justify-center mb-4 md:mb-6" id="classifier-sign-area"><!-- Gerado via JS --></div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 md:gap-3 w-full">
-                        <button onclick="classifySign('regulamentacao')" class="py-2.5 md:py-3 px-2 bg-red-500/20 border border-red-500/40 text-red-300 font-bold hover:bg-red-500/30 text-xs rounded-xl transition-all cursor-pointer">Regulamentação</button>
-                        <button onclick="classifySign('advertencia')" class="py-2.5 md:py-3 px-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 font-bold hover:bg-yellow-500/30 text-xs rounded-xl transition-all cursor-pointer">Advertência</button>
-                        <button onclick="classifySign('indicacao')" class="py-2.5 md:py-3 px-2 bg-blue-500/20 border border-blue-500/40 text-blue-300 font-bold hover:bg-blue-500/30 text-xs rounded-xl transition-all cursor-pointer">Indicação</button>
-                    </div>
-                    <div class="mt-3 md:mt-4 text-xs font-bold text-slate-300" id="classifier-score">Acertos: 0 / 5</div>
-                </div>
-            </div>
+        <div class="activity" data-activity="m1_3" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Por que a placa PARE é a única octogonal (8 lados)?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m1_act_3" value="a"><span>Por tradição histórica, sem função prática</span></label>
+            <label class="option"><input type="radio" name="m1_act_3" value="b"><span>Para ser reconhecida até de costas ou parcialmente coberta, dada a criticidade da ordem</span></label>
+            <label class="option"><input type="radio" name="m1_act_3" value="c"><span>Para economizar material na fabricação</span></label>
+            <label class="option"><input type="radio" name="m1_act_3" value="d"><span>Porque o octógono chama menos atenção que o círculo</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m1_3')">Verificar</button>
+          <div class="feedback feedback-correct">Isso mesmo! O formato exclusivo garante reconhecimento instantâneo em qualquer condição — até quando a placa está suja, de costas ou mal iluminada. A ordem de parar é crítica demais para depender da cor.</div>
+          <div class="feedback feedback-incorrect">Não é essa. O octógono é exclusivo do PARE justamente para que a placa seja reconhecida em QUALQUER condição — de costas, suja ou no escuro. A decisão de parar não pode depender só da cor.</div>
         </div>
-
-        <!-- SLIDE 14: SINALIZAÇÃO HORIZONTAL -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-14">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Sinalização Horizontal: <span class="text-previa-tealLight">Linhas no Asfalto</span></h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center">
-                    <div class="space-y-2 md:space-y-4">
-                        <div class="flex gap-3 md:gap-4 items-start bg-black/20 p-3 rounded-xl border border-white/5">
-                            <span class="w-2.5 md:w-3 h-10 md:h-12 bg-white rounded shrink-0 block"></span>
-                            <div>
-                                <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Linhas Brancas</h4>
-                                <p class="text-slate-400 text-[11px] md:text-xs">Separam faixas de fluxo no mesmo sentido de circulação.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-3 md:gap-4 items-start bg-black/20 p-3 rounded-xl border border-white/5">
-                            <span class="w-2.5 md:w-3 h-10 md:h-12 bg-yellow-400 rounded shrink-0 block"></span>
-                            <div>
-                                <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Linhas Amarelas</h4>
-                                <p class="text-slate-400 text-[11px] md:text-xs">Separam fluxos de sentidos opostos (pista simples com duplo sentido).</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
-                        <!-- INSERIR IMAGEM AQUI: Sinalização de Faixa Contínua e Faixa Seccionada no Asfalto -->
-                        <img src="https://placehold.co/320x180/12181c/ffffff?text=Imagem+da+Faixa+Continua+e+Seccionada" alt="Imagem da faixa contínua e seccionada" class="w-full max-w-[220px] sm:max-w-xs h-auto rounded-lg border border-white/10 shadow">
-                        <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Diferença: Faixa Contínua vs. Seccionada</span>
-                    </div>
-                </div>
-            </div>
+        <div class="activity" data-activity="m1_4" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Cones, tachas refletivas e balizadores são exemplos de…</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m1_act_4" value="a"><span>Sinalização semafórica</span></label>
+            <label class="option"><input type="radio" name="m1_act_4" value="b"><span>Dispositivos auxiliares</span></label>
+            <label class="option"><input type="radio" name="m1_act_4" value="c"><span>Sinalização vertical</span></label>
+            <label class="option"><input type="radio" name="m1_act_4" value="d"><span>Sinalização cicloviária</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m1_4')">Verificar</button>
+          <div class="feedback feedback-correct">Correto! São os ajudantes físicos da via: complementam e reforçam as demais sinalizações, especialmente à noite.</div>
+          <div class="feedback feedback-incorrect">Não. Cones, tachas e balizadores são DISPOSITIVOS AUXILIARES — elementos físicos que complementam e reforçam as outras sinalizações.</div>
         </div>
+      </div>
 
-        <!-- SLIDE 15: MARCAS RODOVIÁRIAS ESPECIAIS -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-15">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Marcas Rodoviárias Especiais</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
-                    
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Faixa de Pedestres -->
-                        <img src="https://placehold.co/200x120/12181c/ffffff?text=Faixa+de+Pedestres" alt="Imagem da Faixa de Pedestres" class="w-full h-20 md:h-24 object-cover rounded-lg mb-2 border border-white/10">
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Faixa de Pedestres</h4>
-                    </div>
-
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Marcas de Canalização -->
-                        <img src="https://placehold.co/200x120/12181c/eab308?text=Marcas+de+Canalizacao" alt="Imagem das Marcas de Canalização" class="w-full h-20 md:h-24 object-cover rounded-lg mb-2 border border-white/10">
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Marcas de Canalização</h4>
-                    </div>
-
-                    <div class="p-3 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Setas Direcionais -->
-                        <img src="https://placehold.co/200x120/12181c/00a9b4?text=Setas+Direcionais" alt="Imagem das Setas Direcionais no Solo" class="w-full h-20 md:h-24 object-cover rounded-lg mb-2 border border-white/10">
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm">Setas Direcionais</h4>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 16: SINALIZAÇÃO SEMAFÓRICA -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-16">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
-                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
-                    <span class="text-previa-orange font-bold uppercase text-[10px] md:text-xs tracking-wider">Regência do Fluxo</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Sinalização Semafórica</h2>
-                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
-                        Controlam a ordem de passagem de veículos e pedestres nos cruzamentos e vias urbanas.
-                    </p>
-                </div>
-                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
-                    <!-- INSERIR IMAGEM AQUI: Semáforo de Trânsito Veicular e Pedestres -->
-                    <img src="https://placehold.co/180x240/12181c/ef4444?text=Imagem+do+Semaforo" alt="Imagem do semáforo" class="w-24 h-32 sm:w-36 sm:h-48 object-contain rounded-lg border border-white/10 shadow">
-                    <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Semáforo de Controle Veicular</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 17: CICLOVIAS E AUXILIARES -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-17">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Ciclovias e Dispositivos Auxiliares</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div class="p-3 md:p-4 bg-red-600/10 border border-red-600/20 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Sinalização Cicloviária -->
-                        <img src="https://placehold.co/240x120/7f1d1d/ffffff?text=Sinalizacao+Cicloviaria" alt="Imagem da sinalização cicloviária" class="w-full max-w-xs h-24 md:h-28 object-cover rounded-lg mb-2 md:mb-3 border border-red-500/30">
-                        <h3 class="font-title font-bold text-[var(--text-primary)] text-sm md:text-base">Sinalização Cicloviária</h3>
-                    </div>
-                    <div class="p-3 md:p-4 bg-previa-teal/10 border border-previa-teal/20 rounded-xl flex flex-col items-center text-center">
-                        <!-- INSERIR IMAGEM AQUI: Dispositivos Auxiliares (Cones, Balizadores, Tachões) -->
-                        <img src="https://placehold.co/240x120/00848c/ffffff?text=Dispositivos+Auxiliares" alt="Imagem dos dispositivos auxiliares de trânsito" class="w-full max-w-xs h-24 md:h-28 object-cover rounded-lg mb-2 md:mb-3 border border-previa-teal/30">
-                        <h3 class="font-title font-bold text-[var(--text-primary)] text-sm md:text-base">Dispositivos Auxiliares</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 18: SINALIZAÇÃO TEMPORÁRIA -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-18">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center my-auto">
-                <div class="space-y-2 md:space-y-4 text-center lg:text-left">
-                    <span class="text-orange-500 font-bold uppercase text-[10px] md:text-xs tracking-wider">Atenção Redobrada</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)]">Sinalização Temporária</h2>
-                    <p class="text-[var(--text-secondary)] scaled-text-p leading-relaxed">
-                        Indica obras, manutenção ou situações provisórias nas pistas. Caracteriza-se pelo uso de fundo laranja de alta visibilidade.
-                    </p>
-                </div>
-                <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
-                    <!-- INSERIR IMAGEM AQUI: Placa Temporária de Obras (Obras a 500m / Homens Trabalhando) -->
-                    <img src="https://placehold.co/240x180/ff823a/000000?text=Placa+Temporaria+de+Obras" alt="Imagem da placa temporária de obras" class="w-44 h-32 sm:w-56 sm:h-40 object-contain rounded-lg border border-orange-500 shadow">
-                    <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Placa Temporária de Obras na Pista</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 19: SIMULAÇÃO DE DECISÃO -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-19">
-            <div class="my-auto">
-                <div class="text-center mb-3 md:mb-4">
-                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Cenário Prático Opcional</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Cenário: Decisões no Volante</h2>
-                </div>
-                <div class="max-w-2xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6">
-                    <p class="text-xs sm:text-sm font-semibold text-center mb-4 md:mb-6 text-slate-300" id="decision-scenario-text">
-                        "Você está trafegando em pista úmida e avista uma placa amarela de curva acentuada à frente. Como você procede?"
-                    </p>
-                    <div class="flex flex-col gap-2.5 md:gap-3">
-                        <button onclick="submitDecision(0)" class="p-2.5 md:p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-[11px] md:text-xs transition-all cursor-pointer">A) Mantenho a velocidade e freno bruscamente no meio da curva para ajustar o carro.</button>
-                        <button onclick="submitDecision(1)" class="p-2.5 md:p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-[11px] md:text-xs transition-all cursor-pointer">B) Reduzo a velocidade com antecedência na reta, antes de iniciar a curva.</button>
-                        <button onclick="submitDecision(2)" class="p-2.5 md:p-3 text-left bg-white/5 border border-white/10 rounded-xl hover:bg-previa-teal/10 hover:border-previa-teal text-[11px] md:text-xs transition-all cursor-pointer">C) Acelero para ganhar mais aderência e estabilidade com a força centrípeta.</button>
-                    </div>
-                    <div class="mt-3 md:mt-4 text-[11px] md:text-xs font-bold text-center text-previa-tealLight min-h-[24px]" id="decision-feedback"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 20: HIERARQUIA DA SINALIZAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-20">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Hierarquia da Sinalização</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
-                    <div class="space-y-2.5 md:space-y-3">
-                        <div class="flex items-center gap-3 p-2.5 md:p-3 bg-previa-orange/15 border border-previa-orange/20 rounded-lg">
-                            <span class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-previa-orange text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">1º</span>
-                            <p class="text-[11px] md:text-xs text-slate-300 font-bold">Ordens dos Agentes de Trânsito prevalecem sobre todos.</p>
-                        </div>
-                        <div class="flex items-center gap-3 p-2.5 md:p-3 bg-white/5 border border-white/10 rounded-lg">
-                            <span class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-previa-teal text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">2º</span>
-                            <p class="text-[11px] md:text-xs text-slate-300 font-bold">Indicações do Semáforo sobre os demais sinais.</p>
-                        </div>
-                        <div class="flex items-center gap-3 p-2.5 md:p-3 bg-white/5 border border-white/10 rounded-lg">
-                            <span class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-slate-600 text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">3º</span>
-                            <p class="text-[11px] md:text-xs text-slate-300 font-bold">Demais indicações dos sinais de trânsito e normas de circulação.</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center p-3 md:p-4 bg-black/20 rounded-2xl border border-white/5">
-                        <!-- INSERIR IMAGEM AQUI: Agente de Trânsito direcionando o fluxo -->
-                        <img src="https://placehold.co/240x180/12181c/ff823a?text=Imagem+do+Agente+de+Transito" alt="Imagem de Agente de Trânsito orientando o tráfego" class="w-44 h-32 sm:w-56 sm:h-40 object-contain rounded-lg border border-white/10 shadow">
-                        <span class="text-[10px] md:text-xs text-slate-300 font-bold mt-2 text-center">Agente de Trânsito: Prioridade Absoluta</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 21: DESAFIO HIERARQUIA -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-21">
-            <div class="my-auto">
-                <div class="text-center mb-3 md:mb-4">
-                    <span class="px-3 py-1 bg-previa-teal/20 text-previa-tealLight text-[10px] md:text-xs font-bold rounded-full uppercase tracking-wider">Atividade Opcional</span>
-                    <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mt-1">Desafio: Quem Manda Mais?</h2>
-                </div>
-                <div class="max-w-xl mx-auto bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 md:p-6">
-                    <div class="space-y-3 md:space-y-4">
-                        <div class="flex flex-col gap-2.5">
-                            <button onclick="submitHierarchy(0)" class="p-2.5 md:p-3 bg-white/5 border border-white/10 text-slate-300 rounded-xl hover:border-previa-teal text-left text-[11px] md:text-xs transition-all cursor-pointer">A) Semáforo > Placa > Chão > Agente de Trânsito.</button>
-                            <button onclick="submitHierarchy(1)" class="p-2.5 md:p-3 bg-white/5 border border-white/10 text-slate-300 rounded-xl hover:border-previa-teal text-left text-[11px] md:text-xs transition-all cursor-pointer">B) Agente de Trânsito > Semáforo > Placa > Chão.</button>
-                        </div>
-                        <div class="text-[11px] md:text-xs font-bold text-center mt-2 md:mt-3 text-previa-tealLight min-h-[24px]" id="hierarchy-feedback"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 22: POR QUE DOMINAR A SINALIZAÇÃO -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-22">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Por que Dominar a Sinalização?</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex gap-3">
-                        <span class="text-previa-orange text-lg md:text-xl shrink-0 mt-0.5"><i class="fa-solid fa-heart-pulse"></i></span>
-                        <div>
-                            <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mb-1">Segurança Multiplicada</h4>
-                            <p class="text-slate-400 text-[11px] md:text-xs">Entender os sinais permite prever o comportamento das pistas e dos outros condutores.</p>
-                        </div>
-                    </div>
-                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl flex gap-3">
-                        <span class="text-previa-tealLight text-lg md:text-xl shrink-0 mt-0.5"><i class="fa-solid fa-shield-check"></i></span>
-                        <div>
-                            <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mb-1">Direção Defensiva Integrada</h4>
-                            <p class="text-slate-400 text-[11px] md:text-xs">Reduz riscos de acidentes e evita multas por infrações do CTB.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 23: REVISÃO RÁPIDA -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-23">
-            <div class="my-auto">
-                <h2 class="scaled-text-h2 font-title font-bold text-[var(--text-primary)] mb-3 md:mb-4">Revisão Express</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-[10px] md:text-xs font-bold text-red-400 uppercase">Regulamentação</span>
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mt-0.5 md:mt-1">Borda Vermelha</h4>
-                        <p class="text-slate-400 text-[11px] md:text-xs mt-0.5 md:mt-1">Obrigações e Proibições.</p>
-                    </div>
-                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-[10px] md:text-xs font-bold text-yellow-400 uppercase">Advertência</span>
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mt-0.5 md:mt-1">Amarelo Cúbico</h4>
-                        <p class="text-slate-400 text-[11px] md:text-xs mt-0.5 md:mt-1">Perigos e Alertas na pista.</p>
-                    </div>
-                    <div class="p-3.5 md:p-4 bg-[var(--card-bg)] rounded-xl border border-[var(--card-border)]">
-                        <span class="text-[10px] md:text-xs font-bold text-previa-tealLight uppercase">Indicação</span>
-                        <h4 class="font-title font-bold text-[var(--text-primary)] text-xs md:text-sm mt-0.5 md:mt-1">Azul / Verde / Marrom</h4>
-                        <p class="text-slate-400 text-[11px] md:text-xs mt-0.5 md:mt-1">Orientação, Rotas e Turismo.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 24: CONCLUSÃO -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-24">
-            <div class="text-center max-w-2xl mx-auto space-y-4 md:space-y-6 my-auto">
-                <div class="w-16 h-16 md:w-20 md:h-20 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center text-3xl md:text-4xl mx-auto shadow-lg">
-                    <i class="fa-solid fa-trophy"></i>
-                </div>
-                <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-[var(--text-primary)]">Módulo 1 Concluído!</h2>
-                <p class="text-slate-300 text-xs sm:text-sm">Você completou o Módulo 1 sobre Placas, Cores e Caminhos da Legislação de Trânsito do Brasil.</p>
-            </div>
-        </div>
-
-        <!-- SLIDE 25: ENCERRAMENTO -->
-        <div class="slide-layout absolute inset-0 p-4 sm:p-6 md:p-12 flex flex-col justify-center opacity-0 pointer-events-none transition-all duration-500 transform translate-x-12 overflow-y-auto custom-scrollbar" id="slide-25">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 items-center my-auto">
-                <div class="lg:col-span-12 space-y-3 md:space-y-4 text-center">
-                    <h2 class="text-xl sm:text-2xl md:text-4xl font-title font-extrabold text-[var(--text-primary)] leading-tight">PREVIA - Educação para o Trânsito</h2>
-                    <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto">Parabéns por dominar os fundamentos da sinalização viária brasileira.</p>
-                </div>
-            </div>
-        </div>
-
+      <nav class="module-nav">
+        <span></span>
+        <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
+        <button onclick="navigateTo('module_2')" class="btn btn-next">Próximo</button>
+      </nav>
     </div>
+  </div>
 
-    <!-- CONTROLE DE AUDIO-LEITURA FIXO (Google Português do Brasil Feminino) -->
-    <div class="h-[55px] md:h-[65px] bg-white border-t border-previa-border px-3 md:px-6 flex items-center justify-between shrink-0 z-20 gap-2">
-        <div class="flex items-center gap-2 md:gap-3 shrink-0">
-            <button onclick="toggleAudio()" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-100 hover:bg-previa-teal hover:text-white border border-slate-200 flex items-center justify-center cursor-pointer transition-all duration-300 text-slate-700 shrink-0">
-                <i class="fa-solid fa-play text-xs md:text-sm" id="player-play-icon"></i>
-            </button>
-            <div class="flex flex-col">
-                <span class="text-[11px] md:text-xs font-bold text-slate-700">Narração</span>
-                <span class="text-[9px] md:text-[10px] font-medium text-previa-teal truncate max-w-[120px] sm:max-w-none">Google PT-BR Feminino</span>
-            </div>
+  <!-- VIEW: MÓDULO 2 -->
+  <div id="view-module_2" class="view-container">
+    <div class="module-container">
+      <header class="module-header">
+        <div class="module-number">2</div>
+        <div>
+          <h1>Placas de Regulamentação: Quando o Trânsito Dá Ordens</h1>
+          <p>Reconhecer o formato, as cores e a missão das placas de regulamentação · Diferenciar PARE de DÊ A PREFERÊNCIA e aplicar cada ordem corretamente · Distinguir proibido estacionar de proibido parar e estacionar</p>
         </div>
+      </header>
 
-        <!-- Barra de Progressão do Áudio -->
-        <div class="flex-1 max-w-xs sm:max-w-sm md:max-w-xl mx-2 md:mx-4 relative">
-            <div class="w-full bg-slate-200 h-1.5 md:h-2 rounded-full overflow-hidden">
-                <div id="player-progress-bar" class="bg-previa-teal h-full w-0 transition-all duration-300"></div>
-            </div>
+      <section class="objectives">
+        <h2>Objetivos</h2>
+        <ul>
+          <li>Reconhecer o formato, as cores e a missão das placas de regulamentação</li>
+          <li>Diferenciar PARE de DÊ A PREFERÊNCIA e aplicar cada ordem corretamente</li>
+          <li>Distinguir proibido estacionar de proibido parar e estacionar</li>
+        </ul>
+      </section>
+
+      <div class="screens-container">
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s0.jpg" alt="Placas de Regulamentação" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">MÓDULO 2</p>
+          <h3>Placas de Regulamentação: Quando o Trânsito Dá Ordens</h3>
+          <div class="screen-body"><p>Neste módulo: a voz de comando do trânsito; formato, cores e missão; PARE × DÊ A PREFERÊNCIA; proibido estacionar × proibido parar e estacionar; sentido proibido e velocidade máxima; a galeria das ordens mais comuns do dia a dia.</p></div>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s0.mp3"></audio></div>
         </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s1.jpg" alt="Não é sugestão: é ordem" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 2.1</p>
+          <h3>Não é sugestão: é ordem</h3>
+          <div class="screen-body"><p>Quando você vê uma placa de regulamentação, preste muita atenção: <strong>não é uma sugestão, não é um conselho amigável</strong>. É uma ordem clara que você <strong>deve</strong> seguir. Ponto final.</p><p>Essas placas são a <strong>voz de comando do trânsito</strong>:</p><ul><li><strong>Obrigações</strong> — o que você TEM que fazer;</li><li><strong>Proibições</strong> — o que você NÃO PODE fazer;</li><li><strong>Restrições</strong> — os limites operacionais do trecho.</li></ul><p><strong>Desobedecer não é apenas imprudência</strong>: é infração que gera multa, pontos na carteira e aumenta drasticamente o risco de acidentes graves.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Regulamentação = ordem obrigatória, nunca sugestão</li><li>Determinam obrigações, proibições e restrições</li><li>Desobedecer = infração + multa + pontos + risco real</li></ul></aside>
+          <p class="slide-takeaway">São as leis do trânsito materializadas em placas</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s1.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s2.jpg" alt="Formato, cores e missão" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 2.2</p>
+          <h3>Formato, cores e missão</h3>
+          <div class="screen-body"><p><strong>Formato:</strong> Geralmente <strong>circular</strong> — com duas exceções ilustres: a placa <strong>PARE</strong>, octogonal (oito lados), e o <strong>DÊ A PREFERÊNCIA</strong>, triângulo invertido.</p><p><strong>Cores:</strong> Combinação de <strong>vermelho, branco e preto</strong>. A faixa diagonal vermelha sobre um símbolo significa proibição.</p><p><strong>Missão:</strong> Determinar <strong>obrigações, proibições e restrições</strong>. São leis expressas visualmente.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Circular + borda vermelha + fundo branco + símbolo preto</li><li>Exceções de formato: PARE (octógono) e DÊ A PREFERÊNCIA (triângulo invertido)</li><li>Diagonal vermelha sobre o símbolo = proibição</li></ul></aside>
+          <p class="slide-takeaway">Borda vermelha = atenção máxima e obediência</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s2.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s3.jpg" alt="PARE × Dê a Preferência" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 2.3</p>
+          <h3>PARE × Dê a Preferência</h3>
+          <div class="screen-body"><p><strong>PARE (R-1) — parada obrigatória:</strong> Reduzir completamente a velocidade até parar, observar todos os lados e só seguir quando seguro. Não existe "passar devagar": tem que imobilizar o carro.</p><p><strong>DÊ A PREFERÊNCIA (R-2) — prioridade do outro:</strong> Aproxime-se com cautela, reduza e ceda passagem. Só pare se o tráfego da via preferencial exigir.</p><p><strong>A diferença em uma frase:</strong> no PARE, a parada é obrigatória mesmo deserto; no DÊ A PREFERÊNCIA, parar só é necessário se houver tráfego com prioridade.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>PARE: parada total obrigatória, mesmo sem tráfego</li><li>DÊ A PREFERÊNCIA: reduza e ceda; pare se necessário</li><li>Formatos exclusivos = reconhecimento em qualquer condição</li></ul></aside>
+          <p class="slide-takeaway">PARE exige parar sempre; preferência exige ceder</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s3.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s4.jpg" alt="Proibido estacionar × proibido parar e estacionar" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 2.4</p>
+          <h3>Proibido estacionar × proibido parar e estacionar</h3>
+          <div class="screen-body"><p><strong>Proibido Estacionar (R-6a) — o "E" cortado:</strong> Não pode deixar o carro estacionado, mas pode realizar paradas rápidas para embarque ou desembarque.</p><p><strong>Proibido Parar e Estacionar (R-6c) — "X" vermelho:</strong> Proibição total. Não pode parar nem por um segundo; a via deve ficar 100% desobstruída.</p><ul><li><strong>Parar:</strong> tempo estritamente necessário para embarque/desembarque.</li><li><strong>Estacionar:</strong> qualquer imobilização por tempo superior ao embarque/desembarque.</li></ul></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>E cortado: não estacione — parada rápida ok</li><li>Parar e estacionar proibidos: via 100% livre, nem paradinha</li><li>Parar = breve para embarque; estacionar = prolongado</li></ul></aside>
+          <p class="slide-takeaway">Uma proíbe estacionar; a outra proíbe até parar</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s4.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s5.jpg" alt="Sentido proibido e velocidade máxima" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 2.5</p>
+          <h3>Sentido proibido e velocidade máxima</h3>
+          <div class="screen-body"><p><strong>Sentido Proibido (R-3):</strong> Não entre. Os veículos transitam no sentido contrário, e a contramão gera colisões frontais de altíssima letalidade.</p><p><strong>Velocidade Máxima Permitida (R-19):</strong> Limite teto daquele trecho sob condições climáticas ideais. Chuva, cerração ou pista molhada exigem velocidade bem abaixo do número indicado.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Sentido proibido = contramão = risco de colisão frontal</li><li>R-19: o número é o LIMITE do trecho — ultrapassar é infração</li><li>Limite é teto, não meta: condições ruins pedem menos</li></ul></aside>
+          <p class="slide-takeaway">Contramão nunca; velocidade máxima é teto, não meta</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s5.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s6.jpg" alt="Galeria R" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 2.6</p>
+          <h3>Galeria R: as ordens mais comuns</h3>
+          <div class="screen-body"><p>Principais placas da categoria:</p><ul><li><strong>Proibições:</strong> R-4a/b (virar à esq/dir), R-7 (ultrapassar), R-8a/b (mudar de faixa).</li><li><strong>Obrigações:</strong> R-24a (sentido de circulação), R-26 (siga em frente), R-23 (conserve-se à direita).</li><li><strong>Circulação exclusiva:</strong> R-34 (bicicletas), R-32 (ônibus).</li></ul></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Mesma gramática: círculo + borda vermelha; diagonal = proibição</li><li>Famílias: proibições, obrigações e circulação</li><li>R-1 PARE e R-2 DÊ A PREFERÊNCIA são as únicas com formato próprio</li></ul></aside>
+          <p class="slide-takeaway">Uma gramática visual única para dezenas de ordens</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s6.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m2-s7.jpg" alt="Na prática" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">NA PRÁTICA</p>
+          <h3>Na prática: borda vermelha, obediência imediata</h3>
+          <div class="screen-body"><p>Viu borda vermelha? O comportamento é simples: obediência imediata. Elas não negociam nem orientam; impõem deveres inegociáveis para salvar vidas.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Borda vermelha → obediência imediata</li><li>As 5 ordens essenciais dominadas</li><li>Próximo módulo: os anjos da guarda amarelos</li></ul></aside>
+          <p class="slide-takeaway">Essas placas não negociam — elas ordenam</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m2-s7.mp3"></audio></div>
+        </div>
+      </div>
+
+      <div class="activities-container">
+        <h2>Atividades</h2>
+        <div class="activity" data-activity="m2_0" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Você chega a um cruzamento com a placa PARE (R-1) e não vem nenhum veículo. O que fazer?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m2_act_0" value="a"><span>Reduzir bastante e passar devagar, já que não vem ninguém</span></label>
+            <label class="option"><input type="radio" name="m2_act_0" value="b"><span>Parar completamente, observar todos os lados e só então seguir</span></label>
+            <label class="option"><input type="radio" name="m2_act_0" value="c"><span>Buzinar e atravessar com atenção</span></label>
+            <label class="option"><input type="radio" name="m2_act_0" value="d"><span>Seguir normalmente — a placa só vale com tráfego</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m2_0')">Verificar</button>
+          <div class="feedback feedback-correct">Exato! No PARE a parada é OBRIGATÓRIA, mesmo sem tráfego. Reduzir e "passar devagarinho" é infração — a ordem é parar completamente, sempre.</div>
+          <div class="feedback feedback-incorrect">Cuidado! A placa PARE exige parada COMPLETA e obrigatória, mesmo sem nenhum veículo à vista.</div>
+        </div>
+        <div class="activity" data-activity="m2_1" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Qual a diferença entre a placa "Proibido Estacionar" (R-6a) e "Proibido Parar e Estacionar" (R-6c)?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m2_act_1" value="a"><span>Nenhuma — as duas proíbem qualquer imobilização do veículo</span></label>
+            <label class="option"><input type="radio" name="m2_act_1" value="b"><span>Na R-6a é permitida a parada rápida para embarque/desembarque; na R-6c não se pode nem parar</span></label>
+            <label class="option"><input type="radio" name="m2_act_1" value="c"><span>A R-6a vale só de dia e a R-6c só à noite</span></label>
+            <label class="option"><input type="radio" name="m2_act_1" value="d"><span>A R-6c permite estacionar por até 5 minutos</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m2_1')">Verificar</button>
+          <div class="feedback feedback-correct">Perfeito! R-6a proíbe ESTACIONAR (imobilização prolongada), mas admite parada breve para embarque/desembarque. R-6c é mais severa: via desimpedida 100%.</div>
+          <div class="feedback feedback-incorrect">Reveja: PARAR é imobilização breve para embarque/desembarque; ESTACIONAR é imobilização prolongada.</div>
+        </div>
+        <div class="activity" data-activity="m2_2" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Diante da placa DÊ A PREFERÊNCIA (R-2), o condutor deve:</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m2_act_2" value="a"><span>Parar completamente em qualquer situação, como no PARE</span></label>
+            <label class="option"><input type="radio" name="m2_act_2" value="b"><span>Aproximar-se com cuidado, reduzir e ceder passagem, pronto para parar se necessário</span></label>
+            <label class="option"><input type="radio" name="m2_act_2" value="c"><span>Acelerar para atravessar antes dos veículos da via preferencial</span></label>
+            <label class="option"><input type="radio" name="m2_act_2" value="d"><span>Ignorar a placa se estiver com pressa</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m2_2')">Verificar</button>
+          <div class="feedback feedback-correct">Isso! No DÊ A PREFERÊNCIA, a prioridade é do outro: reduza, ceda a passagem e esteja pronto para parar se o trânsito exigir.</div>
+          <div class="feedback feedback-incorrect">Não. O DÊ A PREFERÊNCIA manda REDUZIR e CEDER a passagem, parando se houver fluxo na transversal.</div>
+        </div>
+        <div class="activity" data-activity="m2_3" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Sobre a placa de Velocidade Máxima Permitida (R-19), é correto afirmar:</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m2_act_3" value="a"><span>O número indica a velocidade recomendada — dirigir acima é aceitável se a via estiver vazia</span></label>
+            <label class="option"><input type="radio" name="m2_act_3" value="b"><span>É o limite máximo do trecho: ultrapassá-lo é infração, e condições ruins pedem velocidade ainda menor</span></label>
+            <label class="option"><input type="radio" name="m2_act_3" value="c"><span>Vale apenas para caminhões e ônibus</span></label>
+            <label class="option"><input type="radio" name="m2_act_3" value="d"><span>É a velocidade mínima obrigatória do trecho</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m2_3')">Verificar</button>
+          <div class="feedback feedback-correct">Correto! O limite é TETO, não meta: ultrapassar é infração. Sob chuva, cerração ou movimento, a velocidade segura é menor.</div>
+          <div class="feedback feedback-incorrect">Não é essa. O número da R-19 é o LIMITE MÁXIMO do trecho nas melhores condições de tempo e pista.</div>
+        </div>
+        <div class="activity" data-activity="m2_4" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Por que a placa Sentido Proibido (R-3) jamais deve ser desobedecida?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m2_act_4" value="a"><span>Porque a multa é a mais cara de todas</span></label>
+            <label class="option"><input type="radio" name="m2_act_4" value="b"><span>Porque seguir por ali coloca você na contramão, com veículos vindo de frente — risco de colisão frontal</span></label>
+            <label class="option"><input type="radio" name="m2_act_4" value="c"><span>Porque a via está sempre em obras</span></label>
+            <label class="option"><input type="radio" name="m2_act_4" value="d"><span>Na verdade pode ser desobedecida em trajetos curtos</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m2_4')">Verificar</button>
+          <div class="feedback feedback-correct">Exato! Sentido proibido significa veículos transitando contra você. Colisão frontal é o acidente mais severo e fatal do trânsito.</div>
+          <div class="feedback feedback-incorrect">O ponto central é a segurança: entrar na contramão coloca você frente a frente com o tráfego que vem em alta energia.</div>
+        </div>
+      </div>
+
+      <nav class="module-nav">
+        <button onclick="navigateTo('module_1')" class="btn btn-prev">Anterior</button>
+        <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
+        <button onclick="navigateTo('module_3')" class="btn btn-next">Próximo</button>
+      </nav>
     </div>
+  </div>
 
-    <!-- RODAPÉ DE NAVEGAÇÃO DA INTERFACE -->
-    <footer class="h-[65px] md:h-[85px] bg-previa-grayLight px-3 md:px-6 border-t border-previa-border flex items-center justify-between shrink-0 z-20 gap-2">
-        <div class="flex items-center gap-2 md:gap-3">
-            <button onclick="goToPrevSlide()" id="btn-prev" class="px-3 md:px-5 py-2 md:py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-[11px] md:text-xs font-bold flex items-center gap-1.5 md:gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Anterior</span>
-            </button>
-            <button onclick="goToNextSlide()" id="btn-next" class="px-3 md:px-5 py-2 md:py-2.5 bg-previa-teal hover:bg-previa-tealLight text-white rounded-lg text-[11px] md:text-xs font-bold flex items-center gap-1.5 md:gap-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                <span class="hidden sm:inline">Próximo</span> <i class="fa-solid fa-arrow-right"></i>
-            </button>
+  <!-- VIEW: MÓDULO 3 -->
+  <div id="view-module_3" class="view-container">
+    <div class="module-container">
+      <header class="module-header">
+        <div class="module-number">3</div>
+        <div>
+          <h1>Placas de Advertência: Seus Anjos da Guarda no Asfalto</h1>
+          <p>Reconhecer o losango amarelo e o papel preventivo das placas de advertência · Reagir corretamente aos avisos de curvas, relevo de pista e encontros de vias · Redobrar a atenção nos avisos de presença de pessoas: escolares, pedestres e ciclistas</p>
         </div>
+      </header>
 
-        <div class="flex items-center gap-2 md:gap-4">
-            <div class="text-[11px] md:text-xs font-bold text-slate-600 flex items-center gap-2" id="slide-indicator-container">
-                <span id="slide-indicator-text">1 / 25</span>
-            </div>
-            <a href="https://api.whatsapp.com/send?text=Olá,%20gostaria%20de%20esclarecer%20uma%20dúvida%20sobre%20o%20Módulo%201%20de%20Trânsito!" target="_blank" class="hidden sm:flex items-center gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-previa-teal text-white hover:bg-[#25d366] text-xs font-bold rounded-full transition-all">
-                <i class="fa-brands fa-whatsapp text-sm"></i> Consultor
-            </a>
+      <section class="objectives">
+        <h2>Objetivos</h2>
+        <ul>
+          <li>Reconhecer o losango amarelo e o papel preventivo das placas de advertência</li>
+          <li>Reagir corretamente aos avisos de curvas, relevo de pista e encontros de vias</li>
+          <li>Redobrar a atenção nos avisos de presença de pessoas: escolares, pedestres e ciclistas</li>
+        </ul>
+      </section>
+
+      <div class="screens-container">
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m3-s0.jpg" alt="Placas de Advertência" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">MÓDULO 3</p>
+          <h3>Placas de Advertência: Seus Anjos da Guarda no Asfalto</h3>
+          <div class="screen-body"><p>Neste módulo: o papel preventivo da família amarela; como reconhecer e onde aparecem; curvas e pistas sinuosas; relevo da pista; encontros de vias e semáforo à frente; avisos de presença de pessoas; a galeria A essencial.</p></div>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m3-s0.mp3"></audio></div>
         </div>
-    </footer>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m3-s1.jpg" alt="Suas amigas protetoras" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 3.1</p>
+          <h3>Suas amigas protetoras</h3>
+          <div class="screen-body"><p>Se as placas de regulamentação são as "chefes" que ordenam, as de advertência são suas <strong>"amigas protetoras"</strong>: surgem <strong>antes</strong> do perigo, dando tempo valioso para reação.</p><p>Não impõem penalidades diretamente, mas antecipam o que vem pela frente: curvas cegas, trechos escorregadios e desníveis.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Advertência = aviso ANTECIPADO de perigo</li><li>Aparecem ANTES do local crítico para conceder tempo</li><li>Não ordenam, aconselham — mas ignorar custa caro</li></ul></aside>
+          <p class="slide-takeaway">A placa amarela te dá o bem mais precioso: tempo de reação</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m3-s1.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m3-s2.jpg" alt="Losango amarelo" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 3.2</p>
+          <h3>Losango amarelo: como reconhecer e onde vivem</h3>
+          <div class="screen-body"><p><strong>Como identificar:</strong> Formato de <strong>losango</strong>, cor de fundo <strong>amarela</strong> com símbolos em <strong>preto</strong>.</p><p>Pergunta essencial ao avistar uma placa dessa família: <em>"O que vem à frente e o que devo antecipar no meu veículo?"</em></p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Losango + amarelo + símbolo preto = advertência</li><li>Avisam curvas, aclives/declives, lombadas, travessias</li><li>Pergunta-chave: "o que vem aí e como me preparo?"</li></ul></aside>
+          <p class="slide-takeaway">Amarelo = preparação: pergunte-se o que vem pela frente</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m3-s2.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <figure class="screen-figure"><img class="screen-image" loading="lazy" src="media/previa-cnh-m3-s3.jpg" alt="Curvas e pistas sinuosas" onerror="this.style.display='none'" /></figure>
+          <p class="slide-kicker">LIÇÃO 3.3</p>
+          <h3>Curvas e pistas sinuosas</h3>
+          <div class="screen-body"><p>Regra de ouro nas curvas: <strong>reduza a velocidade na reta, antes de entrar na curva</strong>. Frear bruscamente dentro da curva desloca o peso do carro, destraciona as rodas e provoca derrapagens fatais.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Reduza ANTES da curva, na reta</li><li>Frear dentro da curva transfere peso e causa derrapagem</li><li>Acelere de forma progressiva e suave somente na saída</li></ul></aside>
+          <p class="slide-takeaway">Curva se faz com antecipação: freie na reta, não na curva</p>
+          <div class="screen-audio"><span class="screen-audio-label">Áudio guia</span><audio class="screen-audio-guide" controls preload="none" src="media/previa-cnh-m3-s3.mp3"></audio></div>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 3.4</p>
+          <h3>O relevo da pista: lombadas, depressões, aclives e estreitamentos</h3>
+          <div class="screen-body"><p><strong>Lombada (A-18) e Depressão (A-19):</strong> Reduza a marcha e a velocidade para absorver o desnível com segurança mecânica.</p><p><strong>Aclive Acentuado (A-20b):</strong> Se o veículo for manual, reduza para uma marcha mais forte antes da subida para não perder tração.</p><p><strong>Declive Acentuado (A-20a):</strong> Use o freio-motor (engrenado em marcha forte). Jamais desça desengrenado (banguela).</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Lombada e depressão: preserve passageiros e veículo reduzindo</li><li>Subida íngreme: marcha forte antes do início</li><li>Descida íngreme: engrenado no freio-motor sempre</li></ul></aside>
+          <p class="slide-takeaway">O relevo muda — sua velocidade muda junto, sempre antes</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 3.5</p>
+          <h3>Encontros de vias e semáforo à frente</h3>
+          <div class="screen-body"><p>Bifurcações, entroncamentos e cruzamentos sinalizados com placas amarelas (como A-6, A-8, A-12, A-14) alertam que trajetórias vão se cruzar. Tire o pé do acelerador e verifique a preferência antes de alcançar o ponto de contato.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Encontro de vias = reduzir + observar + preferência pelas regras</li><li>A-14: semáforo oculto ou próximo à frente</li><li>Rua sem saída (A-45): acesse somente se for seu destino final</li></ul></aside>
+          <p class="slide-takeaway">A placa decide com você: avisa o encontro antes dele chegar</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 3.6</p>
+          <h3>Gente na via: escolares, pedestres e ciclistas</h3>
+          <div class="screen-body"><p>Placas de escolares (A-33a/b), pedestres (A-32a/b) e ciclistas (A-30a) exigem o mais alto patamar de prudência. Crianças podem cruzar a via imprevisivelmente; o pé deve estar pronto para acionar o freio imediatamente.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Escolares: movimentos imprevistos e rápidos</li><li>Ciclistas e pedestres: partes desprotegidas no tráfego</li><li>Onde há aviso de gente, a cautela deve ser multiplicada</li></ul></aside>
+          <p class="slide-takeaway">Aviso com gente = pé leve, olho atento, freio pronto</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">DICA DE OURO</p>
+          <h3>Amarelo = preparação</h3>
+          <div class="screen-body"><p>As placas de advertência salvam vidas exatamente porque eliminam o fator surpresa. Ler a sinalização amarela é dirigir com visão de futuro.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Amarelo antecipa; vermelho exige; azul/verde guia</li><li>Próximo módulo: as placas informativas e prestativas</li></ul></aside>
+          <p class="slide-takeaway">Amarelo = preparação — a pergunta mental que evita acidentes</p>
+        </div>
+      </div>
 
-</div>
+      <div class="activities-container">
+        <h2>Atividades</h2>
+        <div class="activity" data-activity="m3_0" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Qual é a principal diferença entre placas de advertência e placas de regulamentação?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m3_act_0" value="a"><span>Advertência dá ordens obrigatórias; regulamentação apenas avisa</span></label>
+            <label class="option"><input type="radio" name="m3_act_0" value="b"><span>Advertência avisa com antecedência sobre perigos; regulamentação impõe ordens obrigatórias</span></label>
+            <label class="option"><input type="radio" name="m3_act_0" value="c"><span>Não há diferença — ambas têm o mesmo papel</span></label>
+            <label class="option"><input type="radio" name="m3_act_0" value="d"><span>Advertência vale só em rodovias; regulamentação só em cidades</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m3_0')">Verificar</button>
+          <div class="feedback feedback-correct">Isso! A família amarela AVISA antecipadamente; a família de borda vermelha ORDENA (obrigações, restrições e proibições).</div>
+          <div class="feedback feedback-incorrect">Inverteu! ADVERTÊNCIA (amarela) avisa; REGULAMENTAÇÃO (vermelha) impõe ordens obrigatórias.</div>
+        </div>
+        <div class="activity" data-activity="m3_1" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Ao ver a placa de curva acentuada, quando você deve reduzir a velocidade?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m3_act_1" value="a"><span>Dentro da curva, freando conforme a necessidade</span></label>
+            <label class="option"><input type="radio" name="m3_act_1" value="b"><span>Antes de entrar na curva, ainda em linha reta</span></label>
+            <label class="option"><input type="radio" name="m3_act_1" value="c"><span>Não é preciso reduzir se o carro tiver freios ABS</span></label>
+            <label class="option"><input type="radio" name="m3_act_1" value="d"><span>Apenas na saída da curva</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m3_1')">Verificar</button>
+          <div class="feedback feedback-correct">Perfeito! Reduza ANTES, na reta. Frear dentro da curva sobrecarrega a física lateral do carro e gera derrapagens.</div>
+          <div class="feedback feedback-incorrect">Cuidado! A mensagem da placa é clara: reduza ANTES de entrar na curva, nunca durante a tomada de direção.</div>
+        </div>
+        <div class="activity" data-activity="m3_2" data-correct="c">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Como se reconhece uma placa de advertência?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m3_act_2" value="a"><span>Círculo com borda vermelha e fundo branco</span></label>
+            <label class="option"><input type="radio" name="m3_act_2" value="b"><span>Retângulo azul com símbolos brancos</span></label>
+            <label class="option"><input type="radio" name="m3_act_2" value="c"><span>Losango amarelo com símbolos em preto</span></label>
+            <label class="option"><input type="radio" name="m3_act_2" value="d"><span>Octógono vermelho</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m3_2')">Verificar</button>
+          <div class="feedback feedback-correct">Exato! Losango + amarelo + símbolo preto = advertência preventiva.</div>
+          <div class="feedback feedback-incorrect">Não. Círculo vermelho é regulamentação; losango amarelo é advertência.</div>
+        </div>
+        <div class="activity" data-activity="m3_3" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Seu carro é manual e você vê a placa de ACLIVE ACENTUADO. Qual a conduta correta?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m3_act_3" value="a"><span>Acelerar ao máximo antes da subida para "embalar"</span></label>
+            <label class="option"><input type="radio" name="m3_act_3" value="b"><span>Reduzir a marcha antes de iniciar o aclive, manter distância do veículo à frente e subir com aceleração constante</span></label>
+            <label class="option"><input type="radio" name="m3_act_3" value="c"><span>Subir em ponto morto para economizar combustível</span></label>
+            <label class="option"><input type="radio" name="m3_act_3" value="d"><span>Trocar para a marcha mais alta no meio da subida</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m3_3')">Verificar</button>
+          <div class="feedback feedback-correct">Isso! Marcha forte selecionada ANTES de começar a subida entrega torque seguro do início ao fim.</div>
+          <div class="feedback feedback-incorrect">Em aclives fortes, deve-se reduzir para marcha compatível antes da inclinação começar, mantendo tração contínua.</div>
+        </div>
+        <div class="activity" data-activity="m3_4" data-correct="c">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Ao avistar a placa "Passagem sinalizada de escolares", o condutor deve:</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m3_act_4" value="a"><span>Manter a velocidade, pois crianças sempre esperam o carro passar</span></label>
+            <label class="option"><input type="radio" name="m3_act_4" value="b"><span>Buzinar continuamente para afastar as crianças da via</span></label>
+            <label class="option"><input type="radio" name="m3_act_4" value="c"><span>Reduzir a velocidade, ficar pronto para frear e atento a movimentos inesperados</span></label>
+            <label class="option"><input type="radio" name="m3_act_4" value="d"><span>Acelerar para sair rápido da área escolar</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m3_4')">Verificar</button>
+          <div class="feedback feedback-correct">Correto! Em área com presença de crianças, a cautela e o tempo de reação devem ser colocados no nível máximo.</div>
+          <div class="feedback feedback-incorrect">Incorreto. A presença de escolares exige redução imediata de velocidade e prontidão no freio.</div>
+        </div>
+      </div>
 
-<script>
-    let currentSlide = 1;
-    const totalSlides = 25;
+      <nav class="module-nav">
+        <button onclick="navigateTo('module_2')" class="btn btn-prev">Anterior</button>
+        <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
+        <button onclick="navigateTo('module_4')" class="btn btn-next">Próximo</button>
+      </nav>
+    </div>
+  </div>
 
-    /* REGRAS ATUALIZADAS: Sem NENHUM bloqueio de travas. O aluno avança livremente! */
+  <!-- VIEW: MÓDULO 4 -->
+  <div id="view-module_4" class="view-container">
+    <div class="module-container">
+      <header class="module-header">
+        <div class="module-number">4</div>
+        <div>
+          <h1>Placas de Indicação: Suas Guias Amigáveis</h1>
+          <p>Reconhecer o papel informativo das placas de indicação e seu formato retangular · Distinguir a missão de cada cor: azul, verde, branca e marrom · Ler painéis reais de direção, distância e serviços</p>
+        </div>
+      </header>
 
-    const slideTitles = [
-        "1. Capa Principal", "2. A Linguagem do Trânsito", "3. Categorias de Sinalização", "4. As Famílias de Placas",
-        "5. Regulamentação", "6. Desafio: Fato ou Fake", "7. Sinais de Regulamentação", "8. Placas de Advertência",
-        "9. Sinais de Advertência", "10. Galeria de Placas e Sinais", "11. Placas de Indicação", "12. Educativas e Turísticas",
-        "13. Organizador de Placas", "14. Sinalização Horizontal", "15. Marcas Rodoviárias", "16. Sinalização Semafórica",
-        "17. Sinalização Cicloviária", "18. Sinalização Temporária", "19. Cenário Prático", "20. Hierarquia da Sinalização",
-        "21. Desafio da Hierarquia", "22. Domínio e Prevenção", "23. Revisão Express", "24. Módulo Concluído!", "25. Encerramento"
-    ];
+      <section class="objectives">
+        <h2>Objetivos</h2>
+        <ul>
+          <li>Reconhecer o papel informativo das placas de indicação e seu formato retangular</li>
+          <li>Distinguir a missão de cada cor: azul, verde, branca e marrom</li>
+          <li>Ler painéis reais de direção, distância e serviços</li>
+        </ul>
+      </section>
 
-    /* Gerando barra de progresso */
-    const progContainer = document.getElementById('progress-bar-container');
-    for (let i = 1; i <= totalSlides; i++) {
-        const seg = document.createElement('div');
-        seg.className = "flex-1 h-1.5 bg-slate-200 rounded-full transition-all duration-300";
-        seg.id = `segment-${i}`;
-        progContainer.appendChild(seg);
+      <div class="screens-container">
+        <div class="screen screen-text">
+          <p class="slide-kicker">MÓDULO 4</p>
+          <h3>Placas de Indicação: Suas Guias Amigáveis</h3>
+          <div class="screen-body"><p>Neste módulo: placas informativas; formato retangular; divisão funcional das 4 cores (azul, verde, marrom e branca); leitura de painéis rodoviários e de serviços.</p></div>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 4.1</p>
+          <h3>Amigas que conhecem o caminho</h3>
+          <div class="screen-body"><p>Essas placas não impõem mandamentos nem avisam de perigos iminentes. Elas <strong>orientam rotas, localizações, serviços úteis e pontos turísticos</strong>.</p><ul><li><strong>Formato:</strong> Retangular (vertical ou horizontal);</li><li><strong>Cores:</strong> Azul, verde, marrom ou branca.</li></ul></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Indicação = informação sem cobrança coercitiva</li><li>Sempre em painéis retangulares</li><li>4 cores para 4 funções principais</li></ul></aside>
+          <p class="slide-takeaway">Retângulo colorido = informação amiga, não ordem</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 4.2</p>
+          <h3>Azuis: identificação, serviços e fiscalização</h3>
+          <div class="screen-body"><p><strong>Identificação:</strong> Nomes de avenidas, pontes e rodovias.</p><p><strong>Serviços Auxiliares:</strong> Hospitais, restaurantes, abastecimento, mecânicos (ícones claros com distâncias indicadas).</p><p><strong>Fiscalização:</strong> Postos de pesagem e de policiamento rodoviário.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Azul identifica nomes de rotas e rodovias</li><li>Indica serviços úteis (posto, socorro médico)</li><li>Sinaliza postos de fiscalização da autoridade policial</li></ul></aside>
+          <p class="slide-takeaway">Azul = identificação, serviços e fiscalização</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 4.3</p>
+          <h3>Verdes: o GPS das estradas</h3>
+          <div class="screen-body"><p>São as placas de orientação por excelência: mostram nomes de municípios, setas de direções em trevos e quilometragens restantes até o destino. (Em rodovias concedidas ou vias expressas, placas de orientação também podem utilizar fundo azul).</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Verde = destinos, saídas e quilometragem</li><li>O guia fundamental para mudança de faixas com antecedência</li><li>Em rodovias, também podem surgir em tom azul</li></ul></aside>
+          <p class="slide-takeaway">Verde te guia: direção, cidade, distância e saída</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 4.4</p>
+          <h3>Brancas: educação que salva vidas</h3>
+          <div class="screen-body"><p>Placas educativas com frases de conscientização: <em>"Não feche o cruzamento"</em>, <em>"Use o cinto no banco traseiro"</em>, <em>"Motociclista, use sempre o capacete"</em>. São posicionadas exatamente onde o comportamento preventivo se faz mais urgente.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Brancas trazem mensagens educativas e preventivas</li><li>Aparecem em trechos com histórico de imprudência</li><li>Conscientizam em vez de punir de forma direta</li></ul></aside>
+          <p class="slide-takeaway">Placa branca = lembrete que salva; leve a sério</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 4.5</p>
+          <h3>Marrons: descubra o Brasil</h3>
+          <div class="screen-body"><p>Fundo marrom é exclusivo para atrativos turísticos, patrimônios históricos, parques naturais, cachoeiras e praias.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Marrom = atrativos de turismo e lazer</li><li>Identifica acesso a patrimônios e reservas ecológicas</li></ul></aside>
+          <p class="slide-takeaway">Quer explorar? Siga o marrom</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 4.6</p>
+          <h3>Lendo painéis de verdade</h3>
+          <div class="screen-body"><p>Painéis de trânsito devem ser lidos de longe para que o motorista faça o posicionamento suave entre as faixas, sem desacelerações bruscas ou cortes repentinos de veículos.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Leitura precoce = troca de faixa segura</li><li>Identifique setas, saídas e distâncias antecipadamente</li></ul></aside>
+          <p class="slide-takeaway">Painel se lê cedo — decisão antecipada é decisão segura</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">RECAPITULANDO</p>
+          <h3>Recap: qual cor te conta o quê</h3>
+          <div class="screen-body"><p>Azul = serviços e identificação. Verde = rotas e distâncias. Marrom = turismo. Branca = educação preventiva.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>4 cores que orientam a jornada com tranquilidade</li><li>Próximo módulo: sinalização horizontal, luzes e regras de prioridade</li></ul></aside>
+          <p class="slide-takeaway">Azul serve, verde guia, branca educa, marrom encanta</p>
+        </div>
+      </div>
+
+      <div class="activities-container">
+        <h2>Atividades</h2>
+        <div class="activity" data-activity="m4_0" data-correct="c">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Qual é o formato característico das placas de indicação?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m4_act_0" value="a"><span>Círculo com borda vermelha</span></label>
+            <label class="option"><input type="radio" name="m4_act_0" value="b"><span>Losango amarelo</span></label>
+            <label class="option"><input type="radio" name="m4_act_0" value="c"><span>Retângulo (horizontal ou vertical)</span></label>
+            <label class="option"><input type="radio" name="m4_act_0" value="d"><span>Octógono</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m4_0')">Verificar</button>
+          <div class="feedback feedback-correct">Isso! Indicação é sempre retangular.</div>
+          <div class="feedback feedback-incorrect">Incorreto. Placas de indicação possuem formato retangular.</div>
+        </div>
+        <div class="activity" data-activity="m4_1" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Você viaja por uma rodovia e quer saber quantos km faltam para a próxima cidade. Qual placa procurar?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m4_act_1" value="a"><span>Placa branca educativa</span></label>
+            <label class="option"><input type="radio" name="m4_act_1" value="b"><span>Placa verde de distâncias (podendo aparecer em azul na rodovia)</span></label>
+            <label class="option"><input type="radio" name="m4_act_1" value="c"><span>Placa marrom de turismo</span></label>
+            <label class="option"><input type="radio" name="m4_act_1" value="d"><span>Placa de regulamentação R-19</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m4_1')">Verificar</button>
+          <div class="feedback feedback-correct">Perfeito! Placas verdes (ou azuis em certos trechos rodoviários) indicam distâncias e rotas.</div>
+          <div class="feedback feedback-incorrect">Procure as placas verdes — elas indicam as distâncias e as cidades da rota.</div>
+        </div>
+        <div class="activity" data-activity="m4_2" data-correct="a">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>"NÃO FECHE O CRUZAMENTO" e "MOTOCICLISTA, USE SEMPRE O CAPACETE" são exemplos de placas:</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m4_act_2" value="a"><span>Brancas educativas — reforçam comportamentos seguros, sem caráter de ordem</span></label>
+            <label class="option"><input type="radio" name="m4_act_2" value="b"><span>De regulamentação — desobedecer gera multa imediata pela placa</span></label>
+            <label class="option"><input type="radio" name="m4_act_2" value="c"><span>De advertência de perigo físico na via</span></label>
+            <label class="option"><input type="radio" name="m4_act_2" value="d"><span>Turísticas</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m4_2')">Verificar</button>
+          <div class="feedback feedback-correct">Exato! São placas educativas em fundo branco.</div>
+          <div class="feedback feedback-incorrect">São placas brancas educativas, criadas com foco em conscientização de condutas seguras.</div>
+        </div>
+        <div class="activity" data-activity="m4_3" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>As placas marrons indicam:</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m4_act_3" value="a"><span>Postos de fiscalização da polícia rodoviária</span></label>
+            <label class="option"><input type="radio" name="m4_act_3" value="b"><span>Atrativos turísticos: cachoeiras, museus, mirantes e patrimônios</span></label>
+            <label class="option"><input type="radio" name="m4_act_3" value="c"><span>Obras na pista</span></label>
+            <label class="option"><input type="radio" name="m4_act_3" value="d"><span>Limites de velocidade em áreas rurais</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m4_3')">Verificar</button>
+          <div class="feedback feedback-correct">Isso! Marrom é o padrão de sinalização turística e cultural.</div>
+          <div class="feedback feedback-incorrect">Não. Fundo marrom é reservado exclusivamente a atrativos turísticos e patrimônios.</div>
+        </div>
+        <div class="activity" data-activity="m4_4" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Num painel azul de serviços aparece "⛽ 🍴 Ⓔ — A 500 m". O que isso significa?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m4_act_4" value="a"><span>É proibido parar nos próximos 500 metros</span></label>
+            <label class="option"><input type="radio" name="m4_act_4" value="b"><span>Posto de combustível, restaurante e estacionamento disponíveis a 500 metros</span></label>
+            <label class="option"><input type="radio" name="m4_act_4" value="c"><span>A velocidade máxima é 500 m/min</span></label>
+            <label class="option"><input type="radio" name="m4_act_4" value="d"><span>Área de fiscalização a 500 metros</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m4_4')">Verificar</button>
+          <div class="feedback feedback-correct">Perfeito! Mostra comodidades e serviços úteis na distância especificada.</div>
+          <div class="feedback feedback-incorrect">Painéis azuis com ícones representam serviços de utilidade na estrada (combustível, refeição, descanso).</div>
+        </div>
+      </div>
+
+      <nav class="module-nav">
+        <button onclick="navigateTo('module_3')" class="btn btn-prev">Anterior</button>
+        <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
+        <button onclick="navigateTo('module_5')" class="btn btn-next">Próximo</button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- VIEW: MÓDULO 5 -->
+  <div id="view-module_5" class="view-container">
+    <div class="module-container">
+      <header class="module-header">
+        <div class="module-number">5</div>
+        <div>
+          <h1>O Chão, as Luzes e os Guardiões da Via</h1>
+          <p>Ler a sinalização horizontal: cores e tipos de linha, faixas e marcações · Responder corretamente às luzes do semáforo, inclusive o ferroviário · Respeitar espaços cicloviários, dispositivos auxiliares e sinalização temporária · Aplicar a hierarquia da sinalização em situações de conflito</p>
+        </div>
+      </header>
+
+      <section class="objectives">
+        <h2>Objetivos</h2>
+        <ul>
+          <li>Ler a sinalização horizontal: cores e tipos de linha, faixas e marcações</li>
+          <li>Responder corretamente às luzes do semáforo, inclusive o ferroviário</li>
+          <li>Respeitar espaços cicloviários, dispositivos auxiliares e sinalização temporária</li>
+          <li>Aplicar a hierarquia da sinalização em situações de conflito</li>
+        </ul>
+      </section>
+
+      <div class="screens-container">
+        <div class="screen screen-text">
+          <p class="slide-kicker">MÓDULO 5</p>
+          <h3>O Chão, as Luzes e os Guardiões da Via</h3>
+          <div class="screen-body"><p>Neste módulo: cores das faixas no asfalto; regras de ultrapassagem; faixas de pedestres; semáforos; ciclovias; dispositivos auxiliares; e a hierarquia da sinalização viária segundo o CTB.</p></div>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 5.1</p>
+          <h3>O chão também fala: branca × amarela</h3>
+          <div class="screen-body"><p><strong>Linhas Brancas:</strong> Separam fluxos no <strong>mesmo sentido de circulação</strong>.</p><p><strong>Linhas Amarelas:</strong> Separam correntes de tráfego em <strong>sentidos opostos</strong> (atenção redobrada, pois do outro lado os veículos vêm de frente).</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Branca = carros ao lado no mesmo sentido</li><li>Amarela = sentido contrário ao seu lado esquerdo</li></ul></aside>
+          <p class="slide-takeaway">Branca = mesmo sentido; amarela = fluxo oposto à frente</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 5.2</p>
+          <h3>Contínua, tracejada, dupla: quem pode ultrapassar</h3>
+          <div class="screen-body"><p><strong>Linha Contínua:</strong> Proibição absoluta de cruzamento e ultrapassagem.</p><p><strong>Linha Tracejada (Seccionada):</strong> Permite ultrapassagem quando houver segurança.</p><p><strong>Linha Dupla Mista:</strong> Olhe sempre para o traço que está colado ao <strong>lado do motorista</strong>. Se for contínuo do seu lado, você não ultrapassa.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Contínua = jamais cruzar</li><li>Tracejada = ultrapassagem liberada com cautela</li><li>Linha mista: a marcação do seu lado comanda seu sentido</li></ul></aside>
+          <p class="slide-takeaway">Contínua proíbe; tracejada permite; na dupla, seu lado decide</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 5.3</p>
+          <h3>Faixa de pedestres e marcações especiais</h3>
+          <div class="screen-body"><p>O pedestre tem preferência plena sobre a faixa zebrada. Nunca pare sobre ela; pare antes da <strong>linha de retenção</strong>. Marcas de canalização zebradas servem para direcionar o tráfego e jamais devem ser pisadas ou usadas para parada.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Pedestre na faixa = prioridade absoluta</li><li>Parar sempre antes da linha de retenção</li><li>Marcas de canalização (zebrados) não são pista de rodagem</li></ul></aside>
+          <p class="slide-takeaway">Na faixa, o pedestre é rei — e marcação especial não se invade</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 5.4</p>
+          <h3>Semáforos: os maestros do trânsito</h3>
+          <div class="screen-body"><p><strong>Vermelho:</strong> Parada obrigatória instantânea.</p><p><strong>Amarelo:</strong> Atenção, prepare a parada (não é permissão para acelerar no cruzamento).</p><p><strong>Verde:</strong> Passagem autorizada com atenção a pedestres concluindo travessia.</p><p><strong>Ferroviário piscando em vermelho:</strong> Parada obrigatória; trem cruzando a linha.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Vermelho = parada sem exceção</li><li>Amarelo = prepare-se para parar</li><li>Semáforo de trem: piscando vermelho exige parada total</li></ul></aside>
+          <p class="slide-takeaway">Respeitar o tempo do semáforo é respeitar a vez de todos</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 5.5</p>
+          <h3>Cicloviária: o maior cuida do menor</h3>
+          <div class="screen-body"><p>Faixas vermelhas e ciclovias são de tráfego restrito aos ciclistas. O princípio motor básico da legislação de trânsito é: os veículos de maior porte sempre têm o dever de resguardar os menores e mais frágeis.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Vermelho no chão = circulação exclusiva de bicicletas</li><li>Mantenha 1,5 metro de distância lateral ao ultrapassar bicicletas</li><li>O veículo maior protege o menor</li></ul></aside>
+          <p class="slide-takeaway">O maior cuida do menor — em qualquer lugar da via</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 5.6</p>
+          <h3>Ajudantes silenciosos e sinalização temporária</h3>
+          <div class="screen-body"><p>Tachas retrorrefletivas, guard-rails metálicos, balizadores e cones atuam para guiar o trajeto em condições severas. Placas na <strong>cor laranja</strong> avisam obras na pista: velocidade sempre reduzida para preservar trabalhadores.</p></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Olhos de gato e balizadores guiam em cerração e à noite</li><li>Laranja = obras e intervenções temporárias</li></ul></aside>
+          <p class="slide-takeaway">Laranja grita "novidade aqui" — reduza e proteja quem trabalha</p>
+        </div>
+        <div class="screen screen-text">
+          <p class="slide-kicker">LIÇÃO 5.7 · FECHAMENTO</p>
+          <h3>A hierarquia: quem manda quando todos falam</h3>
+          <div class="screen-body"><p>Quando houver conflito de sinais, siga esta ordem de prioridade estipulada pelo CTB:</p><ol><li><strong>1º: Ordens do Agente da Autoridade de Trânsito</strong> (superam qualquer sinal ou semáforo);</li><li><strong>2º: Semáforo</strong>;</li><li><strong>3º: Sinalização Vertical (Placas)</strong>;</li><li><strong>4º: Sinalização Horizontal (Pintura no chão)</strong>;</li><li><strong>5º: Regras Gerais de Circulação</strong> (ex.: prioridade de quem vem da direita em cruzamento sem placas).</li></ol></div>
+          <aside class="slide-keypoints"><h4>Pontos-chave</h4><ul><li>Agente > Semáforo > Placa > Chão > Normas gerais</li><li>A autoridade física do agente prevalece sobre a luz verde ou vermelha</li></ul></aside>
+          <p class="slide-takeaway">Pessoa > luz > placa > chão — e o trânsito tem voz</p>
+        </div>
+      </div>
+
+      <div class="activities-container">
+        <h2>Atividades</h2>
+        <div class="activity" data-activity="m5_0" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Você dirige em uma via com linha AMARELA no centro. O que isso significa?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m5_act_0" value="a"><span>Os veículos do outro lado da linha seguem no MESMO sentido que você</span></label>
+            <label class="option"><input type="radio" name="m5_act_0" value="b"><span>Do outro lado da linha vêm veículos em sentido OPOSTO ao seu</span></label>
+            <label class="option"><input type="radio" name="m5_act_0" value="c"><span>A faixa é exclusiva para ônibus</span></label>
+            <label class="option"><input type="radio" name="m5_act_0" value="d"><span>A via está em obras</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m5_0')">Verificar</button>
+          <div class="feedback feedback-correct">Exato! Amarelo separa fluxos em sentidos opostos. Linhas brancas separam tráfego no mesmo sentido.</div>
+          <div class="feedback feedback-incorrect">Linha amarela contínua ou tracejada divide fluxos de sentidos opostos (mão dupla).</div>
+        </div>
+        <div class="activity" data-activity="m5_1" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Linha dupla no centro da via: a CONTÍNUA está do seu lado e a TRACEJADA do lado oposto. Você pode ultrapassar?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m5_act_1" value="a"><span>Sim — a tracejada libera os dois sentidos</span></label>
+            <label class="option"><input type="radio" name="m5_act_1" value="b"><span>Não — quando a contínua está do SEU lado, a ultrapassagem é proibida para você</span></label>
+            <label class="option"><input type="radio" name="m5_act_1" value="c"><span>Sim, desde que buzine antes</span></label>
+            <label class="option"><input type="radio" name="m5_act_1" value="d"><span>Só entre 22h e 6h</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m5_1')">Verificar</button>
+          <div class="feedback feedback-correct">Perfeito! Quem tem a linha contínua do seu próprio lado está terminantemente proibido de efetuar ultrapassagem.</div>
+          <div class="feedback feedback-incorrect">A regra da linha dupla mista determina que vale para você a linha mais próxima do seu carro: sendo contínua, é proibido ultrapassar.</div>
+        </div>
+        <div class="activity" data-activity="m5_2" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>O sinal amarelo do semáforo acende quando você ainda está longe do cruzamento. Qual a conduta correta?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m5_act_2" value="a"><span>Acelerar para passar antes do vermelho</span></label>
+            <label class="option"><input type="radio" name="m5_act_2" value="b"><span>Reduzir a velocidade e se preparar para parar</span></label>
+            <label class="option"><input type="radio" name="m5_act_2" value="c"><span>Buzinar e manter a velocidade</span></label>
+            <label class="option"><input type="radio" name="m5_act_2" value="d"><span>Parar imediatamente onde estiver, mesmo em cima da faixa</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m5_2')">Verificar</button>
+          <div class="feedback feedback-correct">Isso! Amarelo significa atenção e desaceleração progressiva para imobilização antes do sinal vermelho.</div>
+          <div class="feedback feedback-incorrect">O amarelo não é sinal para acelerar. Estando à distância segura, reduza e pare antes da faixa.</div>
+        </div>
+        <div class="activity" data-activity="m5_3" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Sobre as faixas VERMELHAS pintadas no asfalto, é correto afirmar:</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m5_act_3" value="a"><span>São áreas de estacionamento rápido de até 5 minutos</span></label>
+            <label class="option"><input type="radio" name="m5_act_3" value="b"><span>Indicam espaço exclusivo para ciclistas: não estacione, não pare nem circule sobre elas</span></label>
+            <label class="option"><input type="radio" name="m5_act_3" value="c"><span>Marcam trechos onde a ultrapassagem é liberada</span></label>
+            <label class="option"><input type="radio" name="m5_act_3" value="d"><span>São decorativas, sem valor normativo</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m5_3')">Verificar</button>
+          <div class="feedback feedback-correct">Correto! A cor vermelha em sinalização horizontal demarca ciclovias e ciclofaixas exclusivas.</div>
+          <div class="feedback feedback-incorrect">Faixa vermelha no asfalto é destinada ao fluxo exclusivo de ciclistas.</div>
+        </div>
+        <div class="activity" data-activity="m5_4" data-correct="b">
+          <div class="activity-head"><span class="activity-kicker">Atividade</span><span class="activity-xp">20 XP</span></div>
+          <h4>Cruzamento com semáforo VERDE, mas um agente de trânsito ordena que você PARE. O que fazer?</h4>
+          <div class="options">
+            <label class="option"><input type="radio" name="m5_act_4" value="a"><span>Seguir — o semáforo verde tem prioridade sobre o agente</span></label>
+            <label class="option"><input type="radio" name="m5_act_4" value="b"><span>Obedecer ao agente: suas ordens superam semáforos, placas e marcações</span></label>
+            <label class="option"><input type="radio" name="m5_act_4" value="c"><span>Buzinar para avisar que o semáforo está verde</span></label>
+            <label class="option"><input type="radio" name="m5_act_4" value="d"><span>Seguir devagar pelo acostamento</span></label>
+          </div>
+          <button class="btn btn-check" onclick="checkAnswer('m5_4')">Verificar</button>
+          <div class="feedback feedback-correct">Perfeito! No topo da hierarquia viária estão os gestos e ordens emitidos pelo agente de trânsito.</div>
+          <div class="feedback feedback-incorrect">Hierarquia: as ordens emitidas pelo agente da autoridade de trânsito prevalecem sobre os semáforos e placas.</div>
+        </div>
+      </div>
+
+      <nav class="module-nav">
+        <button onclick="navigateTo('module_4')" class="btn btn-prev">Anterior</button>
+        <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
+        <span></span>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    // Navegação SPA entre visualizações
+    function navigateTo(viewId) {
+      document.querySelectorAll('.view-container').forEach(view => {
+        view.classList.remove('active');
+      });
+      const target = document.getElementById('view-' + viewId);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
-    /* Gerando opções do Dropdown */
-    const selectDropdown = document.getElementById('slide-dropdown-select');
-    slideTitles.forEach((title, index) => {
-        const opt = document.createElement('option');
-        opt.value = index + 1;
-        opt.innerText = title;
-        selectDropdown.appendChild(opt);
-    });
-
-    function updateSlide() {
-        document.querySelectorAll('.slide-layout').forEach(slide => {
-            slide.classList.remove('active', 'opacity-100', 'pointer-events-auto');
-            slide.classList.add('opacity-0', 'pointer-events-none');
-        });
-
-        const activeSlide = document.getElementById(`slide-${currentSlide}`);
-        if (activeSlide) {
-            activeSlide.classList.add('active', 'opacity-100', 'pointer-events-auto');
-            activeSlide.classList.remove('opacity-0', 'pointer-events-none');
+    // Marcação e estilo das opções de resposta
+    function marcarOpcoes(activity, corretas) {
+      var esperadas = (Array.isArray(corretas) ? corretas : [corretas]).map(String);
+      activity.querySelectorAll('.option').forEach(function(option) {
+        var input = option.querySelector('input');
+        if (!input) return;
+        if (esperadas.includes(String(input.value))) {
+          option.classList.add('option-correct');
+        } else if (input.checked) {
+          option.classList.add('option-incorrect');
         }
-
-        for (let i = 1; i <= totalSlides; i++) {
-            const seg = document.getElementById(`segment-${i}`);
-            if (seg) {
-                if (i === currentSlide) {
-                    seg.style.backgroundColor = '#ff823a';
-                } else if (i < currentSlide) {
-                    seg.style.backgroundColor = '#00848c';
-                } else {
-                    seg.style.backgroundColor = '#cbd5e1';
-                }
-            }
-        }
-
-        document.getElementById('slide-dropdown-select').value = currentSlide;
-        document.getElementById('slide-indicator-text').innerText = `${currentSlide} / ${totalSlides}`;
-        
-        // O aluno tem navegação 100% livre!
-        document.getElementById('btn-prev').disabled = currentSlide === 1;
-        document.getElementById('btn-next').disabled = currentSlide === totalSlides;
-
-        resetAudioPlayer();
-        localStorage.setItem('previa_current_slide', currentSlide);
+        input.disabled = true;
+      });
+      activity.querySelectorAll('.options').forEach(function(o) { o.classList.add('answered'); });
+      activity.querySelectorAll('.btn-check').forEach(function(b) { b.disabled = true; });
     }
 
-    function goToNextSlide() {
-        if (currentSlide < totalSlides) {
-            currentSlide++;
-            updateSlide();
-        }
+    // Verificação de resposta individual
+    function checkAnswer(activityId) {
+      const activity = document.querySelector(`[data-activity="${activityId}"]`);
+      if (!activity) return;
+
+      const correct = activity.dataset.correct;
+      const selected = activity.querySelector('input:checked');
+
+      if (!selected) {
+        alert('Selecione uma resposta antes de verificar.');
+        return;
+      }
+
+      const isCorrect = selected.value === correct || selected.value === String(correct);
+
+      activity.querySelectorAll('.feedback').forEach(f => f.classList.remove('show'));
+      marcarOpcoes(activity, correct);
+
+      if (isCorrect) {
+        activity.querySelector('.feedback-correct').classList.add('show');
+        markActivityComplete(activityId);
+      } else {
+        activity.querySelector('.feedback-incorrect').classList.add('show');
+      }
     }
 
-    function goToPrevSlide() {
-        if (currentSlide > 1) {
-            currentSlide--;
-            updateSlide();
-        }
+    // Progresso em LocalStorage
+    let progress = { activities: [] };
+
+    function markActivityComplete(id) {
+      if (!progress.activities.includes(id)) {
+        progress.activities.push(id);
+        localStorage.setItem('cnh_course_progress', JSON.stringify(progress));
+      }
     }
 
-    function jumpToSlide(num) {
-        currentSlide = parseInt(num);
-        updateSlide();
+    function loadProgress() {
+      const saved = localStorage.getItem('cnh_course_progress');
+      if (saved) {
+        try { progress = JSON.parse(saved); } catch (e) {}
+      }
     }
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === "ArrowRight") goToNextSlide();
-        if (e.key === "ArrowLeft") goToPrevSlide();
-    });
-
-    function toggleFullScreen() {
-        const wrapper = document.getElementById('presentation-wrapper');
-        const icon = document.getElementById('fullscreen-icon');
-        if (!document.fullscreenElement) {
-            wrapper.requestFullscreen().catch(err => {});
-            if(icon) icon.className = "fa-solid fa-compress text-xs md:text-sm";
-        } else {
-            document.exitFullscreen();
-            if(icon) icon.className = "fa-solid fa-expand text-xs md:text-sm";
-        }
-    }
-
-    function changeFontSize(amount) {
-        let currentScale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--font-scale')) || 1.0;
-        let newScale = Math.max(0.8, Math.min(1.4, currentScale + amount));
-        document.documentElement.style.setProperty('--font-scale', newScale);
-    }
-
-    function toggleTheme() {
-        const viewport = document.getElementById('slides-viewport');
-        viewport.classList.toggle('light-theme');
-    }
-
-    /* SISTEMA DE NARRATIVA FIXADO APENAS EM GOOGLE PORTUGUÊS DO BRASIL (FEMININO) */
-    let isPlaying = false;
-    let sentences = [];
-    let sentenceIndex = 0;
-    let currentUtterance = null;
-    let keepAliveInterval = null;
-
-    function cleanTextForSpeech(text) {
-        if (!text) return "";
-        let clean = text;
-        clean = clean.replace(/CTB/gi, "Código de Trânsito Brasileiro");
-        clean = clean.replace(/Km\/h/gi, " quilômetros por hora");
-        clean = clean.replace(/Km/gi, " quilômetros");
-        clean = clean.replace(/\b1º\b/g, "primeiro");
-        clean = clean.replace(/\b2º\b/g, "segundo");
-        clean = clean.replace(/\b3º\b/g, "terceiro");
-        clean = clean.replace(/\bR-1\b/gi, "placa r um, de parada obrigatória");
-        clean = clean.replace(/\bR-2\b/gi, "placa r dois, de dê a preferência");
-        clean = clean.replace(/\bPARE\b/gi, "Parada Obrigatória");
-        clean = clean.replace(/%/g, " por cento");
-        clean = clean.replace(/["'()\[\]*~_]/g, " ");
-        return clean.trim();
-    }
-
-    function getGooglePtBrFemaleVoice() {
-        if (typeof speechSynthesis === 'undefined') return null;
-        const voices = window.speechSynthesis.getVoices();
-
-        // 1º Tenta encontrar a voz exata Google Português do Brasil Feminino
-        let voice = voices.find(v => v.lang.includes('pt-BR') && v.name.toLowerCase().includes('google') && !v.name.toLowerCase().includes('male'));
-        
-        // 2º Fallback para qualquer voz feminina de PT-BR
-        if (!voice) {
-            voice = voices.find(v => v.lang.includes('pt-BR') && (v.name.toLowerCase().includes('maria') || v.name.toLowerCase().includes('helena') || v.name.toLowerCase().includes('luciana') || v.name.toLowerCase().includes('female')));
-        }
-
-        // 3º Fallback genérico para PT-BR
-        if (!voice) {
-            voice = voices.find(v => v.lang.includes('pt-BR') || v.lang.includes('pt_BR'));
-        }
-
-        return voice;
-    }
-
-    function resetAudioPlayer() {
-        stopReading();
-        sentences = [];
-        sentenceIndex = 0;
-        document.getElementById('player-progress-bar').style.width = "0%";
-        document.getElementById('player-play-icon').className = "fa-solid fa-play text-xs md:text-sm";
-        isPlaying = false;
-    }
-
-    function toggleAudio() {
-        if (isPlaying) {
-            pauseReading();
-        } else {
-            playReading();
-        }
-    }
-
-    function playReading() {
-        isPlaying = true;
-        document.getElementById('player-play-icon').className = "fa-solid fa-pause text-xs md:text-sm";
-
-        if (sentences.length === 0) {
-            prepareSentences();
-        }
-
-        speakSentence();
-    }
-
-    function pauseReading() {
-        isPlaying = false;
-        document.getElementById('player-play-icon').className = "fa-solid fa-play text-xs md:text-sm";
-        window.speechSynthesis.pause();
-        stopKeepAlive();
-    }
-
-    function stopReading() {
-        window.speechSynthesis.cancel();
-        stopKeepAlive();
-    }
-
-    function prepareSentences() {
-        const slide = document.getElementById(`slide-${currentSlide}`);
-        if (!slide) return;
-
-        const heading = slide.querySelector('h1, h2')?.innerText || '';
-        const description = slide.querySelector('p')?.innerText || '';
-        
-        let extraText = '';
-        const cards = slide.querySelectorAll('h3, h4, li');
-        cards.forEach(card => {
-            const cleanText = card.innerText.trim();
-            if (cleanText && !extraText.includes(cleanText)) {
-                extraText += ` ${cleanText}. `;
-            }
-        });
-
-        const fullText = `${heading}. ${description}. ${extraText}`;
-        sentences = fullText.split(/[.!?]+/).map(s => s.trim()).filter(Boolean);
-    }
-
-    function startKeepAlive() {
-        stopKeepAlive();
-        keepAliveInterval = setInterval(() => {
-            if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
-                window.speechSynthesis.pause();
-                window.speechSynthesis.resume();
-            }
-        }, 10000);
-    }
-
-    function stopKeepAlive() {
-        if (keepAliveInterval) {
-            clearInterval(keepAliveInterval);
-            keepAliveInterval = null;
-        }
-    }
-
-    function speakSentence() {
-        if (!isPlaying || sentenceIndex >= sentences.length) {
-            if (sentenceIndex >= sentences.length) {
-                resetAudioPlayer();
-            }
-            return;
-        }
-
-        const rawSentence = sentences[sentenceIndex];
-        const normalizedText = cleanTextForSpeech(rawSentence);
-
-        window.speechSynthesis.cancel();
-
-        currentUtterance = new SpeechSynthesisUtterance(normalizedText);
-        currentUtterance.rate = 1.2; // Velocidade natural
-        currentUtterance.lang = 'pt-BR';
-
-        const targetVoice = getGooglePtBrFemaleVoice();
-        if (targetVoice) {
-            currentUtterance.voice = targetVoice;
-        }
-
-        currentUtterance.onend = () => {
-            sentenceIndex++;
-            updatePlayerProgressBar();
-            speakSentence();
-        };
-
-        currentUtterance.onerror = () => {
-            resetAudioPlayer();
-        };
-
-        startKeepAlive();
-        window.speechSynthesis.speak(currentUtterance);
-    }
-
-    function updatePlayerProgressBar() {
-        if (sentences.length === 0) return;
-        const pct = (sentenceIndex / sentences.length) * 100;
-        document.getElementById('player-progress-bar').style.width = `${pct}%`;
-    }
-
-    /* ATIVIDADES OPCIONAIS (Livre escolha do aluno) */
-    const facts = [
-        { text: '"Desobedecer à placa de STOP no cruzamento é permitido se não houver tráfego visível à esquerda ou direita."', answer: false, explain: "A parada na placa de STOP é obrigatória e absoluta em qualquer circunstância." },
-        { text: '"A placa R-1 (PARE) obriga a parada completa, mesmo se você puder ver perfeitamente os dois lados do cruzamento livres."', answer: true, explain: "A parada deve ser total." },
-        { text: '"A placa de Dê a Preferência (R-2) exige parada obrigatória em qualquer circunstância."', answer: false, explain: "No R-2 você só deve parar se houver fluxo vindo no cruzamento." }
-    ];
-    let currentFactIndex = 0;
-    let factScore = 0;
-
-    function answerFact(userChoice) {
-        const currentFact = facts[currentFactIndex];
-        const feedbackContainer = document.getElementById('game-fact-feedback');
-        const feedIcon = document.getElementById('fact-feedback-icon');
-        const feedTitle = document.getElementById('fact-feedback-title');
-        const feedDesc = document.getElementById('fact-feedback-desc');
-
-        feedbackContainer.classList.remove('hidden');
-
-        if (userChoice === currentFact.answer) {
-            factScore++;
-            feedIcon.innerHTML = "✅";
-            feedTitle.innerText = "Correto!";
-            feedTitle.className = "text-base md:text-lg font-bold text-green-400";
-        } else {
-            feedIcon.innerHTML = "❌";
-            feedTitle.innerText = "Incorreto!";
-            feedTitle.className = "text-base md:text-lg font-bold text-red-500";
-        }
-        feedDesc.innerText = currentFact.explain;
-        document.getElementById('fact-score').innerText = `Pontos: ${factScore}`;
-    }
-
-    function nextFact() {
-        document.getElementById('game-fact-feedback').classList.add('hidden');
-        if (currentFactIndex < facts.length - 1) {
-            currentFactIndex++;
-            document.getElementById('fact-text').innerText = facts[currentFactIndex].text;
-            document.getElementById('fact-card-counter').innerText = `Questão ${currentFactIndex + 1} de 3`;
-        } else {
-            document.getElementById('fact-text').innerText = `Atividade Concluída! Você pontuou ${factScore} de 3.`;
-            document.getElementById('game-fact-container').innerHTML = `
-                <div class="text-center p-4 md:p-6 space-y-2">
-                    <p class="text-base md:text-lg font-bold text-previa-tealLight">Atividade Concluída com Sucesso!</p>
-                </div>
-            `;
-        }
-    }
-
-    const classifierSigns = [
-        { content: "STOP", type: "regulamentacao" },
-        { content: "CURVA", type: "advertencia" },
-        { content: "LOMBA", type: "advertencia" },
-        { content: "80 Km/h", type: "regulamentacao" },
-        { content: "CAMPINAS", type: "indicacao" }
-    ];
-    let currentClassifierIndex = 0;
-    let classifierScore = 0;
-
-    function renderClassifier() {
-        const signArea = document.getElementById('classifier-sign-area');
-        if (currentClassifierIndex < classifierSigns.length) {
-            const currentSign = classifierSigns[currentClassifierIndex];
-            let bgClass = "bg-white text-slate-800 border-4 border-red-500 rounded-full w-20 h-20 md:w-24 md:h-24";
-            if (currentSign.type === "advertencia") {
-                bgClass = "bg-yellow-400 text-slate-900 rotate-45 border-2 border-slate-950 w-16 h-16 md:w-20 md:h-20";
-            } else if (currentSign.type === "indicacao") {
-                bgClass = "bg-blue-600 text-white rounded-md w-20 h-14 md:w-24 md:h-16 border border-white/20";
-            }
-
-            signArea.innerHTML = `
-                <div class="${bgClass} flex items-center justify-center font-bold text-xs text-center shadow-lg relative">
-                    <span class="${currentSign.type === 'advertencia' ? '-rotate-45' : ''}">${currentSign.content}</span>
-                </div>
-            `;
-        } else {
-            signArea.innerHTML = `<span class="text-xs text-green-400 font-bold">Classificação Finalizada!</span>`;
-        }
-    }
-
-    function classifySign(selectedType) {
-        if (currentClassifierIndex >= classifierSigns.length) return;
-
-        const currentSign = classifierSigns[currentClassifierIndex];
-        if (selectedType === currentSign.type) {
-            classifierScore++;
-        }
-
-        currentClassifierIndex++;
-        document.getElementById('classifier-score').innerText = `Acertos: ${classifierScore} / 5`;
-        renderClassifier();
-    }
-
-    function submitDecision(choiceIndex) {
-        const feedback = document.getElementById('decision-feedback');
-        if (choiceIndex === 1) {
-            feedback.innerText = "Correto! Reduzir preventivamente na reta é a decisão correta.";
-            feedback.className = "mt-3 md:mt-4 text-[11px] md:text-xs font-bold text-center text-green-400 min-h-[24px]";
-        } else {
-            feedback.innerText = "Incorreto! Ações abruptas na curva provocam derrapagens graves.";
-            feedback.className = "mt-3 md:mt-4 text-[11px] md:text-xs font-bold text-center text-red-400 min-h-[24px]";
-        }
-    }
-
-    function submitHierarchy(choiceIndex) {
-        const feedback = document.getElementById('hierarchy-feedback');
-        if (choiceIndex === 1) {
-            feedback.innerText = "Excelente! Agente de Trânsito lidera a hierarquia.";
-            feedback.className = "text-[11px] md:text-xs font-bold text-center mt-2 md:mt-3 text-green-400 min-h-[24px]";
-        } else {
-            feedback.innerText = "Incorreto! O Agente de Trânsito sempre prevalece sobre os demais.";
-            feedback.className = "text-[11px] md:text-xs font-bold text-center mt-2 md:mt-3 text-red-400 min-h-[24px]";
-        }
-    }
-
-    window.onload = function() {
-        const savedSlide = localStorage.getItem('previa_current_slide');
-        if (savedSlide) {
-            currentSlide = parseInt(savedSlide);
-        }
-
-        updateSlide();
-        renderClassifier();
-    };
-</script>
-
+    document.addEventListener('DOMContentLoaded', loadProgress);
+  </script>
 </body>
 </html>
