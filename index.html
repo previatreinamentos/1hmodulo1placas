@@ -33,6 +33,42 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      position: relative;
+    }
+
+    /* Botão Flutuante de Tela Cheia */
+    .fullscreen-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.9rem;
+      border-radius: 50px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+
+    .fullscreen-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .fullscreen-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
     }
 
     .view-container { display: none; }
@@ -41,12 +77,12 @@
     .course-container, .module-container {
       max-width: 900px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 2.5rem 2rem 4rem;
     }
 
     .course-header, .module-header {
       margin-bottom: 2rem;
-      padding-bottom: 2rem;
+      padding-bottom: 1.5rem;
       border-bottom: 1px solid var(--border);
     }
 
@@ -82,6 +118,21 @@
       flex-shrink: 0;
     }
 
+    /* Barra Superior de Ações Rápidas do Módulo */
+    .module-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .module-top-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
     .objectives {
       background: var(--bg-muted);
       padding: 1.5rem;
@@ -102,22 +153,24 @@
     .module-link {
       display: flex;
       gap: 1rem;
-      padding: 1rem;
+      padding: 1.2rem;
       border: 1px solid var(--border);
-      border-radius: 0.5rem;
+      border-radius: 0.75rem;
       margin-bottom: 1rem;
       text-decoration: none;
       color: inherit;
       cursor: pointer;
       transition: all 0.2s;
+      align-items: center;
     }
 
     .module-link:hover {
       border-color: var(--primary);
       background: rgba(0, 150, 138, 0.05);
+      transform: translateX(4px);
     }
 
-    .module-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .module-info h3 { font-size: 1.15rem; margin-bottom: 0.25rem; }
     .module-info p { font-size: 0.875rem; color: var(--text-muted); }
 
     .screens-container { position: relative; }
@@ -290,16 +343,48 @@
       background: rgba(244, 63, 94, 0.14); border-color: rgba(251, 113, 133, 0.45); color: #ffe4e6;
     }
 
+    /* Alerta elegante no lugar de alert() */
+    .toast-warning {
+      display: none;
+      background: #f59e0b;
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .toast-warning.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Botões Gerais de Ação */
     .btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.4rem;
       border: none;
-      border-radius: 0.35rem;
-      font-weight: 500;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
+
+    .btn-sm {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.85rem;
+    }
+
     .btn-check {
       background: var(--primary);
       color: var(--on-primary);
@@ -311,18 +396,41 @@
     .btn-prev, .btn-next, .btn-home {
       background: var(--bg-muted);
       color: var(--text);
+      border: 1px solid var(--border);
     }
-    .btn-prev:hover, .btn-next:hover, .btn-home:hover { background: var(--border); }
+    .btn-prev:hover, .btn-next:hover, .btn-home:hover {
+      background: var(--border);
+      color: #000;
+    }
+
+    .btn-primary-action {
+      background: var(--primary);
+      color: #fff;
+      border: 1px solid var(--primary);
+    }
+    .btn-primary-action:hover {
+      background: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
 
     .module-nav {
       display: flex;
       justify-content: space-between;
-      margin-top: 2rem;
+      align-items: center;
+      margin-top: 3rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border);
+      gap: 0.8rem;
+      flex-wrap: wrap;
     }
 
     @media (max-width: 780px) {
+      .fullscreen-btn {
+        top: 0.5rem;
+        right: 0.5rem;
+        padding: 0.45rem 0.75rem;
+        font-size: 0.78rem;
+      }
       .screen-text { grid-template-columns: 1fr; }
       .screen-text > .screen-body,
       .screen-text > .screen-figure,
@@ -332,10 +440,28 @@
       .module-header { flex-direction: column; text-align: center; }
       .module-number { margin: 0 auto; }
       .activity { padding: 1.25rem 1.1rem; }
+      .module-nav {
+        flex-direction: column-reverse;
+        width: 100%;
+      }
+      .module-nav .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- BOTÃO TELA CHEIA FLUTUANTE -->
+  <button id="toggle-fullscreen" class="fullscreen-btn" onclick="toggleFullScreen()" title="Alternar Modo Tela Cheia">
+    <svg id="fs-icon-enter" viewBox="0 0 24 24">
+      <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+    </svg>
+    <svg id="fs-icon-exit" style="display:none;" viewBox="0 0 24 24">
+      <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+    </svg>
+    <span id="fs-text">Tela Cheia</span>
+  </button>
 
   <!-- VIEW: ÍNDICE DO CURSO -->
   <div id="view-index" class="view-container active">
@@ -367,7 +493,7 @@
       </section>
 
       <section class="modules-list">
-        <h2>Módulos</h2>
+        <h2>Módulos do Curso</h2>
         <div onclick="navigateTo('module_1')" class="module-link">
           <div class="module-number">1</div>
           <div class="module-info">
@@ -410,6 +536,15 @@
   <!-- VIEW: MÓDULO 1 -->
   <div id="view-module_1" class="view-container">
     <div class="module-container">
+
+      <!-- Barra Superior de Navegação -->
+      <div class="module-top-bar">
+        <button onclick="navigateTo('index')" class="btn btn-sm btn-home">← Voltar ao Índice</button>
+        <div class="module-top-nav">
+          <button onclick="navigateTo('module_2')" class="btn btn-sm btn-primary-action">Próximo Módulo →</button>
+        </div>
+      </div>
+
       <header class="module-header">
         <div class="module-number">1</div>
         <div>
@@ -511,6 +646,7 @@
             <label class="option"><input type="radio" name="m1_act_0" value="d"><span>Iguais apenas em rodovias federais</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m1_0')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso! A linguagem da sinalização é universal no país: as mesmas placas têm o mesmo significado em qualquer cidade ou estado. É isso que permite dirigir com confiança em todo o Brasil.</div>
           <div class="feedback feedback-incorrect">Não é essa. A sinalização brasileira é universal: uma placa PARE significa exatamente a mesma coisa em qualquer lugar do país — é isso que torna o trânsito previsível para todos.</div>
         </div>
@@ -524,6 +660,7 @@
             <label class="option"><input type="radio" name="m1_act_1" value="d"><span>Sinalização temporária</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m1_1')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Perfeito! Tudo o que está pintado no chão é sinalização horizontal — o mapa visual que guia seu caminho pela pista.</div>
           <div class="feedback feedback-incorrect">Ainda não. Tudo o que está pintado no chão — linhas, faixas, setas, símbolos — é sinalização HORIZONTAL. Vertical são as placas em postes.</div>
         </div>
@@ -537,6 +674,7 @@
             <label class="option"><input type="radio" name="m1_act_2" value="d"><span>Todas as cores têm o mesmo peso — o que importa é o símbolo</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m1_2')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Exato! Vermelho manda, amarelo avisa, azul/verde ajuda. Essa associação instintiva acelera sua reação no trânsito real e na prova.</div>
           <div class="feedback feedback-incorrect">Reveja a dica de ouro: VERMELHO = pare e obedeça; AMARELO = cuidado e atenção; AZUL/VERDE = relaxe, é informação útil.</div>
         </div>
@@ -546,10 +684,10 @@
           <div class="options">
             <label class="option"><input type="radio" name="m1_act_3" value="a"><span>Por tradição histórica, sem função prática</span></label>
             <label class="option"><input type="radio" name="m1_act_3" value="b"><span>Para ser reconhecida até de costas ou parcialmente coberta, dada a criticidade da ordem</span></label>
-            <label class="option"><input type="radio" name="m1_act_3" value="c"><span>Para economizar material na fabricação</span></label>
             <label class="option"><input type="radio" name="m1_act_3" value="d"><span>Porque o octógono chama menos atenção que o círculo</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m1_3')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso mesmo! O formato exclusivo garante reconhecimento instantâneo em qualquer condição — até quando a placa está suja, de costas ou mal iluminada. A ordem de parar é crítica demais para depender da cor.</div>
           <div class="feedback feedback-incorrect">Não é essa. O octógono é exclusivo do PARE justamente para que a placa seja reconhecida em QUALQUER condição — de costas, suja ou no escuro. A decisão de parar não pode depender só da cor.</div>
         </div>
@@ -563,15 +701,17 @@
             <label class="option"><input type="radio" name="m1_act_4" value="d"><span>Sinalização cicloviária</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m1_4')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Correto! São os ajudantes físicos da via: complementam e reforçam as demais sinalizações, especialmente à noite.</div>
           <div class="feedback feedback-incorrect">Não. Cones, tachas e balizadores são DISPOSITIVOS AUXILIARES — elementos físicos que complementam e reforçam as outras sinalizações.</div>
         </div>
       </div>
 
+      <!-- Barra Inferior de Navegação -->
       <nav class="module-nav">
-        <span></span>
-        <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
-        <button onclick="navigateTo('module_2')" class="btn btn-next">Próximo</button>
+        <button onclick="navigateTo('index')" class="btn btn-prev">← Voltar ao Índice</button>
+        <button onclick="navigateTo('index')" class="btn btn-home">Início</button>
+        <button onclick="navigateTo('module_2')" class="btn btn-next btn-primary-action">Próximo Módulo (2) →</button>
       </nav>
     </div>
   </div>
@@ -579,6 +719,16 @@
   <!-- VIEW: MÓDULO 2 -->
   <div id="view-module_2" class="view-container">
     <div class="module-container">
+
+      <!-- Barra Superior de Navegação -->
+      <div class="module-top-bar">
+        <button onclick="navigateTo('module_1')" class="btn btn-sm btn-prev">← Módulo Anterior (1)</button>
+        <div class="module-top-nav">
+          <button onclick="navigateTo('index')" class="btn btn-sm btn-home">Índice</button>
+          <button onclick="navigateTo('module_3')" class="btn btn-sm btn-primary-action">Próximo Módulo (3) →</button>
+        </div>
+      </div>
+
       <header class="module-header">
         <div class="module-number">2</div>
         <div>
@@ -681,6 +831,7 @@
             <label class="option"><input type="radio" name="m2_act_0" value="d"><span>Seguir normalmente — a placa só vale com tráfego</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m2_0')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Exato! No PARE a parada é OBRIGATÓRIA, mesmo sem tráfego. Reduzir e "passar devagarinho" é infração — a ordem é parar completamente, sempre.</div>
           <div class="feedback feedback-incorrect">Cuidado! A placa PARE exige parada COMPLETA e obrigatória, mesmo sem nenhum veículo à vista.</div>
         </div>
@@ -694,6 +845,7 @@
             <label class="option"><input type="radio" name="m2_act_1" value="d"><span>A R-6c permite estacionar por até 5 minutos</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m2_1')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Perfeito! R-6a proíbe ESTACIONAR (imobilização prolongada), mas admite parada breve para embarque/desembarque. R-6c é mais severa: via desimpedida 100%.</div>
           <div class="feedback feedback-incorrect">Reveja: PARAR é imobilização breve para embarque/desembarque; ESTACIONAR é imobilização prolongada.</div>
         </div>
@@ -707,6 +859,7 @@
             <label class="option"><input type="radio" name="m2_act_2" value="d"><span>Ignorar a placa se estiver com pressa</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m2_2')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso! No DÊ A PREFERÊNCIA, a prioridade é do outro: reduza, ceda a passagem e esteja pronto para parar se o trânsito exigir.</div>
           <div class="feedback feedback-incorrect">Não. O DÊ A PREFERÊNCIA manda REDUZIR e CEDER a passagem, parando se houver fluxo na transversal.</div>
         </div>
@@ -720,6 +873,7 @@
             <label class="option"><input type="radio" name="m2_act_3" value="d"><span>É a velocidade mínima obrigatória do trecho</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m2_3')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Correto! O limite é TETO, não meta: ultrapassar é infração. Sob chuva, cerração ou movimento, a velocidade segura é menor.</div>
           <div class="feedback feedback-incorrect">Não é essa. O número da R-19 é o LIMITE MÁXIMO do trecho nas melhores condições de tempo e pista.</div>
         </div>
@@ -733,15 +887,17 @@
             <label class="option"><input type="radio" name="m2_act_4" value="d"><span>Na verdade pode ser desobedecida em trajetos curtos</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m2_4')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Exato! Sentido proibido significa veículos transitando contra você. Colisão frontal é o acidente mais severo e fatal do trânsito.</div>
           <div class="feedback feedback-incorrect">O ponto central é a segurança: entrar na contramão coloca você frente a frente com o tráfego que vem em alta energia.</div>
         </div>
       </div>
 
+      <!-- Barra Inferior de Navegação -->
       <nav class="module-nav">
-        <button onclick="navigateTo('module_1')" class="btn btn-prev">Anterior</button>
+        <button onclick="navigateTo('module_1')" class="btn btn-prev">← Voltar ao Módulo 1</button>
         <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
-        <button onclick="navigateTo('module_3')" class="btn btn-next">Próximo</button>
+        <button onclick="navigateTo('module_3')" class="btn btn-next btn-primary-action">Próximo: Módulo 3 →</button>
       </nav>
     </div>
   </div>
@@ -749,6 +905,16 @@
   <!-- VIEW: MÓDULO 3 -->
   <div id="view-module_3" class="view-container">
     <div class="module-container">
+
+      <!-- Barra Superior de Navegação -->
+      <div class="module-top-bar">
+        <button onclick="navigateTo('module_2')" class="btn btn-sm btn-prev">← Módulo Anterior (2)</button>
+        <div class="module-top-nav">
+          <button onclick="navigateTo('index')" class="btn btn-sm btn-home">Índice</button>
+          <button onclick="navigateTo('module_4')" class="btn btn-sm btn-primary-action">Próximo Módulo (4) →</button>
+        </div>
+      </div>
+
       <header class="module-header">
         <div class="module-number">3</div>
         <div>
@@ -843,6 +1009,7 @@
             <label class="option"><input type="radio" name="m3_act_0" value="d"><span>Advertência vale só em rodovias; regulamentação só em cidades</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m3_0')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso! A família amarela AVISA antecipadamente; a família de borda vermelha ORDENA (obrigações, restrições e proibições).</div>
           <div class="feedback feedback-incorrect">Inverteu! ADVERTÊNCIA (amarela) avisa; REGULAMENTAÇÃO (vermelha) impõe ordens obrigatórias.</div>
         </div>
@@ -856,6 +1023,7 @@
             <label class="option"><input type="radio" name="m3_act_1" value="d"><span>Apenas na saída da curva</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m3_1')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Perfeito! Reduza ANTES, na reta. Frear dentro da curva sobrecarrega a física lateral do carro e gera derrapagens.</div>
           <div class="feedback feedback-incorrect">Cuidado! A mensagem da placa é clara: reduza ANTES de entrar na curva, nunca durante a tomada de direção.</div>
         </div>
@@ -869,6 +1037,7 @@
             <label class="option"><input type="radio" name="m3_act_2" value="d"><span>Octógono vermelho</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m3_2')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Exato! Losango + amarelo + símbolo preto = advertência preventiva.</div>
           <div class="feedback feedback-incorrect">Não. Círculo vermelho é regulamentação; losango amarelo é advertência.</div>
         </div>
@@ -882,6 +1051,7 @@
             <label class="option"><input type="radio" name="m3_act_3" value="d"><span>Trocar para a marcha mais alta no meio da subida</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m3_3')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso! Marcha forte selecionada ANTES de começar a subida entrega torque seguro do início ao fim.</div>
           <div class="feedback feedback-incorrect">Em aclives fortes, deve-se reduzir para marcha compatível antes da inclinação começar, mantendo tração contínua.</div>
         </div>
@@ -895,15 +1065,17 @@
             <label class="option"><input type="radio" name="m3_act_4" value="d"><span>Acelerar para sair rápido da área escolar</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m3_4')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Correto! Em área com presença de crianças, a cautela e o tempo de reação devem ser colocados no nível máximo.</div>
           <div class="feedback feedback-incorrect">Incorreto. A presença de escolares exige redução imediata de velocidade e prontidão no freio.</div>
         </div>
       </div>
 
+      <!-- Barra Inferior de Navegação -->
       <nav class="module-nav">
-        <button onclick="navigateTo('module_2')" class="btn btn-prev">Anterior</button>
+        <button onclick="navigateTo('module_2')" class="btn btn-prev">← Voltar ao Módulo 2</button>
         <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
-        <button onclick="navigateTo('module_4')" class="btn btn-next">Próximo</button>
+        <button onclick="navigateTo('module_4')" class="btn btn-next btn-primary-action">Próximo: Módulo 4 →</button>
       </nav>
     </div>
   </div>
@@ -911,6 +1083,16 @@
   <!-- VIEW: MÓDULO 4 -->
   <div id="view-module_4" class="view-container">
     <div class="module-container">
+
+      <!-- Barra Superior de Navegação -->
+      <div class="module-top-bar">
+        <button onclick="navigateTo('module_3')" class="btn btn-sm btn-prev">← Módulo Anterior (3)</button>
+        <div class="module-top-nav">
+          <button onclick="navigateTo('index')" class="btn btn-sm btn-home">Índice</button>
+          <button onclick="navigateTo('module_5')" class="btn btn-sm btn-primary-action">Próximo Módulo (5) →</button>
+        </div>
+      </div>
+
       <header class="module-header">
         <div class="module-number">4</div>
         <div>
@@ -997,6 +1179,7 @@
             <label class="option"><input type="radio" name="m4_act_0" value="d"><span>Octógono</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m4_0')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso! Indicação é sempre retangular.</div>
           <div class="feedback feedback-incorrect">Incorreto. Placas de indicação possuem formato retangular.</div>
         </div>
@@ -1010,6 +1193,7 @@
             <label class="option"><input type="radio" name="m4_act_1" value="d"><span>Placa de regulamentação R-19</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m4_1')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Perfeito! Placas verdes (ou azuis em certos trechos rodoviários) indicam distâncias e rotas.</div>
           <div class="feedback feedback-incorrect">Procure as placas verdes — elas indicam as distâncias e as cidades da rota.</div>
         </div>
@@ -1023,6 +1207,7 @@
             <label class="option"><input type="radio" name="m4_act_2" value="d"><span>Turísticas</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m4_2')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Exato! São placas educativas em fundo branco.</div>
           <div class="feedback feedback-incorrect">São placas brancas educativas, criadas com foco em conscientização de condutas seguras.</div>
         </div>
@@ -1036,6 +1221,7 @@
             <label class="option"><input type="radio" name="m4_act_3" value="d"><span>Limites de velocidade em áreas rurais</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m4_3')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso! Marrom é o padrão de sinalização turística e cultural.</div>
           <div class="feedback feedback-incorrect">Não. Fundo marrom é reservado exclusivamente a atrativos turísticos e patrimônios.</div>
         </div>
@@ -1049,15 +1235,17 @@
             <label class="option"><input type="radio" name="m4_act_4" value="d"><span>Área de fiscalização a 500 metros</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m4_4')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Perfeito! Mostra comodidades e serviços úteis na distância especificada.</div>
           <div class="feedback feedback-incorrect">Painéis azuis com ícones representam serviços de utilidade na estrada (combustível, refeição, descanso).</div>
         </div>
       </div>
 
+      <!-- Barra Inferior de Navegação -->
       <nav class="module-nav">
-        <button onclick="navigateTo('module_3')" class="btn btn-prev">Anterior</button>
+        <button onclick="navigateTo('module_3')" class="btn btn-prev">← Voltar ao Módulo 3</button>
         <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
-        <button onclick="navigateTo('module_5')" class="btn btn-next">Próximo</button>
+        <button onclick="navigateTo('module_5')" class="btn btn-next btn-primary-action">Próximo: Módulo 5 →</button>
       </nav>
     </div>
   </div>
@@ -1065,6 +1253,15 @@
   <!-- VIEW: MÓDULO 5 -->
   <div id="view-module_5" class="view-container">
     <div class="module-container">
+
+      <!-- Barra Superior de Navegação -->
+      <div class="module-top-bar">
+        <button onclick="navigateTo('module_4')" class="btn btn-sm btn-prev">← Módulo Anterior (4)</button>
+        <div class="module-top-nav">
+          <button onclick="navigateTo('index')" class="btn btn-sm btn-home">Índice Geral</button>
+        </div>
+      </div>
+
       <header class="module-header">
         <div class="module-number">5</div>
         <div>
@@ -1152,6 +1349,7 @@
             <label class="option"><input type="radio" name="m5_act_0" value="d"><span>A via está em obras</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m5_0')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Exato! Amarelo separa fluxos em sentidos opostos. Linhas brancas separam tráfego no mesmo sentido.</div>
           <div class="feedback feedback-incorrect">Linha amarela contínua ou tracejada divide fluxos de sentidos opostos (mão dupla).</div>
         </div>
@@ -1165,6 +1363,7 @@
             <label class="option"><input type="radio" name="m5_act_1" value="d"><span>Só entre 22h e 6h</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m5_1')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Perfeito! Quem tem a linha contínua do seu próprio lado está terminantemente proibido de efetuar ultrapassagem.</div>
           <div class="feedback feedback-incorrect">A regra da linha dupla mista determina que vale para você a linha mais próxima do seu carro: sendo contínua, é proibido ultrapassar.</div>
         </div>
@@ -1178,6 +1377,7 @@
             <label class="option"><input type="radio" name="m5_act_2" value="d"><span>Parar imediatamente onde estiver, mesmo em cima da faixa</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m5_2')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Isso! Amarelo significa atenção e desaceleração progressiva para imobilização antes do sinal vermelho.</div>
           <div class="feedback feedback-incorrect">O amarelo não é sinal para acelerar. Estando à distância segura, reduza e pare antes da faixa.</div>
         </div>
@@ -1191,6 +1391,7 @@
             <label class="option"><input type="radio" name="m5_act_3" value="d"><span>São decorativas, sem valor normativo</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m5_3')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Correto! A cor vermelha em sinalização horizontal demarca ciclovias e ciclofaixas exclusivas.</div>
           <div class="feedback feedback-incorrect">Faixa vermelha no asfalto é destinada ao fluxo exclusivo de ciclistas.</div>
         </div>
@@ -1204,20 +1405,69 @@
             <label class="option"><input type="radio" name="m5_act_4" value="d"><span>Seguir devagar pelo acostamento</span></label>
           </div>
           <button class="btn btn-check" onclick="checkAnswer('m5_4')">Verificar</button>
+          <div class="toast-warning">Selecione uma opção antes de verificar.</div>
           <div class="feedback feedback-correct">Perfeito! No topo da hierarquia viária estão os gestos e ordens emitidos pelo agente de trânsito.</div>
           <div class="feedback feedback-incorrect">Hierarquia: as ordens emitidas pelo agente da autoridade de trânsito prevalecem sobre os semáforos e placas.</div>
         </div>
       </div>
 
+      <!-- Barra Inferior de Navegação -->
       <nav class="module-nav">
-        <button onclick="navigateTo('module_4')" class="btn btn-prev">Anterior</button>
-        <button onclick="navigateTo('index')" class="btn btn-home">Índice</button>
-        <span></span>
+        <button onclick="navigateTo('module_4')" class="btn btn-prev">← Voltar ao Módulo 4</button>
+        <button onclick="navigateTo('index')" class="btn btn-primary-action">Concluir e Voltar ao Início ✓</button>
       </nav>
     </div>
   </div>
 
   <script>
+    // Gerenciador de Tela Cheia com compatibilidade
+    function toggleFullScreen() {
+      const doc = document;
+      const docEl = doc.documentElement;
+
+      const requestFs = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.mozRequestFullScreen || docEl.msRequestFullscreen;
+      const exitFs = doc.exitFullscreen || doc.webkitExitFullscreen || doc.mozCancelFullScreen || doc.msExitFullscreen;
+
+      const isFs = doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement;
+
+      if (!isFs) {
+        if (requestFs) {
+          requestFs.call(docEl).catch(function(err) {
+            console.warn("Erro ao tentar entrar em tela cheia:", err);
+          });
+        }
+      } else {
+        if (exitFs) {
+          exitFs.call(doc).catch(function(err) {
+            console.warn("Erro ao tentar sair da tela cheia:", err);
+          });
+        }
+      }
+    }
+
+    // Atualização visual do botão de Tela Cheia
+    function updateFullScreenButton() {
+      const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+      const iconEnter = document.getElementById('fs-icon-enter');
+      const iconExit = document.getElementById('fs-icon-exit');
+      const fsText = document.getElementById('fs-text');
+
+      if (isFs) {
+        iconEnter.style.display = 'none';
+        iconExit.style.display = 'inline-block';
+        fsText.textContent = 'Restaurar';
+      } else {
+        iconEnter.style.display = 'inline-block';
+        iconExit.style.display = 'none';
+        fsText.textContent = 'Tela Cheia';
+      }
+    }
+
+    document.addEventListener('fullscreenchange', updateFullScreenButton);
+    document.addEventListener('webkitfullscreenchange', updateFullScreenButton);
+    document.addEventListener('mozfullscreenchange', updateFullScreenButton);
+    document.addEventListener('MSFullscreenChange', updateFullScreenButton);
+
     // Navegação SPA entre visualizações
     function navigateTo(viewId) {
       document.querySelectorAll('.view-container').forEach(view => {
@@ -1252,13 +1502,19 @@
       const activity = document.querySelector(`[data-activity="${activityId}"]`);
       if (!activity) return;
 
+      const toast = activity.querySelector('.toast-warning');
       const correct = activity.dataset.correct;
       const selected = activity.querySelector('input:checked');
 
       if (!selected) {
-        alert('Selecione uma resposta antes de verificar.');
+        if (toast) {
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 3500);
+        }
         return;
       }
+
+      if (toast) toast.classList.remove('show');
 
       const isCorrect = selected.value === correct || selected.value === String(correct);
 
